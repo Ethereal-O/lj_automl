@@ -1,17 +1,17 @@
 from typing import List, Union, Optional, Tuple
-from enum import IntEnum
 import numpy as np
 import pandas as pd
 import torch
 
-
-class FeatureType(IntEnum):
-    OPEN = 0
-    CLOSE = 1
-    HIGH = 2
-    LOW = 3
-    VOLUME = 4
-    VWAP = 5
+# 导入字段字典 - 只使用自定义字段
+try:
+    from adapters.字段字典_lol import result_dict as FIELD_DICT
+    FIELD_NAMES = list(FIELD_DICT.keys())
+    print(f"Using {len(FIELD_NAMES)} custom fields from 字段字典_lol.py")
+except ImportError:
+    FIELD_DICT = {}
+    FIELD_NAMES = ['open', 'close', 'high', 'low', 'volume', 'vwap']
+    print("Warning: Using default fields")
 
 
 class StockData:
@@ -23,7 +23,7 @@ class StockData:
                  end_time: str,
                  max_backtrack_days: int = 100,
                  max_future_days: int = 30,
-                 features: Optional[List[FeatureType]] = None,
+                 features: Optional[List[str]] = None,
                  device: torch.device = torch.device('cuda:0')) -> None:
         self._init_qlib()
 
@@ -32,9 +32,39 @@ class StockData:
         self.max_future_days = max_future_days
         self._start_time = start_time
         self._end_time = end_time
-        self._features = features if features is not None else list(FeatureType)
+        self._features = features if features is not None else FIELD_NAMES[:10]  # 默认使用前10个字段
         self.device = device
         self.data, self._dates, self._stock_ids = self._get_data()
+
+
+class MockStockData(StockData):
+    def __init__(self,
+                 instrument: Union[str, List[str]],
+                 start_time: str,
+                 end_time: str,
+                 n_days: int,
+                 n_stocks: int,
+                 max_backtrack_days: int = 100,
+                 max_future_days: int = 30,
+                 features: Optional[List[str]] = None,
+                 device: torch.device = torch.device('cuda:0')) -> None:
+        # Skip Qlib initialization
+        self._instrument = instrument
+        self.max_backtrack_days = max_backtrack_days
+        self.max_future_days = max_future_days
+        self._start_time = start_time
+        self._end_time = end_time
+        self._features = features if features is not None else FIELD_NAMES[:10]  # 默认使用前10个字段
+        self.device = device
+        # Mock data
+        self.data = torch.zeros((n_days + max_backtrack_days + max_future_days, len(self._features), n_stocks), dtype=torch.float, device=device)
+        # Mock dates and stock_ids
+        import pandas as pd
+        self._dates = pd.date_range(start=start_time, periods=n_days + max_backtrack_days + max_future_days, freq='D')
+        if isinstance(instrument, list):
+            self._stock_ids = pd.Index(instrument)
+        else:
+            self._stock_ids = pd.Index([f'stock_{i}' for i in range(n_stocks)])  # Mock
 
     @classmethod
     def _init_qlib(cls) -> None:
@@ -63,7 +93,16 @@ class StockData:
                 .load(self._instrument, real_start_time, real_end_time))
 
     def _get_data(self) -> Tuple[torch.Tensor, pd.Index, pd.Index]:
-        features = ['$' + f.name.lower() for f in self._features]
+        # 根据字段类型生成字段表达式
+        features = []
+        for feature in self._features:
+            if hasattr(feature, 'name'):
+                # 兼容旧的FeatureType枚举
+                features.append('@' + feature.name.lower())
+            else:
+                # 处理字符串字段名
+                features.append('@' + str(feature).lower())
+
         df = self._load_exprs(features)
         df = df.stack().unstack(level=1)
         dates = df.index.levels[0]                                      # type: ignore

@@ -64,7 +64,9 @@ class LazyPrioritizedMultiStepMemory(LazyMultiStepMemory):
         return indices
 
     def sample(self, batch_size):
-        assert self._cached is None, 'Update priorities before sampling.'
+        # 允许第一次采样时_cached为None
+        if self._cached is not None:
+            assert False, 'Update priorities before sampling.'
 
         self._cached = self._sample_idxes(batch_size)
         batch = self._sample(self._cached, batch_size)

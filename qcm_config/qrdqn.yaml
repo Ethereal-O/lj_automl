@@ -8,7 +8,7 @@ gamma: 1
 multi_step: 3
 update_interval: 1
 target_update_interval: 5_000
-start_steps: 10_000
+start_steps: 1
 epsilon_train: 0.01
 epsilon_eval: 0.001
 epsilon_decay_steps: 25_000  # It equals to 1M frames.
@@ -21,3 +21,7 @@ eval_interval: 1_000
 num_eval_steps: 125000  # It equals to 500k frames.
 max_episode_steps: 27000
 grad_cliping:
+
+# Data configuration
+START_DATE: '20200101'
+END_DATE: '20241231'

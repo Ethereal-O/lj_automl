@@ -87,6 +87,10 @@ class QRQCMAgent(BaseAgent):
         return action
 
     def learn(self):
+        # 检查内存是否有足够的经验
+        if len(self.memory) < self.batch_size:
+            return  # 跳过这次学习
+
         self.learning_steps += 1
         self.online_net.sample_noise()
         self.target_net.sample_noise()

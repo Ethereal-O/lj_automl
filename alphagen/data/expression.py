@@ -4,7 +4,7 @@ from typing import List, Type, Union
 import torch
 from torch import Tensor
 
-from alphagen_qlib.stock_data import StockData, FeatureType
+from alphagen_qlib.stock_data import StockData
 
 
 class OutOfDataRangeError(IndexError):
@@ -17,71 +17,8 @@ class Expression(metaclass=ABCMeta):
 
     def __repr__(self) -> str: return str(self)
 
-    def __add__(self, other: Union["Expression", float]) -> "Add":
-        if isinstance(other, Expression):
-            return Add(self, other)
-        else:
-            return Add(self, Constant(other))
-
-    def __radd__(self, other: float) -> "Add": return Add(Constant(other), self)
-
-    def __sub__(self, other: Union["Expression", float]) -> "Sub":
-        if isinstance(other, Expression):
-            return Sub(self, other)
-        else:
-            return Sub(self, Constant(other))
-
-    def __rsub__(self, other: float) -> "Sub": return Sub(Constant(other), self)
-
-    def __mul__(self, other: Union["Expression", float]) -> "Mul":
-        if isinstance(other, Expression):
-            return Mul(self, other)
-        else:
-            return Mul(self, Constant(other))
-
-    def __rmul__(self, other: float) -> "Mul": return Mul(Constant(other), self)
-
-    def __truediv__(self, other: Union["Expression", float]) -> "Div":
-        if isinstance(other, Expression):
-            return Div(self, other)
-        else:
-            return Div(self, Constant(other))
-
-    def __rtruediv__(self, other: float) -> "Div": return Div(Constant(other), self)
-
-    def __pow__(self, other: Union["Expression", float]) -> "Pow":
-        if isinstance(other, Expression):
-            return Pow(self, other)
-        else:
-            return Pow(self, Constant(other))
-
-    def __rpow__(self, other: float) -> "Pow": return Pow(Constant(other), self)
-
-    def __pos__(self) -> "Expression": return self
-    def __neg__(self) -> "Sub": return Sub(Constant(0), self)
-    def __abs__(self) -> "Abs": return Abs(self)
-
     @property
     def is_featured(self): raise NotImplementedError
-
-
-class Feature(Expression):
-    def __init__(self, feature: FeatureType) -> None:
-        self._feature = feature
-
-    def evaluate(self, data: StockData, period: slice = slice(0, 1)) -> Tensor:
-        assert period.step == 1 or period.step is None
-        if (period.start < -data.max_backtrack_days or
-                period.stop - 1 > data.max_future_days):
-            raise OutOfDataRangeError()
-        start = period.start + data.max_backtrack_days
-        stop = period.stop + data.max_backtrack_days + data.n_days - 1
-        return data.data[start:stop, int(self._feature), :]
-
-    def __str__(self) -> str: return '$' + self._feature.name.lower()
-
-    @property
-    def is_featured(self): return True
 
 
 class Constant(Expression):
