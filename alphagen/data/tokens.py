@@ -4,7 +4,7 @@ from alphagen.data.expression import Operator
 
 # 导入自定义字段
 try:
-    from adapters.字段字典_lol import result_dict as FIELD_DICT
+    from adapters.dic_lol import result_dict as FIELD_DICT
     CUSTOM_FIELDS_AVAILABLE = True
     # 使用所有可用的字段（确保只使用真实存在的）
     FIELD_NAMES = list(FIELD_DICT.keys())
@@ -52,7 +52,7 @@ try:
             # 普通字段，直接添加
             FIELD_NAMES.append(field_name)
 
-    print(f"Loaded {len(FIELD_NAMES)} fields, {len(FIELD_TEMPLATES)} templates from 字段字典_lol.py")
+    print(f"Loaded {len(FIELD_NAMES)} fields, {len(FIELD_TEMPLATES)} templates from dic_lol.py")
 except ImportError:
     FIELD_DICT = {}
     CUSTOM_FIELDS_AVAILABLE = False

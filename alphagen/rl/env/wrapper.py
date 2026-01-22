@@ -9,7 +9,7 @@ from alphagen.rl.env.core import AlphaEnvCore
 
 # 导入字段信息
 try:
-    from adapters.字段字典_lol import result_dict as FIELD_DICT
+    from adapters.dic_lol import result_dict as FIELD_DICT
     FIELD_NAMES = list(FIELD_DICT.keys())
 except ImportError:
     FIELD_NAMES = ['open', 'close', 'high', 'low', 'volume', 'vwap']

@@ -341,7 +341,7 @@ class ExpressionBuilder:
         检查实际类型是否与期望类型兼容
         """
         try:
-            from adapters.算子规则 import TYPE_HIERARCHY, get_all_parents, is_subtype
+            from adapters.rule import TYPE_HIERARCHY, get_all_parents, is_subtype
 
             # 完全匹配
             if actual_type == expected_type:

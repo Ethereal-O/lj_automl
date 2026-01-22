@@ -258,8 +258,12 @@ class BaseAgent(ABC):
                     action = self.explore()
                 else:
                     action = self.exploit(state)
+                    
 
                 next_state, reward, done, _, info = self.env.step(action)
+                
+                print(f"Step {self.steps}, Episode {self.episodes}, Action: {self.env.action(action)}, Reward: {reward}, Done: {done}")
+
 
                 self.memory.append(state, action, reward, next_state, done)
 

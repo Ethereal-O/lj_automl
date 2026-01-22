@@ -9,18 +9,18 @@ if project_root not in sys.path:
 MAX_EXPR_LENGTH = 20
 MAX_EPISODE_LENGTH = 256
 
-# 导入我们的算子规则和字段字典
+# 导入我们的rule和字段字典
 try:
-    from adapters.算子规则 import OPERATOR_SIGNATURES, CONSTANT_RANGES
-    from adapters.字段字典_lol import result_dict
+    from adapters.rule import OPERATOR_SIGNATURES, CONSTANT_RANGES
+    from adapters.dic_lol import result_dict
     USE_CUSTOM_OPERATORS = True
-    print("Using custom operators from 算子规则.py and 字段字典_lol.py")
+    print("Using custom operators from rule.py and dic_lol.py")
 except ImportError:
     print("Warning: Could not import custom operators, using default operators")
     USE_CUSTOM_OPERATORS = False
 
 if USE_CUSTOM_OPERATORS:
-    print(f"Total operators in 算子规则: {len(OPERATOR_SIGNATURES)}")
+    print(f"Total operators in rule: {len(OPERATOR_SIGNATURES)}")
 
     # 创建自定义算子类，继承alphagen的算子基类
     from alphagen.data.expression import Expression, Operator, UnaryOperator, BinaryOperator, RollingOperator, PairRollingOperator, Constant
@@ -143,7 +143,7 @@ if USE_CUSTOM_OPERATORS:
         CUSTOM_OPERATORS.append(op_instance)
 
     OPERATORS = CUSTOM_OPERATORS
-    print(f"Using all {len(OPERATORS)} operators from 算子规则.py (lorentz implementation)")
+    print(f"Using all {len(OPERATORS)} operators from rule.py (lorentz implementation)")
 
     # 从取值范围中提取常量
     CUSTOM_CONSTANTS = []
@@ -163,7 +163,7 @@ if USE_CUSTOM_OPERATORS:
     CUSTOM_CONSTANTS = list(set(CUSTOM_CONSTANTS))
     if CUSTOM_CONSTANTS:
         CONSTANTS = CUSTOM_CONSTANTS[:20]  # 限制常量数量
-        print(f"Using {len(CONSTANTS)} constants from 算子规则 ranges")
+        print(f"Using {len(CONSTANTS)} constants from rule ranges")
     else:
         CONSTANTS = [-30., -10., -5., -2., -1., -0.5, -0.01, 0.01, 0.5, 1., 2., 5., 10., 30.]
         print("Using default constants")

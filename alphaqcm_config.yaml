@@ -128,7 +128,7 @@ operators:
     # 最大嵌套深度
     max_nesting_depth: 10
 
-    # 允许的算子列表 (自动从算子规则文件加载)
+    # 允许的算子列表 (自动从rule文件加载)
     # allowed_operators: [...]
 
   # 字段引用配置

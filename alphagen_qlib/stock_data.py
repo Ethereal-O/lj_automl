@@ -5,9 +5,9 @@ import torch
 
 # 导入字段字典 - 只使用自定义字段
 try:
-    from adapters.字段字典_lol import result_dict as FIELD_DICT
+    from adapters.dic_lol import result_dict as FIELD_DICT
     FIELD_NAMES = list(FIELD_DICT.keys())
-    print(f"Using {len(FIELD_NAMES)} custom fields from 字段字典_lol.py")
+    print(f"Using {len(FIELD_NAMES)} custom fields from dic_lol.py")
 except ImportError:
     FIELD_DICT = {}
     FIELD_NAMES = ['open', 'close', 'high', 'low', 'volume', 'vwap']

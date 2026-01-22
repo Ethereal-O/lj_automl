@@ -11,8 +11,8 @@ import math
 
 # 导入配置
 try:
-    from adapters import 字段字典_lol as field_dict_module
-    from adapters import 算子规则 as operator_rules_module
+    from adapters import dic_lol as field_dict_module
+    from adapters import rule as operator_rules_module
 
     FIELD_DICT = field_dict_module.result_dict
     OPERATOR_SIGNATURES = operator_rules_module.OPERATOR_SIGNATURES
@@ -21,7 +21,7 @@ try:
     RANGE_HINTS = operator_rules_module.RANGE_HINTS
     RANGE_COMPATIBILITY = operator_rules_module.RANGE_COMPATIBILITY
     CONSTANT_RANGES = operator_rules_module.CONSTANT_RANGES
-    # VALUE_RANGE_GROUPS在算子规则中不存在，暂时设为空
+    # VALUE_RANGE_GROUPS在rule中不存在，暂时设为空
     VALUE_RANGE_GROUPS = getattr(operator_rules_module, 'VALUE_RANGE_GROUPS', {})
 
 except ImportError as e:
