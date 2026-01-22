@@ -116,8 +116,8 @@ class BaseAgent(ABC):
         import os
         is_syntax_learning = os.environ.get('ALPHAQCM_SYNTAX_LEARNING', '').lower() == 'true'
         if is_syntax_learning:
-            # 语法学习阶段：大幅提高随机行动概率至50%
-            return np.random.rand() < 0.5  # 固定50%随机性
+            # 语法学习阶段：适度提高随机行动概率至20%
+            return np.random.rand() < 0.1  # 降低随机性，让RL能生成正确表达式
         else:
             # IC学习阶段：正常epsilon
             return np.random.rand() < self.epsilon_train.get()
@@ -127,34 +127,31 @@ class BaseAgent(ABC):
             self.online_net.state_dict())
 
     def explore(self):
-        # Act with randomness.
-        allowed_action = self.env.action_masks()
+        """在允许的动作中进行ε-greedy随机选择"""
+        allowed_actions = self.env.action_masks()
 
-        # 移除强制字段选择的限制，让RL自由探索
-
-        # 特殊处理SEP动作：当SEP可用时，给它更高的选择概率
-        if hasattr(self.env, 'sep_action') and self.env.sep_action is not None:
-            sep_idx = self.env.sep_action
-            if allowed_action[sep_idx]:
-                # SEP可用时，有30%的概率直接选择SEP
-                if np.random.rand() < 0.3:
-                    return sep_idx
-
-        # 正常随机选择（可能使用受限的动作空间）
-        action = self.env.action_space.sample()
-        while not allowed_action[action]:
-            action = self.env.action_space.sample()
-        return action
+        allowed_indices = np.where(allowed_actions)[0]
+        return np.random.choice(allowed_indices)
 
     def exploit(self, state):
         # Act without randomness.
         state = torch.ByteTensor(state).unsqueeze(0).to(self.device).float()
         with torch.no_grad():
             q_values = self.online_net.calculate_q(states=state)
-            forbid_action = torch.BoolTensor(
-                ~self.env.action_masks()).to(self.device)
-            q_values[:, forbid_action] = -1e6
-            action = q_values.argmax().item()
+
+            # 获取action_mask，只考虑允许的动作
+            allowed_actions = self.env.action_masks()
+
+            if allowed_actions.any():
+                # 只在允许动作中选择Q值最高的动作
+                allowed_indices = torch.where(torch.tensor(allowed_actions))[0]
+                allowed_q_values = q_values[0, allowed_indices]
+                best_allowed_idx = allowed_q_values.argmax()
+                action = allowed_indices[best_allowed_idx].item()
+            else:
+                # 异常情况：没有允许动作，抛出异常而不是选择被禁止的动作
+                raise RuntimeError("No allowed actions available for exploitation - this should not happen in normal operation")
+
         return action
 
     @abstractmethod
@@ -258,12 +255,8 @@ class BaseAgent(ABC):
                     action = self.explore()
                 else:
                     action = self.exploit(state)
-                    
 
                 next_state, reward, done, _, info = self.env.step(action)
-                
-                print(f"Step {self.steps}, Episode {self.episodes}, Action: {self.env.action(action)}, Reward: {reward}, Done: {done}")
-
 
                 self.memory.append(state, action, reward, next_state, done)
 
@@ -559,28 +552,38 @@ class BatchAgent(BaseAgent):
         self.train_step_interval()
 
     def explore_for_env(self, env):
-        """为特定环境选择随机动作"""
-        allowed_action = env.action_masks()
+        """为特定环境在允许动作中选择随机动作"""
+        allowed_actions = env.action_masks()
 
-        if hasattr(env, 'sep_action') and env.sep_action is not None:
-            sep_idx = env.sep_action
-            if allowed_action[sep_idx]:
-                if np.random.rand() < 0.3:
-                    return sep_idx
+        # 获取所有允许动作的索引
+        allowed_indices = np.where(allowed_actions)[0]
 
-        action = env.action_space.sample()
-        while not allowed_action[action]:
-            action = env.action_space.sample()
-        return action
+        if len(allowed_indices) == 0:
+            # 异常情况：没有允许动作，抛出异常而不是选择被禁止的动作
+            raise RuntimeError("No allowed actions available for env - this should not happen in normal operation")
+
+        # 在允许动作中随机选择
+        return np.random.choice(allowed_indices)
 
     def exploit_for_env(self, env, state):
         """为特定环境选择最优动作"""
         state = torch.ByteTensor(state).unsqueeze(0).to(self.device).float()
         with torch.no_grad():
             q_values = self.online_net.calculate_q(states=state)
-            forbid_action = torch.BoolTensor(~env.action_masks()).to(self.device)
-            q_values[:, forbid_action] = -1e6
-            action = q_values.argmax().item()
+
+            # 获取action_mask，只考虑允许的动作
+            allowed_actions = env.action_masks()
+
+            if allowed_actions.any():
+                # 只在允许动作中选择Q值最高的动作
+                allowed_indices = torch.where(torch.tensor(allowed_actions))[0]
+                allowed_q_values = q_values[0, allowed_indices]
+                best_allowed_idx = allowed_q_values.argmax()
+                action = allowed_indices[best_allowed_idx].item()
+            else:
+                # 异常情况：没有允许动作，抛出异常而不是选择被禁止的动作
+                raise RuntimeError("No allowed actions available for env exploitation - this should not happen in normal operation")
+
         return action
 
     def batch_calculate_intermediate_ic(self, expressions):
@@ -680,4 +683,3 @@ class BatchAgent(BaseAgent):
         if (self.steps % self.eval_interval == 0) and (len(self.env.env.pool.state['exprs']) >= 1):
             self.evaluate()
             self.save_models(os.path.join(self.model_dir, 'final'))
-

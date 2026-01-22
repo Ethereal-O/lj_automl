@@ -1,309 +1,246 @@
-from typing import Tuple, Optional, Any
+from typing import Tuple, Optional, Any, List, Dict
 import gymnasium as gym
 import numpy as np
+import torch
 
 from alphagen.config import *
 from alphagen.data.tokens import *
+from alphagen.data.expression import *
 from alphagen.models.alpha_pool import AlphaPoolBase, AlphaPool
 from alphagen.rl.env.core import AlphaEnvCore
 
-# 导入字段信息
+# ==========================================
+# 1. 外部依赖与配置加载
+# ==========================================
 try:
-    from adapters.dic_lol import result_dict as FIELD_DICT
-    FIELD_NAMES = list(FIELD_DICT.keys())
+    from adapters.dic_lol import result_dict
+    from adapters.field_config import field_config
+    FIELD_NAMES = field_config.get_field_names()
+    from adapters.operator_library import OPERATOR_SIGNATURES
 except ImportError:
-    FIELD_NAMES = ['open', 'close', 'high', 'low', 'volume', 'vwap']
+    result_dict = {}
+    FIELD_NAMES = []
+    OPERATOR_SIGNATURES = {}
 
-# 扩展动作空间以支持字段模板填充
-from alphagen.data.tokens import FIELD_TEMPLATES
-
-# 计算模板填充动作的数量
-TEMPLATE_FILL_ACTIONS = 0
-for template_name, (base_type, fill_options) in FIELD_TEMPLATES.items():
-    TEMPLATE_FILL_ACTIONS += len(fill_options)  # 每个位置的选项数量
-
+# 动作空间偏移量定义
 SIZE_NULL = 1
 SIZE_OP = len(OPERATORS)
-SIZE_FEATURE = len(FIELD_NAMES)  # 使用字段字典中的字段数量
-SIZE_TEMPLATE_FILL = TEMPLATE_FILL_ACTIONS  # 模板填充动作
-SIZE_DELTA_TIME = len(DELTA_TIMES)
-SIZE_CONSTANT = len(CONSTANTS)
+SIZE_FEATURE = len(FIELD_NAMES)
 SIZE_SEP = 1
-
-SIZE_ALL = SIZE_NULL + SIZE_OP + SIZE_FEATURE + SIZE_TEMPLATE_FILL + SIZE_DELTA_TIME + SIZE_CONSTANT + SIZE_SEP
+SIZE_ALL = SIZE_NULL + SIZE_OP + SIZE_FEATURE + SIZE_SEP
 SIZE_ACTION = SIZE_ALL - SIZE_NULL
 
 OFFSET_OP = SIZE_NULL
 OFFSET_FEATURE = OFFSET_OP + SIZE_OP
-OFFSET_DELTA_TIME = OFFSET_FEATURE + SIZE_FEATURE
-OFFSET_CONSTANT = OFFSET_DELTA_TIME + SIZE_DELTA_TIME
-OFFSET_SEP = OFFSET_CONSTANT + SIZE_CONSTANT
-
+OFFSET_SEP = OFFSET_FEATURE + SIZE_FEATURE # SEP 紧跟在特征之后
+MAX_SEQ_LENGTH = 256
 
 def action2token(action_raw: int) -> Token:
+    """将 Agent 选出的整数动作索引转为 Token 对象"""
     action = action_raw + 1
-    if action < OFFSET_OP:
-        raise ValueError
-    elif action < OFFSET_FEATURE:
+    if action < OFFSET_FEATURE:
         return OperatorToken(OPERATORS[action - OFFSET_OP])
-    elif action < OFFSET_DELTA_TIME:
-        field_name = FIELD_NAMES[action - OFFSET_FEATURE]
-        return FeatureToken(field_name)
-    elif action < OFFSET_CONSTANT:
-        return DeltaTimeToken(DELTA_TIMES[action - OFFSET_DELTA_TIME])
     elif action < OFFSET_SEP:
-        return ConstantToken(CONSTANTS[action - OFFSET_CONSTANT])
+        return FeatureToken(FIELD_NAMES[action - OFFSET_FEATURE])
     elif action == OFFSET_SEP:
         return SequenceIndicatorToken(SequenceIndicatorType.SEP)
-    else:
-        assert False
-
+    raise ValueError(f"Action index {action_raw} is invalid.")
 
 class AlphaEnvWrapper(gym.Wrapper):
-    state: np.ndarray
-    env: AlphaEnvCore
-    action_space: gym.spaces.Discrete
-    observation_space: gym.spaces.Box
-    counter: int
-    consecutive_unary_ops: int  # 连续单参数算子计数器
-    agent: Optional[Any] = None  # Reference to agent for Q calculation
-
-    def __init__(self, env: AlphaEnvCore):
+    def __init__(self, env):
         super().__init__(env)
         self.action_space = gym.spaces.Discrete(SIZE_ACTION)
-        self.observation_space = gym.spaces.Box(low=0, high=SIZE_ALL - 1, shape=(MAX_EXPR_LENGTH, ), dtype=np.int32)
-        self.consecutive_unary_ops = 0
-        self._batch_status = 'running'  # running, waiting_intermediate, waiting_final, terminated
+        self.observation_space = gym.spaces.Box(
+            low=0, high=SIZE_ALL, shape=(MAX_SEQ_LENGTH,), dtype=np.int32
+        )
+        # 预缓存类型映射，加速 Mask 计算
+        self._feature_type_map = {k: v[0] for k, v in result_dict.items()}
 
-    def reset(self, **kwargs) -> Tuple[np.ndarray, dict]:
-        self.counter = 0
-        self.state = np.zeros(MAX_EXPR_LENGTH, dtype=np.int32)
-        self.consecutive_unary_ops = 0  # 重置连续单参数算子计数器
-        self.env.reset()
-        return self.state, {}
+    # ==========================================
+    # 2. 核心数据转换逻辑 (解决 TypeError)
+    # ==========================================
+
+    def _get_token_id(self, token: Token) -> int:
+        """Token 对象 -> 整数 ID"""
+        if isinstance(token, SequenceIndicatorToken):
+            if token.indicator == SequenceIndicatorType.BEG: return 0
+            if token.indicator == SequenceIndicatorType.SEP: return OFFSET_SEP
+        elif isinstance(token, OperatorToken):
+            op_name = str(token)
+            for i, op in enumerate(OPERATORS):
+                curr_name = getattr(op, 'name', op.__name__ if hasattr(op, '__name__') else str(op))
+                if curr_name == op_name: return OFFSET_OP + i
+        elif isinstance(token, FeatureToken):
+            try: return OFFSET_FEATURE + FIELD_NAMES.index(token.feature_name)
+            except ValueError: return 0
+        return 0
+
+    def _pad_obs(self, tokens: List[Token]) -> np.ndarray:
+        """核心修复：将底层 Token 列表转为 numpy int32 数组"""
+        token_ids = [self._get_token_id(t) for t in tokens]
+        token_ids = token_ids[:MAX_SEQ_LENGTH]
+        # 使用常量 0 (NULL) 进行填充
+        return np.pad(token_ids, (0, MAX_SEQ_LENGTH - len(token_ids)), 'constant', constant_values=0).astype(np.int32)
+
+    # ==========================================
+    # 3. 重写 reset 和 step (拦截并转化数据流)
+    # ==========================================
+
+    def reset(self, **kwargs):
+        obs_raw, info = self.env.reset(**kwargs)
+        return self._pad_obs(obs_raw), info
 
     def step(self, action: int):
-        # 获取token
-        token = self.action(action)
+        # 记录当前的action_mask状态，用于调试谁允许停止
+        current_mask = self.action_masks()
+        sep_allowed_by_mask = current_mask[OFFSET_SEP - 1] if OFFSET_SEP - 1 < len(current_mask) else False
 
-        # 完全简化：不给予任何中间奖励，所有奖励只在最终表达式评估时给出
-        # 确保使用CPU设备，避免CUDA问题
-        device = torch.device('cpu')
-        state_tensor = torch.ByteTensor(self.state).unsqueeze(0).to(device).float()
+        # 检查动作是否被mask允许
+        action_allowed_by_mask = current_mask[action] if action < len(current_mask) else False
 
-        try:
-            _, reward, done, truncated, info = self.env.step(token, state_tensor)
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
-            raise
+        # 存储到环境对象中，供core使用
+        self.env._debug_sep_allowed_by_mask = sep_allowed_by_mask
+        self.env._debug_action_allowed_by_mask = action_allowed_by_mask
 
-        if not done:
-            self.state[self.counter] = action
-            self.counter += 1
+        # 1. 将整数 Action 转换为底层 Core 需要的 Token 对象
+        token = action2token(action)
 
-        # 不应用任何额外的penalty或奖励
-        final_reward = self.reward(reward)
-        return self.state, final_reward, done, truncated, info
+        # 2. 🚩 关键修改：传给内层环境的是 token 对象，而不是 action 整数
+        obs_raw, reward, terminated, truncated, info = self.env.step(token)
 
-    def action(self, action: int) -> Token:
-        return action2token(action)
+        # 3. 转化观测值
+        obs = self._pad_obs(obs_raw)
 
-    def reward(self, reward: float) -> float:
-        return reward + REWARD_PER_STEP
+        done = terminated or truncated
+        if done:
+            self._print_episode_summary(action, token, reward, terminated, truncated, info)
+
+        return obs, reward, terminated, truncated, info
+
+    # ==========================================
+    # 4. 类型检查与 Action Mask (解决 Incomplete)
+    # ==========================================
+
+    def _infer_type(self, expr: Any) -> str:
+        """递归推断表达式类型，不依赖 expr.return_type"""
+        # 1. 如果是 Feature (叶子节点)
+        if hasattr(expr, 'feature'):
+            # 处理 FeatureToken 或 FeatureExpression
+            feat_name = str(expr.feature).replace("Feature.", "").replace("@", "").strip("'\"")
+            return self._feature_type_map.get(feat_name, "float")  # 默认float
+
+        # 2. 如果是 Constant (常量)
+        if hasattr(expr, '_value'):
+            if isinstance(expr._value, int):
+                return "int"
+            return "float"
+
+        # 3. 如果是 Operator (算子节点)
+        op_name = getattr(expr, 'name', expr.__class__.__name__)
+        if op_name in OPERATOR_SIGNATURES:
+            _, return_type = OPERATOR_SIGNATURES[op_name]
+            return return_type
+
+        # 4. 未知类型，保守返回float
+        return 'float'
+
+    def _is_subtype(self, actual: str, expected: str) -> bool:
+        """判定类型兼容性"""
+        if expected in ["Any", "expr"]: return True
+        if actual == expected: return True
+        if expected == "vector" and "vector" in actual: return True
+        if expected == "float" and actual == "int": return True
+        return False
 
     def action_masks(self) -> np.ndarray:
-        res = np.zeros(SIZE_ACTION, dtype=bool)
+        # 步骤 A: 初始化掩码
+        mask = np.zeros(self.action_space.n, dtype=bool)
+        stack = self.env._builder.stack
 
-        # 获取当前表达式状态
+        # 步骤 B: 堆栈为空时的处理 (Start State)
+        if len(stack) == 0:
+            # 仅允许选择特征（Features）
+            mask[OFFSET_FEATURE - 1 : OFFSET_SEP - 1] = True
+            # 禁止所有算子（Operators）和停止符（SEP）
+            return mask
+
+        # 步骤 C: 堆栈非空时的类型推断 (Type Inference)
+        top_type = self._infer_type(stack[-1])
+
+        # 步骤 D: 遍历算子生成掩码 (Operator Masking)
+        for i, op in enumerate(OPERATORS):
+            op_name = getattr(op, 'name', op.__name__ if hasattr(op, '__name__') else str(op))
+            sig = OPERATOR_SIGNATURES.get(op_name)
+            if not sig:
+                continue
+            arg_types, _ = sig
+            n_args = len(arg_types)
+            if n_args == 0:
+                # 零参数算子（如 IsToday）通常不接在表达式后面
+                continue
+            if len(stack) < n_args:
+                continue
+            # RPN 逻辑：检查栈顶 n_args 个元素是否匹配算子的所有参数要求
+            match = True
+            for j in range(n_args):
+                req_type = arg_types[j]  # 第 j 个参数的需求类型
+                actual_type = self._infer_type(stack[-(n_args - j)])  # 对应的栈元素类型
+                if not (req_type in ['any', 'expr'] or
+                        req_type == actual_type or
+                        (req_type == 'float' and actual_type == 'int')):
+                    # 严禁将 vector 传给只接受 float/int 的算子位置
+                    if req_type in ['float', 'int'] and actual_type == 'vector':
+                        match = False
+                        break
+                    match = False
+                    break
+            if match:
+                mask[OFFSET_OP + i - 1] = True
+
+        # 步骤 E: 特征动作 (Feature Masking)
+        # 在堆栈非空时，始终允许压入新的特征（开启新分支）
+        mask[OFFSET_FEATURE - 1 : OFFSET_SEP - 1] = True
+
+        # 步骤 F: 停止条件 (SEP Masking)
+        if len(stack) == 1 and top_type in ['float', 'int']:
+            mask[OFFSET_SEP - 1] = True
+
+        return mask
+
+    def valid_action_mask(self) -> np.ndarray:
+        return self.action_masks()
+
+    # ==========================================
+    # 5. 结算打印逻辑
+    # ==========================================
+
+    def _print_episode_summary(self, action, token, reward, terminated, truncated, info):
+        token_history = self.env._tokens
+        action_sequence = " ".join([str(t) for t in token_history])
+
+        builder = self.env._builder
         try:
-            current_state = self.env._builder.get_expression_state()
-            stack_size = len(self.env._builder.stack)
-        except AttributeError:
-            # 环境还没有reset
-            current_state = 'intermediate_invalid'
-            stack_size = 0
-
-        # 检查是否处于批处理等待状态
-        if hasattr(self, '_batch_status') and self._batch_status == 'waiting':
-            # 在批处理等待状态下，不允许任何动作
-            return res
-
-        # 获取算子参数数量限制
-        max_params = self._get_max_operator_params()
-
-        # 1. 算子选择逻辑 - 语法学习阶段允许所有算子，validator会处理错误
-        import os
-        is_syntax_learning = os.environ.get('ALPHAQCM_SYNTAX_LEARNING', '').lower() == 'true'
-
-        for i in range(OFFSET_OP, OFFSET_OP + SIZE_OP):
-            op = OPERATORS[i - OFFSET_OP]
-            n_args = op.n_args()
-
-            # 选项逻辑：当前栈大小必须大于等于算子参数数量
-            # 这样可以有多个并列部分，也可以选择算子合并
-            # 不设并列部分数量的上限限制，只靠episode的step数量限制
-            if n_args <= stack_size:
-                if is_syntax_learning:
-                    # 语法学习阶段：允许所有算子，包括单参数算子
-                    # validator会检测irrecoverable状态并惩罚
-                    res[i - 1] = True
-                else:
-                    # IC学习阶段：进行严格的类型检查
-                    try:
-                        valid_types = self._get_valid_operator_types()
-                        if op.category_type() in valid_types:
-                            res[i - 1] = True
-                    except KeyError:
-                        continue
-
-        # 2. 字段选择逻辑 - 给予更高优先级，鼓励构建复杂表达式
-        if current_state in ['intermediate_invalid', 'intermediate_valid']:
-            for i in range(OFFSET_FEATURE, OFFSET_FEATURE + SIZE_FEATURE):
-                field_name = FIELD_NAMES[i - OFFSET_FEATURE]
-
-                # 检查是否是模板字段（需要填充）
-                from alphagen.data.tokens import FIELD_TEMPLATES
-                if field_name in FIELD_TEMPLATES:
-                    # 模板字段：检查是否可以开始填充
-                    if self._can_start_field_template(field_name):
-                        res[i - 1] = True
-                else:
-                    # 普通字段：给予更高权重，鼓励扩展表达式
-                    # 在中间状态下允许选择字段，构建多字段表达式
-                    res[i - 1] = True
-
-        # 3. 常量选择逻辑
-        if current_state in ['intermediate_invalid', 'intermediate_valid']:
-            for i in range(OFFSET_CONSTANT, OFFSET_CONSTANT + SIZE_CONSTANT):
-                if stack_size < max_params:  # 不超过最大参数限制
-                    res[i - 1] = True
-
-        # 4. 时间选择逻辑 (暂时禁用)
-        # if valid['select'][3]:  # DELTA_TIME
-        #     for i in range(OFFSET_DELTA_TIME, OFFSET_DELTA_TIME + SIZE_DELTA_TIME):
-        #         res[i - 1] = True
-
-        # 5. SEP选择逻辑 - 语法学习阶段减少单字段停止概率
-        import os
-        is_syntax_learning = os.environ.get('ALPHAQCM_SYNTAX_LEARNING', '').lower() == 'true'
-
-        if current_state == 'irrecoverable':
-            # 表达式无法恢复时，允许结束episode（给予负奖励）
-            res[OFFSET_SEP - 1] = True
-        elif current_state in ['complete', 'intermediate_valid']:
-            if is_syntax_learning:
-                # 语法学习阶段：降低单字段停止概率，鼓励构建复杂表达式
-                try:
-                    # 计算当前表达式的字段和算子数量
-                    actual_tokens = [token for token in self.env._tokens[1:] if token != SequenceIndicatorToken(SequenceIndicatorToken.SEP)]
-                    _, current_features = self.env._parse_expression_components(" ".join(str(t) for t in actual_tokens))
-
-                    if len(current_features) >= 3:
-                        # 3个或更多字段：高概率允许结束
-                        res[OFFSET_SEP - 1] = True
-                    elif len(current_features) >= 2 and len(actual_tokens) >= 3:
-                        # 2个字段+至少1个算子：中等概率允许结束
-                        res[OFFSET_SEP - 1] = True
-                    elif len(current_features) >= 2:
-                        # 2个字段但没有算子：低概率允许结束，鼓励添加算子
-                        # 只有10%的概率允许结束单字段表达式
-                        import random
-                        res[OFFSET_SEP - 1] = random.random() < 0.1
-                    # 单字段：完全禁止结束，强制继续构建
-                except Exception:
-                    # 如果解析失败，允许结束避免死锁
-                    res[OFFSET_SEP - 1] = True
+            if len(builder.stack) == 1:
+                expr_str = str(builder.get_tree())
             else:
-                # IC学习阶段：正常允许SEP
-                res[OFFSET_SEP - 1] = True
-
-        return res
-
-    def _get_max_operator_params(self) -> int:
-        """获取所有算子的最大参数数量"""
-        from alphagen.config import OPERATORS
-        return max((op.n_args() for op in OPERATORS), default=3)
-
-    def _get_valid_operator_types(self):
-        """获取当前允许的算子类型"""
-        return {UnaryOperator, BinaryOperator, RollingOperator, PairRollingOperator}
-
-    def _can_start_field_template(self, template_name: str) -> bool:
-        """检查是否可以开始填充字段模板"""
-        from alphagen.data.tokens import FIELD_TEMPLATES
-        if template_name not in FIELD_TEMPLATES:
-            return False
-
-        # 检查当前是否已经有未完成的模板
-        # 这里可以添加更复杂的逻辑
-        return True
-
-    # 批处理支持方法
-    def set_batch_status(self, status: str):
-        """设置批处理状态"""
-        self._batch_status = status
-
-    def get_current_expression(self):
-        """获取当前表达式用于批处理计算"""
-        try:
-            return self.env._builder.get_tree()
+                expr_str = "[Incomplete] " + " | ".join([str(e) for e in builder.stack])
         except:
-            return None
+            expr_str = "Parse Error"
 
-    def receive_ic_result(self, ic: float):
-        """接收IC计算结果（用于批处理）"""
-        # 这里可以存储IC结果，用于后续奖励计算
-        # 目前简化处理，直接继续
-        pass
-
-    def needs_intermediate_ic(self) -> bool:
-        """检查是否需要中间IC计算"""
-        try:
-            current_state = self.env._builder.get_expression_state()
-            stack_size = len(self.env._builder.stack)
-
-            # 只有当表达式状态变为intermediate_valid且栈只有一个元素时才需要计算
-            import os
-            is_syntax_learning = os.environ.get('ALPHAQCM_SYNTAX_LEARNING', '').lower() == 'true'
-
-            if is_syntax_learning:
-                return False  # 语法学习阶段不计算中间IC
-
-            # 检查是否刚变为intermediate_valid状态
-            prev_state = getattr(self, '_prev_state', 'intermediate_invalid')
-            current_state = self.env._builder.get_expression_state()
-
-            if (prev_state != 'intermediate_valid' and
-                current_state == 'intermediate_valid' and
-                len(self.env._builder.stack) == 1):
-                self._prev_state = current_state
-                return True
-
-            self._prev_state = current_state
-            return False
-
-        except AttributeError:
-            return False
-
-    def is_at_final_expression(self) -> bool:
-        """检查是否到达末尾表达式"""
-        try:
-            current_state = self.env._builder.get_expression_state()
-            return current_state == 'complete'
-        except AttributeError:
-            return False
-
-    def is_irrecoverable(self) -> bool:
-        """检查是否处于无法恢复的状态"""
-        try:
-            current_state = self.env._builder.get_expression_state()
-            return current_state == 'irrecoverable'
-        except AttributeError:
-            return False
+        # 确定停止原因
+        if truncated:
+            reason = "Timeout (Max Length)"
+        elif action == OFFSET_SEP - 1:
+            reason = "Agent Manual Stop (SEP)"
+        else:
+            reason = info.get("error", "Core Terminated")
+        print("\n=== Episode Summary ===")
+        print(f"Total expr: {expr_str} | Terminated: {terminated} | Truncated: {truncated} | Reason: {reason}")
 
 
+# ==========================================
+# 6. 环境构造工厂
+# ==========================================
 def AlphaEnv(pool: AlphaPoolBase, intermediate_reward_func=None, **kwargs):
-    env = AlphaEnvWrapper(AlphaEnvCore(pool=pool, intermediate_reward_func=intermediate_reward_func, **kwargs))
-    env.env.sep_action = OFFSET_SEP - 1  # SEP action index
-    return env
+    core = AlphaEnvCore(pool=pool, intermediate_reward_func=intermediate_reward_func, **kwargs)
+    return AlphaEnvWrapper(core)

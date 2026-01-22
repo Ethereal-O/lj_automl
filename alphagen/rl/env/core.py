@@ -2,14 +2,14 @@ from typing import Tuple, Optional
 import gymnasium as gym
 import math
 import torch
-
+import numpy as np
 from alphagen.config import MAX_EXPR_LENGTH
 from alphagen.data.tokens import *
 from alphagen.data.expression import *
 from alphagen.data.tree import ExpressionBuilder
 from alphagen.models.alpha_pool import AlphaPoolBase, AlphaPool
 from alphagen.utils import reseed_everything
-
+import sys
 
 class AlphaEnvCore(gym.Env):
     pool: AlphaPoolBase
@@ -22,7 +22,7 @@ class AlphaEnvCore(gym.Env):
                  device: torch.device = torch.device('cuda:0'),
                  print_expr: bool = False,
                  intermediate_reward_func=None,  # Function to check and compute intermediate reward
-                 intermediate_weight=0.5,  # Weight for intermediate rewards
+                 intermediate_weight=0.2,  # Weight for intermediate rewards
                  final_weight=1.0  # Weight for final reward
                  ):
         super().__init__()
@@ -54,6 +54,7 @@ class AlphaEnvCore(gym.Env):
         options: Optional[dict] = None
     ) -> Tuple[List[Token], dict]:
         reseed_everything(seed)
+        self._episode_count += 1
         self._tokens = [BEG_TOKEN]
         self._builder = ExpressionBuilder()
         self.intermediate_rewards = []  # Reset intermediate rewards
@@ -71,6 +72,16 @@ class AlphaEnvCore(gym.Env):
         if (isinstance(action, SequenceIndicatorToken) and
                 action.indicator == SequenceIndicatorType.SEP):
             # SEP token：完成表达式，计算最终奖励
+
+            # 调试：检查谁允许停止
+            sep_allowed_by_mask = getattr(self, '_debug_sep_allowed_by_mask', None)
+            if sep_allowed_by_mask is False:
+                # action_mask 不允许停止，但仍然停止了，找出原因
+                self._debug_who_allowed_stopping("SEP_TOKEN")
+            elif sep_allowed_by_mask is True:
+                print("🛑 STOP ALLOWED BY: action_mask")
+            else:
+                print("🛑 STOP ALLOWED BY: unknown (no mask info)")
             final_reward = self._evaluate()
             total_intermediate = sum(self.intermediate_weight * ir for ir in self.intermediate_rewards)
             reward = self.final_weight * final_reward + total_intermediate
@@ -100,11 +111,24 @@ class AlphaEnvCore(gym.Env):
                 else:
                     token_names.append(str(token))
 
-            # 只打印NORMAL_END的episode，且表达式长度>=2
-            if ("IRRECOVERABLE" not in str(reward) and "INVALID_TOKEN" not in str(reward) and
-                len(token_names) >= 2):
-                # 正常结束的episode，且表达式不只是单个字段
-                print(f"Episode {episode_num}: {' '.join(token_names)} | Reward: {reward:.4f} | NORMAL_END")
+            # 打印所有完整表达式，包括结束原因
+            expr_str = ' '.join(token_names)
+            end_reason = "NORMAL_END"
+            
+            # 判断结束原因
+            if len(token_names) < 2:
+                end_reason = "TOO_SHORT"
+            elif "IRRECOVERABLE" in str(reward):
+                end_reason = "IRRECOVERABLE"
+            elif "INVALID_TOKEN" in str(reward):
+                end_reason = "INVALID_TOKEN"
+            elif len(self._builder.stack) > 1:
+                end_reason = "MULTIPLE_EXPRS"
+            elif not self._can_stop_with_single_numeric_element():
+                end_reason = "INVALID_TYPE"
+            
+            # 强制打印所有episode，不管表达式长度
+            print(f"Episode {episode_num}: {expr_str} | Reward: {reward:.4f} | {end_reason}")
 
             # 每100个episode保存一次表达式
             if episode_num % 100 == 0:
@@ -124,6 +148,22 @@ class AlphaEnvCore(gym.Env):
                 self._builder.add_token(action)
             except Exception as e:
                 # 无效token：强制结束episode并给予负奖励
+
+                # 调试：检查谁允许停止（无效token导致的强制停止）
+                sep_allowed_by_mask = getattr(self, '_debug_sep_allowed_by_mask', None)
+                action_allowed_by_mask = getattr(self, '_debug_action_allowed_by_mask', None)
+
+                print(f"❌ INVALID TOKEN: {action} was chosen but rejected by validate_op")
+                print(f"   Action allowed by mask: {action_allowed_by_mask}")
+                print(f"   SEP allowed by mask: {sep_allowed_by_mask}")
+
+                if sep_allowed_by_mask is False:
+                    print("🛑 STOP ALLOWED BY: invalid_token (forced termination)")
+                elif sep_allowed_by_mask is True:
+                    print("🛑 STOP ALLOWED BY: invalid_token (but mask also allowed)")
+                else:
+                    print("🛑 STOP ALLOWED BY: invalid_token (no mask info)")
+
                 final_reward = self._evaluate_irrecoverable()
                 reward = self.final_weight * final_reward + sum(self.intermediate_weight * ir for ir in self.intermediate_rewards)
 
@@ -163,114 +203,78 @@ class AlphaEnvCore(gym.Env):
                 done = True
                 return self._tokens, reward, done, False, self._valid_action_types()
 
-            # 检查是否变为irrecoverable状态，如果是则强制结束episode
-            if self._builder.get_expression_state() == 'irrecoverable':
-                # 表达式无法恢复，立即结束episode并给予负奖励
-                final_reward = self._evaluate_irrecoverable()
-                reward = self.final_weight * final_reward + sum(self.intermediate_weight * ir for ir in self.intermediate_rewards)
-
-                # 更新episode计数器
-                episode_num = getattr(self, '_episode_count', 0) + 1
-                setattr(self, '_episode_count', episode_num)
-
-                # 构建token_names用于显示
-                token_names = []
-                for token in self._tokens[1:]:
-                    if isinstance(token, SequenceIndicatorToken):
-                        continue
-                    elif isinstance(token, OperatorToken):
-                        if hasattr(token.operator, 'name'):
-                            token_names.append(token.operator.name)
-                        else:
-                            token_names.append(str(token.operator.__name__))
-                    elif isinstance(token, FeatureToken):
-                        token_names.append(f"@{token.feature_name}")
-                    elif isinstance(token, ConstantToken):
-                        token_names.append(str(token.constant))
-                    else:
-                        token_names.append(str(token))
-
-                print(f"Episode {episode_num}: {' '.join(token_names)} | Reward: {reward:.4f} | IRRECOVERABLE")
-
-                # 每100个episode保存一次表达式
-                if episode_num % 100 == 0:
-                    with open(f'expressions_at_episode_{episode_num}.txt', 'w') as f:
-                        f.write(f"Episode {episode_num} (IRRECOVERABLE):\n")
-                        f.write(f"Tokens: {' '.join(token_names)}\n")
-                        f.write(f"Reward: {reward:.4f}\n")
-                        f.write("---\n")
-                    print(f"Saved irrecoverable expressions at episode {episode_num}")
-
-                done = True
-                return self._tokens, reward, done, False, self._valid_action_types()
+            # 移除irrecoverable状态检查 - action_mask确保不会出现无效状态
+            # if self._builder.get_expression_state() == 'irrecoverable':
+            #     ...
 
             done = False
 
-            # 完全简化的奖励系统：只在语法学习阶段给予基本奖励，正式训练通过IC计算
-            import os
-            is_syntax_learning = os.environ.get('ALPHAQCM_SYNTAX_LEARNING', '').lower() == 'true'
+            # IC学习阶段：正常计算中间IC奖励
+            prev_state = self._builder.get_expression_state()
+            self._builder.get_expression_state()  # 更新状态
 
-            if is_syntax_learning:
-            # 语法学习阶段：完全随机探索，不给予任何中间奖励
-                # 只有最终完整表达式通过IC计算获得奖励
-                reward = 0.0
-            else:
-                # IC学习阶段：正常计算中间IC奖励
-                prev_state = self._builder.get_expression_state()
-                self._builder.get_expression_state()  # 更新状态
+            if prev_state != 'intermediate_valid' and self._builder.get_expression_state() == 'intermediate_valid':
+                # 状态变为合理的中间表达式，计算IC奖励
+                try:
+                    if len(self._builder.stack) == 1:
+                        expr: Expression = self._builder.get_tree()
 
-                if prev_state != 'intermediate_valid' and self._builder.get_expression_state() == 'intermediate_valid':
-                    # 状态变为合理的中间表达式，计算IC奖励
-                    try:
-                        if len(self._builder.stack) == 1:
-                            expr: Expression = self._builder.get_tree()
+                        # Calculate IC increment: new_pool_IC - old_pool_IC
+                        old_pool_ic = self.pool.evaluate_ensemble() if self.pool.size > 0 else 0.0
 
-                            # Calculate IC increment: new_pool_IC - old_pool_IC
-                            old_pool_ic = self.pool.evaluate_ensemble() if self.pool.size > 0 else 0.0
+                        # Temporarily add expression to pool and calculate new IC
+                        temp_ic_ret, temp_ic_mut = self.pool._calc_ics(expr)
+                        if temp_ic_ret is not None and temp_ic_mut is not None:
+                            old_size = self.pool.size
+                            self.pool._add_factor(expr, temp_ic_ret, temp_ic_mut)
 
-                            # Temporarily add expression to pool and calculate new IC
-                            temp_ic_ret, temp_ic_mut = self.pool._calc_ics(expr)
-                            if temp_ic_ret is not None and temp_ic_mut is not None:
-                                old_size = self.pool.size
-                                self.pool._add_factor(expr, temp_ic_ret, temp_ic_mut)
+                            # Calculate new pool IC with optimization
+                            if self.pool.size > 1:
+                                new_weights = self.pool._optimize(alpha=self.pool.l1_alpha, lr=5e-4, n_iter=100)
+                                self.pool.weights[:self.pool.size] = new_weights
 
-                                # Calculate new pool IC with optimization
-                                if self.pool.size > 1:
-                                    new_weights = self.pool._optimize(alpha=self.pool.l1_alpha, lr=5e-4, n_iter=100)
-                                    self.pool.weights[:self.pool.size] = new_weights
+                            new_pool_ic = self.pool.evaluate_ensemble()
 
-                                new_pool_ic = self.pool.evaluate_ensemble()
+                            # Restore pool state
+                            self.pool.size = old_size
+                            self.pool.exprs[old_size] = None
+                            self.single_ics[old_size] = 0.0
+                            self.weights[old_size] = 0.0
+                            if old_size > 0:
+                                self.mutual_ics[old_size, :old_size] = 0.0
+                                self.mutual_ics[:old_size, old_size] = 0.0
 
-                                # Restore pool state
-                                self.pool.size = old_size
-                                self.pool.exprs[old_size] = None
-                                self.single_ics[old_size] = 0.0
-                                self.weights[old_size] = 0.0
-                                if old_size > 0:
-                                    self.mutual_ics[old_size, :old_size] = 0.0
-                                    self.mutual_ics[:old_size, old_size] = 0.0
+                            # Calculate IC increment as reward
+                            ic_increment = new_pool_ic - old_pool_ic
+                            ic_reward = self.intermediate_weight * ic_increment
 
-                                # Calculate IC increment as reward
-                                ic_increment = new_pool_ic - old_pool_ic
-                                ic_reward = self.intermediate_weight * ic_increment
-
-                                reward = ic_reward
-                                self.intermediate_rewards.append(ic_increment)
-                            else:
-                                reward = -0.01
+                            reward = ic_reward
+                            self.intermediate_rewards.append(ic_increment)
                         else:
                             reward = -0.01
-                    except Exception as e:
-                        # 只在关键错误时打印
-                        if "OutOfDataRange" not in str(e):
-                            print(f"Intermediate IC calculation error: {e}", file=sys.stderr)
+                    else:
                         reward = -0.01
-                elif self._builder.get_expression_state() == 'irrecoverable':
-                    reward = -0.1
-                else:
-                    reward = -0.001
+                except Exception as e:
+                    # 只在关键错误时打印
+                    if "OutOfDataRange" not in str(e):
+                        print(f"Intermediate IC calculation error: {e}", file=sys.stderr)
+                    reward = -0.01
+            elif self._builder.get_expression_state() == 'irrecoverable':
+                reward = -0.1
+            else:
+                reward = -0.001
         else:
             # 超出最大长度，强制结束
+
+            # 调试：检查谁允许停止（超出最大长度导致的强制停止）
+            sep_allowed_by_mask = getattr(self, '_debug_sep_allowed_by_mask', None)
+            if sep_allowed_by_mask is False:
+                print("🛑 STOP ALLOWED BY: max_length_exceeded (forced termination)")
+            elif sep_allowed_by_mask is True:
+                print("🛑 STOP ALLOWED BY: max_length_exceeded (but mask also allowed)")
+            else:
+                print("🛑 STOP ALLOWED BY: max_length_exceeded (no mask info)")
+
             done = True
             final_reward = self._evaluate() if self._builder.is_valid() else -1.
             total_intermediate = sum(self.intermediate_weight * ir for ir in self.intermediate_rewards)
@@ -348,8 +352,15 @@ class AlphaEnvCore(gym.Env):
                 # IC学习阶段：正常计算IC
                 try:
                     expr: Expression = self._builder.get_tree()
-                    if self._print_expr:
-                        print(f"IC learning: Evaluating complete expression: {expr}")
+
+                    # 检查是否处于预热阶段（避免在memory未满时计算IC）
+                    if hasattr(self.pool.calculator, '_agent_ref') and self.pool.calculator._agent_ref():
+                        agent = self.pool.calculator._agent_ref()
+                        if hasattr(agent, 'memory') and agent.memory.size() < 10000:
+                            # 预热阶段：返回0奖励，不计算真实IC
+                            return 0.0
+
+                    # 计算因子奖励
                     ret = self.pool.try_new_expr(expr)
                     self.eval_cnt += 1
                     return ret
@@ -359,6 +370,48 @@ class AlphaEnvCore(gym.Env):
                     if self._print_expr:
                         print(f"Expression evaluation failed: {e}")
                     return -1.0
+
+    def _can_stop_with_single_numeric_element(self) -> bool:
+        """
+        检查是否可以停止：栈中有且仅有一个完整元素且为数值类型时才允许停止
+        """
+        try:
+            stack = self._builder.stack
+
+            # 必须有且仅有一个并列部分（所有算子都应用完毕）
+            if len(stack) != 1:
+                return False
+
+            single_part = stack[0]
+
+            # 这个部分必须是完整的（featured）
+            if not getattr(single_part, 'is_featured', False):
+                return False
+
+            # 这个部分的类型必须是数值类型（float或int）
+            # 从表达式字符串推断类型
+            expr_str = str(single_part)
+
+            # 解析表达式并检查类型
+            try:
+                from adapters.expression_validator import validate_expression_types
+                valid, actual_type, _ = validate_expression_types(expr_str)
+                if not valid:
+                    return False
+
+                # 检查是否是数值类型
+                if actual_type not in ['float', 'int', 'const_float', 'const_int']:
+                    return False
+
+                return True
+
+            except Exception:
+                # 类型检查失败时保守返回False
+                return False
+
+        except Exception:
+            # 如果检查失败，保守地返回False
+            return False
 
     def _valid_action_types(self) -> dict:
         valid_op_unary = self._builder.validate_op(UnaryOperator)
@@ -376,16 +429,8 @@ class AlphaEnvCore(gym.Env):
         current_state = self._builder.get_expression_state()
         has_single_tree = len(self._builder.stack) == 1
 
-        # 基础的停止条件：complete或intermediate_valid状态
-        valid_stop = current_state in ['complete', 'intermediate_valid']
-
-        # 但在语法学习阶段，单树情况需要特殊处理
-        import os
-        is_syntax_learning = os.environ.get('ALPHAQCM_SYNTAX_LEARNING', '').lower() == 'true'
-        if is_syntax_learning and has_single_tree:
-            # 语法学习阶段单树：由wrapper决定是否允许停止
-            # 这里不强制设置为True，让wrapper的概率逻辑工作
-            pass
+        # 停止条件：栈中有且仅有一个完整元素且为数值类型时才允许停止
+        valid_stop = self._can_stop_with_single_numeric_element()
 
         ret = {
             'select': [valid_op, valid_feature, valid_const, valid_dt, valid_stop],
@@ -725,8 +770,8 @@ class AlphaEnvCore(gym.Env):
         返回0-1之间的分数：1.0表示完全合法，0.0表示无效
         """
         try:
-            from adapters.算子规则 import get_type_compatibility, OPERATOR_SIGNATURES
-            from adapters.字段字典_lol import result_dict as FIELD_DICT
+            from adapters.废弃算子规则 import get_type_compatibility, OPERATOR_SIGNATURES
+            from adapters.dic_lol import result_dict as FIELD_DICT
 
             # 基本检查
             if not expr_str or not features:
@@ -810,6 +855,126 @@ class AlphaEnvCore(gym.Env):
 
         except Exception:
             return 0.0
+
+    def _debug_who_allowed_stopping(self, stop_reason: str):
+        """
+        调试函数：分析为什么停止被允许了
+        当 action_mask 不允许停止但仍然停止时调用
+        """
+        print(f"🔍 DEBUG: Investigating why stop was allowed despite mask forbidding it")
+        print(f"   Stop reason: {stop_reason}")
+        print(f"   Stack size: {len(self._builder.stack)}")
+
+        # 检查栈状态
+        if len(self._builder.stack) == 0:
+            print("   Stack is empty - this should not happen")
+            return
+
+        # 检查每个栈元素的类型
+        for i, expr in enumerate(self._builder.stack):
+            expr_type = self._infer_expr_type(expr)
+            print(f"   Stack[{i}]: {expr} -> type: {expr_type}")
+
+        # 检查是否符合停止条件
+        if len(self._builder.stack) == 1:
+            single_expr = self._builder.stack[0]
+            expr_type = self._infer_expr_type(single_expr)
+
+            if expr_type in ['float', 'int']:
+                print(f"   ✅ Single numeric expression: type={expr_type}")
+                print("   This should have been allowed by action_mask!")
+            else:
+                print(f"   ❌ Single expression but wrong type: {expr_type} (expected float/int)")
+        else:
+            print(f"   ❌ Multiple expressions in stack: {len(self._builder.stack)}")
+
+        # 检查语法学习阶段
+        import os
+        is_syntax_learning = os.environ.get('ALPHAQCM_SYNTAX_LEARNING', '').lower() == 'true'
+        print(f"   Syntax learning phase: {is_syntax_learning}")
+
+        # 检查 _can_stop_with_single_numeric_element
+        can_stop = self._can_stop_with_single_numeric_element()
+        print(f"   _can_stop_with_single_numeric_element(): {can_stop}")
+
+    def _infer_expr_type(self, expr) -> str:
+        """
+        简单推断表达式类型（用于调试）
+        """
+        try:
+            # 类似 wrapper 中的 _infer_type 方法
+            if hasattr(expr, 'feature'):
+                feat_name = str(expr.feature).replace("Feature.", "").replace("@", "").strip("'\"")
+                from alphagen.rl.env.wrapper import AlphaEnvWrapper
+                # 这里需要访问 wrapper 的类型映射，但简化处理
+                return "float"  # 默认
+
+            if hasattr(expr, '_value'):
+                return "int" if isinstance(expr._value, int) else "float"
+
+            # 检查算子类型
+            op_name = getattr(expr, 'name', expr.__class__.__name__)
+            from adapters.operator_library import OPERATOR_SIGNATURES
+            if op_name in OPERATOR_SIGNATURES:
+                _, return_type = OPERATOR_SIGNATURES[op_name]
+                return return_type
+
+            return "unknown"
+        except:
+            return "error"
+
+    def _validate_factor_computation(self, expr: Expression, ic_value: float):
+        """
+        验证因子计算结果，确保因子值真的被计算出来了
+        如果验证失败，立即停止程序
+        """
+        import sys  # 确保在函数内部也能访问 sys 模块
+        expr_str = str(expr)
+
+        # 检查IC值是否有效
+        if ic_value is None or (isinstance(ic_value, float) and math.isnan(ic_value)):
+            print(f"❌ FATAL ERROR: Factor IC calculation returned NaN for expression: {expr_str}", file=sys.stderr)
+            print("Program will terminate immediately.", file=sys.stderr)
+            sys.exit(1)
+
+        # 检查因子值是否被缓存（表示计算成功）
+        from adapters.scoring_calculator import factor_cache
+        if not factor_cache.has_factor(expr_str):
+            print(f"❌ FATAL ERROR: Factor values were not computed and cached for expression: {expr_str}", file=sys.stderr)
+            print("This indicates the external computation engine failed to produce valid factor data.", file=sys.stderr)
+            print("Program will terminate immediately.", file=sys.stderr)
+            sys.exit(1)
+
+        # 验证缓存的数据质量
+        try:
+            cached_data = factor_cache.load_factor(expr_str)
+            values = cached_data['values']
+            dates = cached_data['dates']
+            symbols = cached_data['symbols']
+
+            # 检查数据维度
+            if values is None or len(values.shape) != 2:
+                print(f"❌ FATAL ERROR: Invalid factor data shape for expression: {expr_str}", file=sys.stderr)
+                print(f"Expected 2D array, got: {values.shape if values is not None else None}", file=sys.stderr)
+                sys.exit(1)
+
+            # 检查是否有足够的日期和股票数据
+            n_dates, n_stocks = values.shape
+            if n_dates < 10 or n_stocks < 10:
+                print(f"❌ FATAL ERROR: Insufficient data dimensions for expression: {expr_str}", file=sys.stderr)
+                print(f"Dates: {n_dates}, Stocks: {n_stocks}", file=sys.stderr)
+                sys.exit(1)
+
+            # 检查数据是否全为NaN或零
+            if np.all(np.isnan(values)) or np.all(values == 0):
+                print(f"❌ FATAL ERROR: Factor data is all NaN or zero for expression: {expr_str}", file=sys.stderr)
+                print("This indicates the computation engine produced invalid results.", file=sys.stderr)
+                sys.exit(1)
+
+        except Exception as e:
+            print(f"❌ FATAL ERROR: Failed to validate cached factor data for expression: {expr_str}", file=sys.stderr)
+            print(f"Error: {e}", file=sys.stderr)
+            sys.exit(1)
 
     def valid_action_types(self) -> dict:
         return self._valid_action_types()

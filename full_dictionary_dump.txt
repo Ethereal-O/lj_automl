@@ -1,0 +1,2736 @@
+============================================================
+            AlphaGen 字段系统全量诊断报告
+============================================================
+
+统计摘要:
+1. 字典生成总数 (Total Dict):  1744
+2. 环境使用总数 (Env Used):    695
+3. 成功匹配 (Matched):         424
+4. 缺失/不匹配 (Missing):      271  <-- 重点关注
+
+============================================================
+【第一部分】不匹配字段名单 (共 271 个)
+说明: 这些字段在环境里使用了，但字典没有生成出来。
+      通常是因为下划线 `_` 或点 `.` 的命名差异。
+============================================================
+❌ Env: Slice.Cum                                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.                                   | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TotalCum                           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Total                              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumVolImbl                         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VolImbl                            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AggAlgoCntOrderCum                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AggAlgoAmtOrderCum                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AggAlgoVolOrderCum                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AggAlgoAamtOrderCum                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AggAlgoVwapOrderCum                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PasAlgoCntOrderCum                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PasAlgoAmtOrderCum                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PasAlgoVolOrderCum                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PasAlgoAamtOrderCum                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PasAlgoVwapOrderCum                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AggAlgoCntOrder                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AggAlgoAmtOrder                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AggAlgoVolOrder                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AggAlgoAamtOrder                   | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AggAlgoVwapOrder                   | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PasAlgoCntOrder                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PasAlgoAmtOrder                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PasAlgoVolOrder                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PasAlgoAamtOrder                   | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PasAlgoVwapOrder                   | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CntInstOrderCum                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AmtInstOrderCum                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VolInstOrderCum                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AamtInstOrderCum                   | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VwapInstOrderCum                   | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CntInstOrder                       | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AmtInstOrder                       | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VolInstOrder                       | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AamtInstOrder                      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VwapInstOrder                      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OrderAggTda                        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OrderAggTdc                        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OrderAggTdv                        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OrderCnt                           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OrderAmt                           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OrderVol                           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.BiasAggTda                         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.BiasAggTdc                         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.BiasAggTdv                         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.BiasTda                            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.BiasTdc                            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.BiasTdv                            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CancelCnt                          | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CancelAmt                          | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CancelVol                          | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OrderVolClose                      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OrderVolFar                        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AggOrderAggTdc                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AggOrderAggTdv                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CntPerLevelAggOrder                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AmtPerLevelAggOrder                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VolPerLevelAggOrder                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CntPerLevelPasOrder                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AmtPerLevelPasOrder                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VolPerLevelPasOrder                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CntPerLevelCancel                  | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AmtPerLevelCancel                  | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VolPerLevelCancel                  | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToFirstFillSpanMean  | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToFirstFillSpanStd   | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToFirstFillSpanSkew  | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToFirstFillSpanKurt  | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToCompleteFillSpanMean | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToCompleteFillSpanStd | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToCompleteFillSpanSkew | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToCompleteFillSpanKurt | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderFirstFillToCompleteFillSpanMean | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderFirstFillToCompleteFillSpanStd | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderFirstFillToCompleteFillSpanSkew | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderFirstFillToCompleteFillSpanKurt | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToFirstFillSpan25QuantilesSmall | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToFirstFillSpan25QuantilesMid | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToFirstFillSpan25QuantilesBig | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToFirstFillSpan25QuantilesExtra | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToCompleteFillSpan25QuantilesSmall | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToCompleteFillSpan25QuantilesMid | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToCompleteFillSpan25QuantilesBig | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderReportToCompleteFillSpan25QuantilesExtra | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesSmall | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesMid | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesBig | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesExtra | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrder25QuantilesVol             | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOrder25QuantilesAmt             | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumCancel25QuantilesVol            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumCancel25QuantilesAmt            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumTrade25QuantilesVol             | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumTrade25QuantilesAmt             | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentMeanSpanAggOrder        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentStdSpanAggOrder         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentSkewSpanAggOrder        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentKurtSpanAggOrder        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentMeanSpanPasOrder        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentStdSpanPasOrder         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentSkewSpanPasOrder        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentKurtSpanPasOrder        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentMeanSpanCancel          | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentStdSpanCancel           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentSkewSpanCancel          | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentKurtSpanCancel          | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentMeanSpanTrade           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentStdSpanTrade            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentSkewSpanTrade           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumAdjacentKurtSpanTrade           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CntCancelledOrderPartial           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AmtCancelledOrderPartial           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VolCancelledOrderPartial           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CntCancelledOrderFull              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AmtCancelledOrderFull              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VolCancelledOrderFull              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CntBaitOrderCum                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AmtBaitOrderCum                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VolBaitOrderCum                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CntBaitOrder                       | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AmtBaitOrder                       | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VolBaitOrder                       | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumCancelledCntOrderL2             | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumCancelledAmtOrderL2             | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumCancelledVolOrderL2             | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumCancelledCntOrderL3             | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumCancelledAmtOrderL3             | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumCancelledVolOrderL3             | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TdcRegretFearCum                   | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TdaRegretFearCum                   | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TdvRegretFearCum                   | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TdcRegretFear                      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TdaRegretFear                      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TdvRegretFear                      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumLongFullFillOrderCnt            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumLongFullFillOrderAmt            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumLongFullFillOrderVol            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOnceFullFillCntOrderAgg         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOnceFullFillAmtOrderAgg         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOnceFullFillVolOrderAgg         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOnceFullFillCntOrderPas         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOnceFullFillAmtOrderPas         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CumOnceFullFillVolOrderPas         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TradePvDstrMean                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TradePvDstrStd                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TradePvDstrSkew                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TradePvDstrKurt                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TdvProbDstrMeanMean                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TdvProbDstrMeanStd                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TdvProbDstrMeanSkew                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TdvProbDstrMeanKurt                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.ProfitTradeCnt                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.ProfitTradeVol                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.ProfitTradeAmt                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.LossTradeCnt                       | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.LossTradeVol                       | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.LossTradeAmt                       | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Tdc20PctTdpTop                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Tda20PctTdpTop                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Tdv20PctTdpTop                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Tdc20PctTdpBottom                  | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Tda20PctTdpBottom                  | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Tdv20PctTdpBottom                  | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Mean20PctTdpPvDstrTop              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Std20PctTdpPvDstrTop               | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Skew20PctTdpPvDstrTop              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Kurt20PctTdpPvDstrTop              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Mean20PctTdpPvDstrBottom           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Std20PctTdpPvDstrBottom            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Skew20PctTdpPvDstrBottom           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Kurt20PctTdpPvDstrBottom           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Mean20PctTdpTdvProbDstrTop         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Std20PctTdpTdvProbDstrTop          | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Skew20PctTdpTdvProbDstrTop         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Kurt20PctTdpTdvProbDstrTop         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Mean20PctTdpTdvProbDstrBottom      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Std20PctTdpTdvProbDstrBottom       | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Skew20PctTdpTdvProbDstrBottom      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.Kurt20PctTdpTdvProbDstrBottom      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PartialSpan1by3AggOrder            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PartialSpan1by3PasOrder            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PartialSpan1by3Cancel              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.PartialSpan1by3Trade               | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.GiveupCancelCnt                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.GiveupCancelAmt                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.GiveupCancelVol                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.ChaseCancelCnt                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.ChaseCancelAmt                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.ChaseCancelVol                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.MidpriceUp                         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.MidpriceDown                       | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.UpCauseMidpAggOrder                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.DownCauseMidpAggOrder              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.UpCauseMidpPasOrder                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.DownCauseMidpPasOrder              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.UpCauseMidpCancel                  | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.DownCauseMidpCancel                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.MidpriceStayAggOrder               | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.MidpriceStayPasOrder               | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.MidpriceStayCancel                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CancelOnSupportLevelCnt            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CancelOnSupportLevelAmt            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CancelOnSupportLevelVol            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CntTradeRound                      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AmtTradeRound                      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VolTradeRound                      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CntTradeOdd                        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AmtTradeOdd                        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VolTradeOdd                        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.CntTradeRetail                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.AmtTradeRetail                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.VolTradeRetail                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.LongestPriceUp                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.LongestPriceDown                   | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelCntOrderOrder                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelAmtOrderOrder                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelVolOrderOrder                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelCntOrderCancel                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelAmtOrderCancel                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelVolOrderCancel                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OrderFilledPartMaxAmt              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OrderFilledPartMaxVol              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.FilledOrderCnt                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.FilledOrderAmt                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.FilledOrderVol                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelSmallOrderFilledBuy           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelSmallOrderFilledSell          | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelMidOrderFilledBuy             | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelMidOrderFilledSell            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelBigOrderFilledBuy             | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelBigOrderFilledSell            | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelExtraOrderFilledBuy           | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelExtraOrderFilledSell          | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelSmallFilledOrderRptVwap       | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelMidFilledOrderRptVwap         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelBigFilledOrderRptVwap         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelExtraFilledOrderRptVwap       | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelOBLevelPriceMean              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelOBLevelCnt                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelOBCnt                         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelOBAmt                         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelOBVol                         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelOBVwap                        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelOBLevelVolStd                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelOBLevelVolSkew                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelOBLevelVolKurt                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelOBLevelVolHHI                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OBLevelPriceMean                   | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OBLevelCnt                         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OBLevelVolStd                      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OBLevelVolSkew                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OBLevelVolKurt                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.OBLevelVolHHI                      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelTBCnt                         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelTBAmt                         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelTBVol                         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelTBVwap                        | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelTBOrderCnt                    | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelTBLevelVolStd                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelTBLevelVolSkew                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelTBLevelVolKurt                | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.D1RelTBLevelVolHHI                 | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TBCnt                              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TBAmt                              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TBVol                              | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TBVwap                             | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TBOrderCnt                         | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TBLevelVolStd                      | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TBLevelVolSkew                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TBLevelVolKurt                     | 建议对应 Dict: ??? (无相似项)
+❌ Env: Slice.TBLevelVolHHI                      | 建议对应 Dict: ??? (无相似项)
+
+
+============================================================
+【第二部分】总字典生成清单 (共 1744 个)
+说明: 这是 `字段字典_lol.py` 严格生成的标准答案。
+============================================================
+CS.AggOrderVolResBuy                               : float
+CS.AggOrderVolResSell                              : float
+CS.CancelVolResBuy                                 : float
+CS.CancelVolResSell                                : float
+CS.CumAggOrderVolResBuy                            : float
+CS.CumAggOrderVolResSell                           : float
+CS.CumCancelVolResBuy                              : float
+CS.CumCancelVolResSell                             : float
+CS.CumPasOrderVolResBuy                            : float
+CS.CumPasOrderVolResSell                           : float
+CS.CumTotalAggOrderVolRes                          : float
+CS.CumTotalCancelVolRes                            : float
+CS.CumTotalPasOrderVolRes                          : float
+CS.CumTotalTradeVolRes                             : float
+CS.CumTradeVolResBuy                               : float
+CS.CumTradeVolResSell                              : float
+CS.NormalRetRes                                    : float
+CS.PasOrderVolResBuy                               : float
+CS.PasOrderVolResSell                              : float
+CS.TotalAggOrderVolRes                             : float
+CS.TotalCancelVolRes                               : float
+CS.TotalPasOrderVolRes                             : float
+CS.TotalTradeVolRes                                : float
+CS.TradeVolResBuy                                  : float
+CS.TradeVolResSell                                 : float
+Daily.AdjFactor                                    : float
+Daily.CloseAucTradeAmtBuy                          : float
+Daily.CloseAucTradeAmtSell                         : float
+Daily.CloseAucTradeTriggerOrdersBuy                : float
+Daily.CloseAucTradeTriggerOrdersSell               : float
+Daily.CloseAucTradeVolBuy                          : float
+Daily.CloseAucTradeVolSell                         : float
+Daily.LowerLimit                                   : float
+Daily.Open                                         : float
+Daily.OpenLimitTradeAmtBuy                         : float
+Daily.OpenLimitTradeAmtSell                        : float
+Daily.OpenLimitTradeTriggerOrdersBuy               : float
+Daily.OpenLimitTradeTriggerOrdersSell              : float
+Daily.OpenLimitTradeVolBuy                         : float
+Daily.OpenLimitTradeVolSell                        : float
+Daily.OrderAmtThres1Buy                            : float
+Daily.OrderAmtThres1Sell                           : float
+Daily.OrderAmtThres2Buy                            : float
+Daily.OrderAmtThres2Sell                           : float
+Daily.OrderAmtThres3Buy                            : float
+Daily.OrderAmtThres3Sell                           : float
+Daily.PreClose                                     : float
+Daily.TotalOutVol                                  : float
+Daily.UpperLimit                                   : float
+Preload.AGRICULTURE                                : float
+Preload.ANALSENTI                                  : float
+Preload.AUTOMOBILES                                : float
+Preload.BANKS                                      : float
+Preload.BASICCHEMICALS                             : float
+Preload.BEAUTYCARE                                 : float
+Preload.BETA                                       : float
+Preload.BTOP                                       : float
+Preload.BUILDMATER                                 : float
+Preload.BarraIndustry                              : int
+Preload.BarraIndustrySize                          : int
+Preload.BarraSize                                  : float
+Preload.Board                                      : int
+Preload.CHEMICALS                                  : float
+Preload.COAL                                       : float
+Preload.COMMERCE                                   : float
+Preload.COMPUTERS                                  : float
+Preload.CONGLOMERATES                              : float
+Preload.CONSTRDECOR                                : float
+Preload.COUNTRY                                    : float
+Preload.Category                                   : int
+Preload.ConceptSize                                : int
+Preload.Concepts                                   : vector
+Preload.DEFENSE                                    : float
+Preload.DIVYILD                                    : float
+Preload.EARNQLTY                                   : float
+Preload.EARNVAR                                    : float
+Preload.EARNYILD                                   : float
+Preload.ELECTRICALEQUIP                            : float
+Preload.ELECTRONICS                                : float
+Preload.ENVIRONPROTECT                             : float
+Preload.Exchange                                   : int
+Preload.FOODBEVERAGES                              : float
+Preload.FreeMarketCap                              : float
+Preload.GROWTH                                     : float
+Preload.HEALTHCARE                                 : float
+Preload.HOMEAPPLIANCES                             : float
+Preload.INDMOM                                     : float
+Preload.INVSQLTY                                   : float
+Preload.IsNormal                                   : bool
+Preload.IsSH                                       : bool
+Preload.IsSHMain                                   : bool
+Preload.IsSHStar                                   : bool
+Preload.IsSZ                                       : bool
+Preload.IsSZGem                                    : bool
+Preload.IsSZMain                                   : bool
+Preload.LEISURE                                    : float
+Preload.LEVERAGE                                   : float
+Preload.LIGHTINDUSTRY                              : float
+Preload.LIQUIDTY                                   : float
+Preload.LTREVRSL                                   : float
+Preload.MACHINEEQUIP                               : float
+Preload.MEDIA                                      : float
+Preload.MIDCAP                                     : float
+Preload.MINING                                     : float
+Preload.MOMENTUM                                   : float
+Preload.NONBANKFINAN                               : float
+Preload.NONFERROUSMETALS                           : float
+Preload.PETROLEUM                                  : float
+Preload.POWEREQUIP                                 : float
+Preload.PROFIT                                     : float
+Preload.REALESTATE                                 : float
+Preload.RESVOL                                     : float
+Preload.RETAILTRADE                                : float
+Preload.SEASON                                     : float
+Preload.SIZE                                       : float
+Preload.SOCIALSERVICES                             : float
+Preload.STEEL                                      : float
+Preload.STREVRSL                                   : float
+Preload.SW1                                        : int
+Preload.SW1Size                                    : int
+Preload.SW2                                        : int
+Preload.SW2Size                                    : int
+Preload.SW3                                        : int
+Preload.SW3Size                                    : int
+Preload.TELECOMS                                   : float
+Preload.TEXTILEAPPAREL                             : float
+Preload.TEXTILEGARMENT                             : float
+Preload.TRANSPORTATION                             : float
+Preload.Treatment                                  : int
+Preload.UTILITIES                                  : float
+Preload.Universe                                   : int
+Preload.UniverseSize                               : int
+Slice.AggOrderAamtBuy                              : float
+Slice.AggOrderAamtSell                             : float
+Slice.AggOrderAggTdcBigBuy                         : float
+Slice.AggOrderAggTdcBigSell                        : float
+Slice.AggOrderAggTdcExtraBuy                       : float
+Slice.AggOrderAggTdcExtraSell                      : float
+Slice.AggOrderAggTdcMidBuy                         : float
+Slice.AggOrderAggTdcMidSell                        : float
+Slice.AggOrderAggTdcSmallBuy                       : float
+Slice.AggOrderAggTdcSmallSell                      : float
+Slice.AggOrderAggTdvBigBuy                         : float
+Slice.AggOrderAggTdvBigSell                        : float
+Slice.AggOrderAggTdvExtraBuy                       : float
+Slice.AggOrderAggTdvExtraSell                      : float
+Slice.AggOrderAggTdvMidBuy                         : float
+Slice.AggOrderAggTdvMidSell                        : float
+Slice.AggOrderAggTdvSmallBuy                       : float
+Slice.AggOrderAggTdvSmallSell                      : float
+Slice.AggOrderAmtBuy                               : float
+Slice.AggOrderAmtSell                              : float
+Slice.AggOrderCauseMidpDownAmt                     : float
+Slice.AggOrderCauseMidpDownCnt                     : float
+Slice.AggOrderCauseMidpDownGapMean                 : float
+Slice.AggOrderCauseMidpDownVol                     : float
+Slice.AggOrderCauseMidpUpAmt                       : float
+Slice.AggOrderCauseMidpUpCnt                       : float
+Slice.AggOrderCauseMidpUpGapMean                   : float
+Slice.AggOrderCauseMidpUpVol                       : float
+Slice.AggOrderCntBuy                               : float
+Slice.AggOrderCntSell                              : float
+Slice.AggOrderPerLevelAmtBuy                       : vector
+Slice.AggOrderPerLevelAmtSell                      : vector
+Slice.AggOrderPerLevelCntBuy                       : vector
+Slice.AggOrderPerLevelCntSell                      : vector
+Slice.AggOrderPerLevelVolBuy                       : vector
+Slice.AggOrderPerLevelVolSell                      : vector
+Slice.AggOrderVolBuy                               : float
+Slice.AggOrderVolImbl                              : float
+Slice.AggOrderVolSell                              : float
+Slice.AggOrderVwapBuy                              : float
+Slice.AggOrderVwapSell                             : float
+Slice.AlgoAggOrderAamtBuy                          : float
+Slice.AlgoAggOrderAamtSell                         : float
+Slice.AlgoAggOrderAmtBuy                           : float
+Slice.AlgoAggOrderAmtSell                          : float
+Slice.AlgoAggOrderCntBuy                           : float
+Slice.AlgoAggOrderCntSell                          : float
+Slice.AlgoAggOrderVolBuy                           : float
+Slice.AlgoAggOrderVolImbl                          : float
+Slice.AlgoAggOrderVolSell                          : float
+Slice.AlgoAggOrderVwapBuy                          : float
+Slice.AlgoAggOrderVwapSell                         : float
+Slice.AlgoPasOrderAamtBuy                          : float
+Slice.AlgoPasOrderAamtSell                         : float
+Slice.AlgoPasOrderAmtBuy                           : float
+Slice.AlgoPasOrderAmtSell                          : float
+Slice.AlgoPasOrderCntBuy                           : float
+Slice.AlgoPasOrderCntSell                          : float
+Slice.AlgoPasOrderVolBuy                           : float
+Slice.AlgoPasOrderVolImbl                          : float
+Slice.AlgoPasOrderVolSell                          : float
+Slice.AlgoPasOrderVwapBuy                          : float
+Slice.AlgoPasOrderVwapSell                         : float
+Slice.AskPrice                                     : vector
+Slice.AskVol                                       : vector
+Slice.BaitOrderAmtBigBuy                           : float
+Slice.BaitOrderAmtBigSell                          : float
+Slice.BaitOrderAmtExtraBuy                         : float
+Slice.BaitOrderAmtExtraSell                        : float
+Slice.BaitOrderAmtMidBuy                           : float
+Slice.BaitOrderAmtMidSell                          : float
+Slice.BaitOrderAmtSmallBuy                         : float
+Slice.BaitOrderAmtSmallSell                        : float
+Slice.BaitOrderCntBigBuy                           : float
+Slice.BaitOrderCntBigSell                          : float
+Slice.BaitOrderCntExtraBuy                         : float
+Slice.BaitOrderCntExtraSell                        : float
+Slice.BaitOrderCntMidBuy                           : float
+Slice.BaitOrderCntMidSell                          : float
+Slice.BaitOrderCntSmallBuy                         : float
+Slice.BaitOrderCntSmallSell                        : float
+Slice.BaitOrderVolBigBuy                           : float
+Slice.BaitOrderVolBigSell                          : float
+Slice.BaitOrderVolExtraBuy                         : float
+Slice.BaitOrderVolExtraSell                        : float
+Slice.BaitOrderVolMidBuy                           : float
+Slice.BaitOrderVolMidSell                          : float
+Slice.BaitOrderVolSmallBuy                         : float
+Slice.BaitOrderVolSmallSell                        : float
+Slice.BiasAggTdaBBBuy                              : float
+Slice.BiasAggTdaBBSell                             : float
+Slice.BiasAggTdaBSBuy                              : float
+Slice.BiasAggTdaBSSell                             : float
+Slice.BiasAggTdaSBBuy                              : float
+Slice.BiasAggTdaSBSell                             : float
+Slice.BiasAggTdaSSBuy                              : float
+Slice.BiasAggTdaSSSell                             : float
+Slice.BiasAggTdcBBBuy                              : float
+Slice.BiasAggTdcBBSell                             : float
+Slice.BiasAggTdcBSBuy                              : float
+Slice.BiasAggTdcBSSell                             : float
+Slice.BiasAggTdcSBBuy                              : float
+Slice.BiasAggTdcSBSell                             : float
+Slice.BiasAggTdcSSBuy                              : float
+Slice.BiasAggTdcSSSell                             : float
+Slice.BiasAggTdvBBBuy                              : float
+Slice.BiasAggTdvBBSell                             : float
+Slice.BiasAggTdvBSBuy                              : float
+Slice.BiasAggTdvBSSell                             : float
+Slice.BiasAggTdvSBBuy                              : float
+Slice.BiasAggTdvSBSell                             : float
+Slice.BiasAggTdvSSBuy                              : float
+Slice.BiasAggTdvSSSell                             : float
+Slice.BiasTdaBBBuy                                 : float
+Slice.BiasTdaBBSell                                : float
+Slice.BiasTdaBSBuy                                 : float
+Slice.BiasTdaBSSell                                : float
+Slice.BiasTdaSBBuy                                 : float
+Slice.BiasTdaSBSell                                : float
+Slice.BiasTdaSSBuy                                 : float
+Slice.BiasTdaSSSell                                : float
+Slice.BiasTdcBBBuy                                 : float
+Slice.BiasTdcBBSell                                : float
+Slice.BiasTdcBSBuy                                 : float
+Slice.BiasTdcBSSell                                : float
+Slice.BiasTdcSBBuy                                 : float
+Slice.BiasTdcSBSell                                : float
+Slice.BiasTdcSSBuy                                 : float
+Slice.BiasTdcSSSell                                : float
+Slice.BiasTdvBBBuy                                 : float
+Slice.BiasTdvBBSell                                : float
+Slice.BiasTdvBSBuy                                 : float
+Slice.BiasTdvBSSell                                : float
+Slice.BiasTdvSBBuy                                 : float
+Slice.BiasTdvSBSell                                : float
+Slice.BiasTdvSSBuy                                 : float
+Slice.BiasTdvSSSell                                : float
+Slice.BidAskSpanDiffCatRatio                       : float
+Slice.BidPrice                                     : vector
+Slice.BidVol                                       : vector
+Slice.Bottom20PctTdpPvDstrKurtBuy                  : float
+Slice.Bottom20PctTdpPvDstrKurtSell                 : float
+Slice.Bottom20PctTdpPvDstrMeanBuy                  : float
+Slice.Bottom20PctTdpPvDstrMeanSell                 : float
+Slice.Bottom20PctTdpPvDstrSkewBuy                  : float
+Slice.Bottom20PctTdpPvDstrSkewSell                 : float
+Slice.Bottom20PctTdpPvDstrStdBuy                   : float
+Slice.Bottom20PctTdpPvDstrStdSell                  : float
+Slice.Bottom20PctTdpTdaBuy                         : float
+Slice.Bottom20PctTdpTdaSell                        : float
+Slice.Bottom20PctTdpTdcBuy                         : float
+Slice.Bottom20PctTdpTdcSell                        : float
+Slice.Bottom20PctTdpTdvBuy                         : float
+Slice.Bottom20PctTdpTdvProbDstrKurtBuy             : float
+Slice.Bottom20PctTdpTdvProbDstrKurtSell            : float
+Slice.Bottom20PctTdpTdvProbDstrMeanBuy             : float
+Slice.Bottom20PctTdpTdvProbDstrMeanSell            : float
+Slice.Bottom20PctTdpTdvProbDstrSkewBuy             : float
+Slice.Bottom20PctTdpTdvProbDstrSkewSell            : float
+Slice.Bottom20PctTdpTdvProbDstrStdBuy              : float
+Slice.Bottom20PctTdpTdvProbDstrStdSell             : float
+Slice.Bottom20PctTdpTdvSell                        : float
+Slice.BottomPriceLifespanBuy                       : float
+Slice.BottomPriceLifespanSell                      : float
+Slice.CancelAamtBuy                                : float
+Slice.CancelAamtSell                               : float
+Slice.CancelAmtBigBuy                              : float
+Slice.CancelAmtBigSell                             : float
+Slice.CancelAmtBuy                                 : float
+Slice.CancelAmtExtraBuy                            : float
+Slice.CancelAmtExtraSell                           : float
+Slice.CancelAmtMidBuy                              : float
+Slice.CancelAmtMidSell                             : float
+Slice.CancelAmtSell                                : float
+Slice.CancelAmtSmallBuy                            : float
+Slice.CancelAmtSmallSell                           : float
+Slice.CancelAvgLifespanBuy                         : float
+Slice.CancelAvgLifespanSell                        : float
+Slice.CancelCauseMidpDownAmt                       : float
+Slice.CancelCauseMidpDownCnt                       : float
+Slice.CancelCauseMidpDownGapMean                   : float
+Slice.CancelCauseMidpDownVol                       : float
+Slice.CancelCauseMidpUpAmt                         : float
+Slice.CancelCauseMidpUpCnt                         : float
+Slice.CancelCauseMidpUpGapMean                     : float
+Slice.CancelCauseMidpUpVol                         : float
+Slice.CancelCntBigBuy                              : float
+Slice.CancelCntBigSell                             : float
+Slice.CancelCntBuy                                 : float
+Slice.CancelCntExtraBuy                            : float
+Slice.CancelCntExtraSell                           : float
+Slice.CancelCntMidBuy                              : float
+Slice.CancelCntMidSell                             : float
+Slice.CancelCntSell                                : float
+Slice.CancelCntSmallBuy                            : float
+Slice.CancelCntSmallSell                           : float
+Slice.CancelOnSupportLevelAmtBuy                   : float
+Slice.CancelOnSupportLevelAmtSell                  : float
+Slice.CancelOnSupportLevelCntBuy                   : float
+Slice.CancelOnSupportLevelCntSell                  : float
+Slice.CancelOnSupportLevelVolBuy                   : float
+Slice.CancelOnSupportLevelVolSell                  : float
+Slice.CancelPerLevelAmtBuy                         : vector
+Slice.CancelPerLevelAmtSell                        : vector
+Slice.CancelPerLevelCntBuy                         : vector
+Slice.CancelPerLevelCntSell                        : vector
+Slice.CancelPerLevelVolBuy                         : vector
+Slice.CancelPerLevelVolSell                        : vector
+Slice.CancelVolBigBuy                              : float
+Slice.CancelVolBigSell                             : float
+Slice.CancelVolBuy                                 : float
+Slice.CancelVolExtraBuy                            : float
+Slice.CancelVolExtraSell                           : float
+Slice.CancelVolImbl                                : float
+Slice.CancelVolMidBuy                              : float
+Slice.CancelVolMidSell                             : float
+Slice.CancelVolSell                                : float
+Slice.CancelVolSmallBuy                            : float
+Slice.CancelVolSmallSell                           : float
+Slice.CancelVwaLifespanBuy                         : float
+Slice.CancelVwaLifespanSell                        : float
+Slice.CancelVwapBuy                                : float
+Slice.CancelVwapSell                               : float
+Slice.ChaseCancelAmtBuy                            : float
+Slice.ChaseCancelAmtSell                           : float
+Slice.ChaseCancelCntBuy                            : float
+Slice.ChaseCancelCntSell                           : float
+Slice.ChaseCancelVolBuy                            : float
+Slice.ChaseCancelVolSell                           : float
+Slice.CumAdjacentAggOrderSpanKurtBigBuy            : float
+Slice.CumAdjacentAggOrderSpanKurtBigSell           : float
+Slice.CumAdjacentAggOrderSpanKurtExtraBuy          : float
+Slice.CumAdjacentAggOrderSpanKurtExtraSell         : float
+Slice.CumAdjacentAggOrderSpanKurtMidBuy            : float
+Slice.CumAdjacentAggOrderSpanKurtMidSell           : float
+Slice.CumAdjacentAggOrderSpanKurtSmallBuy          : float
+Slice.CumAdjacentAggOrderSpanKurtSmallSell         : float
+Slice.CumAdjacentAggOrderSpanMeanBigBuy            : float
+Slice.CumAdjacentAggOrderSpanMeanBigSell           : float
+Slice.CumAdjacentAggOrderSpanMeanExtraBuy          : float
+Slice.CumAdjacentAggOrderSpanMeanExtraSell         : float
+Slice.CumAdjacentAggOrderSpanMeanMidBuy            : float
+Slice.CumAdjacentAggOrderSpanMeanMidSell           : float
+Slice.CumAdjacentAggOrderSpanMeanSmallBuy          : float
+Slice.CumAdjacentAggOrderSpanMeanSmallSell         : float
+Slice.CumAdjacentAggOrderSpanSkewBigBuy            : float
+Slice.CumAdjacentAggOrderSpanSkewBigSell           : float
+Slice.CumAdjacentAggOrderSpanSkewExtraBuy          : float
+Slice.CumAdjacentAggOrderSpanSkewExtraSell         : float
+Slice.CumAdjacentAggOrderSpanSkewMidBuy            : float
+Slice.CumAdjacentAggOrderSpanSkewMidSell           : float
+Slice.CumAdjacentAggOrderSpanSkewSmallBuy          : float
+Slice.CumAdjacentAggOrderSpanSkewSmallSell         : float
+Slice.CumAdjacentAggOrderSpanStdBigBuy             : float
+Slice.CumAdjacentAggOrderSpanStdBigSell            : float
+Slice.CumAdjacentAggOrderSpanStdExtraBuy           : float
+Slice.CumAdjacentAggOrderSpanStdExtraSell          : float
+Slice.CumAdjacentAggOrderSpanStdMidBuy             : float
+Slice.CumAdjacentAggOrderSpanStdMidSell            : float
+Slice.CumAdjacentAggOrderSpanStdSmallBuy           : float
+Slice.CumAdjacentAggOrderSpanStdSmallSell          : float
+Slice.CumAdjacentCancelSpanKurtBigBuy              : float
+Slice.CumAdjacentCancelSpanKurtBigSell             : float
+Slice.CumAdjacentCancelSpanKurtExtraBuy            : float
+Slice.CumAdjacentCancelSpanKurtExtraSell           : float
+Slice.CumAdjacentCancelSpanKurtMidBuy              : float
+Slice.CumAdjacentCancelSpanKurtMidSell             : float
+Slice.CumAdjacentCancelSpanKurtSmallBuy            : float
+Slice.CumAdjacentCancelSpanKurtSmallSell           : float
+Slice.CumAdjacentCancelSpanMeanBigBuy              : float
+Slice.CumAdjacentCancelSpanMeanBigSell             : float
+Slice.CumAdjacentCancelSpanMeanExtraBuy            : float
+Slice.CumAdjacentCancelSpanMeanExtraSell           : float
+Slice.CumAdjacentCancelSpanMeanMidBuy              : float
+Slice.CumAdjacentCancelSpanMeanMidSell             : float
+Slice.CumAdjacentCancelSpanMeanSmallBuy            : float
+Slice.CumAdjacentCancelSpanMeanSmallSell           : float
+Slice.CumAdjacentCancelSpanSkewBigBuy              : float
+Slice.CumAdjacentCancelSpanSkewBigSell             : float
+Slice.CumAdjacentCancelSpanSkewExtraBuy            : float
+Slice.CumAdjacentCancelSpanSkewExtraSell           : float
+Slice.CumAdjacentCancelSpanSkewMidBuy              : float
+Slice.CumAdjacentCancelSpanSkewMidSell             : float
+Slice.CumAdjacentCancelSpanSkewSmallBuy            : float
+Slice.CumAdjacentCancelSpanSkewSmallSell           : float
+Slice.CumAdjacentCancelSpanStdBigBuy               : float
+Slice.CumAdjacentCancelSpanStdBigSell              : float
+Slice.CumAdjacentCancelSpanStdExtraBuy             : float
+Slice.CumAdjacentCancelSpanStdExtraSell            : float
+Slice.CumAdjacentCancelSpanStdMidBuy               : float
+Slice.CumAdjacentCancelSpanStdMidSell              : float
+Slice.CumAdjacentCancelSpanStdSmallBuy             : float
+Slice.CumAdjacentCancelSpanStdSmallSell            : float
+Slice.CumAdjacentPasOrderSpanKurtBigBuy            : float
+Slice.CumAdjacentPasOrderSpanKurtBigSell           : float
+Slice.CumAdjacentPasOrderSpanKurtExtraBuy          : float
+Slice.CumAdjacentPasOrderSpanKurtExtraSell         : float
+Slice.CumAdjacentPasOrderSpanKurtMidBuy            : float
+Slice.CumAdjacentPasOrderSpanKurtMidSell           : float
+Slice.CumAdjacentPasOrderSpanKurtSmallBuy          : float
+Slice.CumAdjacentPasOrderSpanKurtSmallSell         : float
+Slice.CumAdjacentPasOrderSpanMeanBigBuy            : float
+Slice.CumAdjacentPasOrderSpanMeanBigSell           : float
+Slice.CumAdjacentPasOrderSpanMeanExtraBuy          : float
+Slice.CumAdjacentPasOrderSpanMeanExtraSell         : float
+Slice.CumAdjacentPasOrderSpanMeanMidBuy            : float
+Slice.CumAdjacentPasOrderSpanMeanMidSell           : float
+Slice.CumAdjacentPasOrderSpanMeanSmallBuy          : float
+Slice.CumAdjacentPasOrderSpanMeanSmallSell         : float
+Slice.CumAdjacentPasOrderSpanSkewBigBuy            : float
+Slice.CumAdjacentPasOrderSpanSkewBigSell           : float
+Slice.CumAdjacentPasOrderSpanSkewExtraBuy          : float
+Slice.CumAdjacentPasOrderSpanSkewExtraSell         : float
+Slice.CumAdjacentPasOrderSpanSkewMidBuy            : float
+Slice.CumAdjacentPasOrderSpanSkewMidSell           : float
+Slice.CumAdjacentPasOrderSpanSkewSmallBuy          : float
+Slice.CumAdjacentPasOrderSpanSkewSmallSell         : float
+Slice.CumAdjacentPasOrderSpanStdBigBuy             : float
+Slice.CumAdjacentPasOrderSpanStdBigSell            : float
+Slice.CumAdjacentPasOrderSpanStdExtraBuy           : float
+Slice.CumAdjacentPasOrderSpanStdExtraSell          : float
+Slice.CumAdjacentPasOrderSpanStdMidBuy             : float
+Slice.CumAdjacentPasOrderSpanStdMidSell            : float
+Slice.CumAdjacentPasOrderSpanStdSmallBuy           : float
+Slice.CumAdjacentPasOrderSpanStdSmallSell          : float
+Slice.CumAdjacentTradeSpanKurtBigBuy               : float
+Slice.CumAdjacentTradeSpanKurtBigSell              : float
+Slice.CumAdjacentTradeSpanKurtExtraBuy             : float
+Slice.CumAdjacentTradeSpanKurtExtraSell            : float
+Slice.CumAdjacentTradeSpanKurtMidBuy               : float
+Slice.CumAdjacentTradeSpanKurtMidSell              : float
+Slice.CumAdjacentTradeSpanKurtSmallBuy             : float
+Slice.CumAdjacentTradeSpanKurtSmallSell            : float
+Slice.CumAdjacentTradeSpanMeanBigBuy               : float
+Slice.CumAdjacentTradeSpanMeanBigSell              : float
+Slice.CumAdjacentTradeSpanMeanExtraBuy             : float
+Slice.CumAdjacentTradeSpanMeanExtraSell            : float
+Slice.CumAdjacentTradeSpanMeanMidBuy               : float
+Slice.CumAdjacentTradeSpanMeanMidSell              : float
+Slice.CumAdjacentTradeSpanMeanSmallBuy             : float
+Slice.CumAdjacentTradeSpanMeanSmallSell            : float
+Slice.CumAdjacentTradeSpanSkewBigBuy               : float
+Slice.CumAdjacentTradeSpanSkewBigSell              : float
+Slice.CumAdjacentTradeSpanSkewExtraBuy             : float
+Slice.CumAdjacentTradeSpanSkewExtraSell            : float
+Slice.CumAdjacentTradeSpanSkewMidBuy               : float
+Slice.CumAdjacentTradeSpanSkewMidSell              : float
+Slice.CumAdjacentTradeSpanSkewSmallBuy             : float
+Slice.CumAdjacentTradeSpanSkewSmallSell            : float
+Slice.CumAdjacentTradeSpanStdBigBuy                : float
+Slice.CumAdjacentTradeSpanStdBigSell               : float
+Slice.CumAdjacentTradeSpanStdExtraBuy              : float
+Slice.CumAdjacentTradeSpanStdExtraSell             : float
+Slice.CumAdjacentTradeSpanStdMidBuy                : float
+Slice.CumAdjacentTradeSpanStdMidSell               : float
+Slice.CumAdjacentTradeSpanStdSmallBuy              : float
+Slice.CumAdjacentTradeSpanStdSmallSell             : float
+Slice.CumAggOrderAamtBuy                           : float
+Slice.CumAggOrderAamtSell                          : float
+Slice.CumAggOrderAmtBuy                            : float
+Slice.CumAggOrderAmtSell                           : float
+Slice.CumAggOrderCntBuy                            : float
+Slice.CumAggOrderCntSell                           : float
+Slice.CumAggOrderVolBuy                            : float
+Slice.CumAggOrderVolImbl                           : float
+Slice.CumAggOrderVolSell                           : float
+Slice.CumAggOrderVwapBuy                           : float
+Slice.CumAggOrderVwapSell                          : float
+Slice.CumAlgoAggOrderAamtBuy                       : float
+Slice.CumAlgoAggOrderAamtSell                      : float
+Slice.CumAlgoAggOrderAmtBuy                        : float
+Slice.CumAlgoAggOrderAmtSell                       : float
+Slice.CumAlgoAggOrderCntBuy                        : float
+Slice.CumAlgoAggOrderCntSell                       : float
+Slice.CumAlgoAggOrderVolBuy                        : float
+Slice.CumAlgoAggOrderVolImbl                       : float
+Slice.CumAlgoAggOrderVolSell                       : float
+Slice.CumAlgoAggOrderVwapBuy                       : float
+Slice.CumAlgoAggOrderVwapSell                      : float
+Slice.CumAlgoPasOrderAamtBuy                       : float
+Slice.CumAlgoPasOrderAamtSell                      : float
+Slice.CumAlgoPasOrderAmtBuy                        : float
+Slice.CumAlgoPasOrderAmtSell                       : float
+Slice.CumAlgoPasOrderCntBuy                        : float
+Slice.CumAlgoPasOrderCntSell                       : float
+Slice.CumAlgoPasOrderVolBuy                        : float
+Slice.CumAlgoPasOrderVolImbl                       : float
+Slice.CumAlgoPasOrderVolSell                       : float
+Slice.CumAlgoPasOrderVwapBuy                       : float
+Slice.CumAlgoPasOrderVwapSell                      : float
+Slice.CumBaitOrderAmtBigBuy                        : float
+Slice.CumBaitOrderAmtBigSell                       : float
+Slice.CumBaitOrderAmtExtraBuy                      : float
+Slice.CumBaitOrderAmtExtraSell                     : float
+Slice.CumBaitOrderAmtMidBuy                        : float
+Slice.CumBaitOrderAmtMidSell                       : float
+Slice.CumBaitOrderAmtSmallBuy                      : float
+Slice.CumBaitOrderAmtSmallSell                     : float
+Slice.CumBaitOrderCntBigBuy                        : float
+Slice.CumBaitOrderCntBigSell                       : float
+Slice.CumBaitOrderCntExtraBuy                      : float
+Slice.CumBaitOrderCntExtraSell                     : float
+Slice.CumBaitOrderCntMidBuy                        : float
+Slice.CumBaitOrderCntMidSell                       : float
+Slice.CumBaitOrderCntSmallBuy                      : float
+Slice.CumBaitOrderCntSmallSell                     : float
+Slice.CumBaitOrderVolBigBuy                        : float
+Slice.CumBaitOrderVolBigSell                       : float
+Slice.CumBaitOrderVolExtraBuy                      : float
+Slice.CumBaitOrderVolExtraSell                     : float
+Slice.CumBaitOrderVolMidBuy                        : float
+Slice.CumBaitOrderVolMidSell                       : float
+Slice.CumBaitOrderVolSmallBuy                      : float
+Slice.CumBaitOrderVolSmallSell                     : float
+Slice.CumBottom5PctPriceTradeVwapBuy               : float
+Slice.CumBottom5PctPriceTradeVwapSell              : float
+Slice.CumBottom5PctVolTradeVwapBuy                 : float
+Slice.CumBottom5PctVolTradeVwapSell                : float
+Slice.CumCancelAamtBuy                             : float
+Slice.CumCancelAamtSell                            : float
+Slice.CumCancelAmt25QuantilesBuy                   : vector
+Slice.CumCancelAmt25QuantilesSell                  : vector
+Slice.CumCancelAmtBuy                              : float
+Slice.CumCancelAmtSell                             : float
+Slice.CumCancelCntBuy                              : float
+Slice.CumCancelCntSell                             : float
+Slice.CumCancelVol25QuantilesBuy                   : vector
+Slice.CumCancelVol25QuantilesSell                  : vector
+Slice.CumCancelVolBuy                              : float
+Slice.CumCancelVolImbl                             : float
+Slice.CumCancelVolSell                             : float
+Slice.CumCancelVwapBuy                             : float
+Slice.CumCancelVwapSell                            : float
+Slice.CumCancelledL2OrderAmtBigBuy                 : float
+Slice.CumCancelledL2OrderAmtBigSell                : float
+Slice.CumCancelledL2OrderAmtExtraBuy               : float
+Slice.CumCancelledL2OrderAmtExtraSell              : float
+Slice.CumCancelledL2OrderAmtMidBuy                 : float
+Slice.CumCancelledL2OrderAmtMidSell                : float
+Slice.CumCancelledL2OrderAmtSmallBuy               : float
+Slice.CumCancelledL2OrderAmtSmallSell              : float
+Slice.CumCancelledL2OrderCntBigBuy                 : float
+Slice.CumCancelledL2OrderCntBigSell                : float
+Slice.CumCancelledL2OrderCntExtraBuy               : float
+Slice.CumCancelledL2OrderCntExtraSell              : float
+Slice.CumCancelledL2OrderCntMidBuy                 : float
+Slice.CumCancelledL2OrderCntMidSell                : float
+Slice.CumCancelledL2OrderCntSmallBuy               : float
+Slice.CumCancelledL2OrderCntSmallSell              : float
+Slice.CumCancelledL2OrderVolBigBuy                 : float
+Slice.CumCancelledL2OrderVolBigSell                : float
+Slice.CumCancelledL2OrderVolExtraBuy               : float
+Slice.CumCancelledL2OrderVolExtraSell              : float
+Slice.CumCancelledL2OrderVolMidBuy                 : float
+Slice.CumCancelledL2OrderVolMidSell                : float
+Slice.CumCancelledL2OrderVolSmallBuy               : float
+Slice.CumCancelledL2OrderVolSmallSell              : float
+Slice.CumCancelledL3OrderAmtBigBuy                 : float
+Slice.CumCancelledL3OrderAmtBigSell                : float
+Slice.CumCancelledL3OrderAmtExtraBuy               : float
+Slice.CumCancelledL3OrderAmtExtraSell              : float
+Slice.CumCancelledL3OrderAmtMidBuy                 : float
+Slice.CumCancelledL3OrderAmtMidSell                : float
+Slice.CumCancelledL3OrderAmtSmallBuy               : float
+Slice.CumCancelledL3OrderAmtSmallSell              : float
+Slice.CumCancelledL3OrderCntBigBuy                 : float
+Slice.CumCancelledL3OrderCntBigSell                : float
+Slice.CumCancelledL3OrderCntExtraBuy               : float
+Slice.CumCancelledL3OrderCntExtraSell              : float
+Slice.CumCancelledL3OrderCntMidBuy                 : float
+Slice.CumCancelledL3OrderCntMidSell                : float
+Slice.CumCancelledL3OrderCntSmallBuy               : float
+Slice.CumCancelledL3OrderCntSmallSell              : float
+Slice.CumCancelledL3OrderVolBigBuy                 : float
+Slice.CumCancelledL3OrderVolBigSell                : float
+Slice.CumCancelledL3OrderVolExtraBuy               : float
+Slice.CumCancelledL3OrderVolExtraSell              : float
+Slice.CumCancelledL3OrderVolMidBuy                 : float
+Slice.CumCancelledL3OrderVolMidSell                : float
+Slice.CumCancelledL3OrderVolSmallBuy               : float
+Slice.CumCancelledL3OrderVolSmallSell              : float
+Slice.CumHigh                                      : float
+Slice.CumInstOrderAamtBuy                          : float
+Slice.CumInstOrderAamtSell                         : float
+Slice.CumInstOrderAmtBuy                           : float
+Slice.CumInstOrderAmtSell                          : float
+Slice.CumInstOrderCntBuy                           : float
+Slice.CumInstOrderCntSell                          : float
+Slice.CumInstOrderVolBuy                           : float
+Slice.CumInstOrderVolSell                          : float
+Slice.CumInstOrderVwapBuy                          : float
+Slice.CumInstOrderVwapSell                         : float
+Slice.CumLongFullFillOrderAmtBuy                   : float
+Slice.CumLongFullFillOrderAmtSell                  : float
+Slice.CumLongFullFillOrderCntBuy                   : float
+Slice.CumLongFullFillOrderCntSell                  : float
+Slice.CumLongFullFillOrderVolBuy                   : float
+Slice.CumLongFullFillOrderVolSell                  : float
+Slice.CumLow                                       : float
+Slice.CumNetTDV                                    : float
+Slice.CumOnceFullFillAggOrderAmtBigBuy             : float
+Slice.CumOnceFullFillAggOrderAmtBigSell            : float
+Slice.CumOnceFullFillAggOrderAmtExtraBuy           : float
+Slice.CumOnceFullFillAggOrderAmtExtraSell          : float
+Slice.CumOnceFullFillAggOrderAmtMidBuy             : float
+Slice.CumOnceFullFillAggOrderAmtMidSell            : float
+Slice.CumOnceFullFillAggOrderAmtSmallBuy           : float
+Slice.CumOnceFullFillAggOrderAmtSmallSell          : float
+Slice.CumOnceFullFillAggOrderCntBigBuy             : float
+Slice.CumOnceFullFillAggOrderCntBigSell            : float
+Slice.CumOnceFullFillAggOrderCntExtraBuy           : float
+Slice.CumOnceFullFillAggOrderCntExtraSell          : float
+Slice.CumOnceFullFillAggOrderCntMidBuy             : float
+Slice.CumOnceFullFillAggOrderCntMidSell            : float
+Slice.CumOnceFullFillAggOrderCntSmallBuy           : float
+Slice.CumOnceFullFillAggOrderCntSmallSell          : float
+Slice.CumOnceFullFillAggOrderVolBigBuy             : float
+Slice.CumOnceFullFillAggOrderVolBigSell            : float
+Slice.CumOnceFullFillAggOrderVolExtraBuy           : float
+Slice.CumOnceFullFillAggOrderVolExtraSell          : float
+Slice.CumOnceFullFillAggOrderVolMidBuy             : float
+Slice.CumOnceFullFillAggOrderVolMidSell            : float
+Slice.CumOnceFullFillAggOrderVolSmallBuy           : float
+Slice.CumOnceFullFillAggOrderVolSmallSell          : float
+Slice.CumOnceFullFillPasOrderAmtBigBuy             : float
+Slice.CumOnceFullFillPasOrderAmtBigSell            : float
+Slice.CumOnceFullFillPasOrderAmtExtraBuy           : float
+Slice.CumOnceFullFillPasOrderAmtExtraSell          : float
+Slice.CumOnceFullFillPasOrderAmtMidBuy             : float
+Slice.CumOnceFullFillPasOrderAmtMidSell            : float
+Slice.CumOnceFullFillPasOrderAmtSmallBuy           : float
+Slice.CumOnceFullFillPasOrderAmtSmallSell          : float
+Slice.CumOnceFullFillPasOrderCntBigBuy             : float
+Slice.CumOnceFullFillPasOrderCntBigSell            : float
+Slice.CumOnceFullFillPasOrderCntExtraBuy           : float
+Slice.CumOnceFullFillPasOrderCntExtraSell          : float
+Slice.CumOnceFullFillPasOrderCntMidBuy             : float
+Slice.CumOnceFullFillPasOrderCntMidSell            : float
+Slice.CumOnceFullFillPasOrderCntSmallBuy           : float
+Slice.CumOnceFullFillPasOrderCntSmallSell          : float
+Slice.CumOnceFullFillPasOrderVolBigBuy             : float
+Slice.CumOnceFullFillPasOrderVolBigSell            : float
+Slice.CumOnceFullFillPasOrderVolExtraBuy           : float
+Slice.CumOnceFullFillPasOrderVolExtraSell          : float
+Slice.CumOnceFullFillPasOrderVolMidBuy             : float
+Slice.CumOnceFullFillPasOrderVolMidSell            : float
+Slice.CumOnceFullFillPasOrderVolSmallBuy           : float
+Slice.CumOnceFullFillPasOrderVolSmallSell          : float
+Slice.CumOrderAamtBuy                              : float
+Slice.CumOrderAamtSell                             : float
+Slice.CumOrderAmt25QuantilesBuy                    : vector
+Slice.CumOrderAmt25QuantilesSell                   : vector
+Slice.CumOrderAmtBuy                               : float
+Slice.CumOrderAmtSell                              : float
+Slice.CumOrderCntBuy                               : float
+Slice.CumOrderCntSell                              : float
+Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesBigBuy : vector
+Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesBigSell : vector
+Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesExtraBuy : vector
+Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesExtraSell : vector
+Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesMidBuy : vector
+Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesMidSell : vector
+Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesSmallBuy : vector
+Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesSmallSell : vector
+Slice.CumOrderFirstFillToCompleteFillSpanKurtBigBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanKurtBigSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanKurtExtraBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanKurtExtraSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanKurtMidBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanKurtMidSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanKurtSmallBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanKurtSmallSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanMeanBigBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanMeanBigSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanMeanExtraBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanMeanExtraSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanMeanMidBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanMeanMidSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanMeanSmallBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanMeanSmallSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanSkewBigBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanSkewBigSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanSkewExtraBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanSkewExtraSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanSkewMidBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanSkewMidSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanSkewSmallBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanSkewSmallSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanStdBigBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanStdBigSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanStdExtraBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanStdExtraSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanStdMidBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanStdMidSell : float
+Slice.CumOrderFirstFillToCompleteFillSpanStdSmallBuy : float
+Slice.CumOrderFirstFillToCompleteFillSpanStdSmallSell : float
+Slice.CumOrderReportToCompleteFillSpan25QuantilesBigBuy : vector
+Slice.CumOrderReportToCompleteFillSpan25QuantilesBigSell : vector
+Slice.CumOrderReportToCompleteFillSpan25QuantilesExtraBuy : vector
+Slice.CumOrderReportToCompleteFillSpan25QuantilesExtraSell : vector
+Slice.CumOrderReportToCompleteFillSpan25QuantilesMidBuy : vector
+Slice.CumOrderReportToCompleteFillSpan25QuantilesMidSell : vector
+Slice.CumOrderReportToCompleteFillSpan25QuantilesSmallBuy : vector
+Slice.CumOrderReportToCompleteFillSpan25QuantilesSmallSell : vector
+Slice.CumOrderReportToCompleteFillSpanKurtBigBuy   : float
+Slice.CumOrderReportToCompleteFillSpanKurtBigSell  : float
+Slice.CumOrderReportToCompleteFillSpanKurtExtraBuy : float
+Slice.CumOrderReportToCompleteFillSpanKurtExtraSell : float
+Slice.CumOrderReportToCompleteFillSpanKurtMidBuy   : float
+Slice.CumOrderReportToCompleteFillSpanKurtMidSell  : float
+Slice.CumOrderReportToCompleteFillSpanKurtSmallBuy : float
+Slice.CumOrderReportToCompleteFillSpanKurtSmallSell : float
+Slice.CumOrderReportToCompleteFillSpanMeanBigBuy   : float
+Slice.CumOrderReportToCompleteFillSpanMeanBigSell  : float
+Slice.CumOrderReportToCompleteFillSpanMeanExtraBuy : float
+Slice.CumOrderReportToCompleteFillSpanMeanExtraSell : float
+Slice.CumOrderReportToCompleteFillSpanMeanMidBuy   : float
+Slice.CumOrderReportToCompleteFillSpanMeanMidSell  : float
+Slice.CumOrderReportToCompleteFillSpanMeanSmallBuy : float
+Slice.CumOrderReportToCompleteFillSpanMeanSmallSell : float
+Slice.CumOrderReportToCompleteFillSpanSkewBigBuy   : float
+Slice.CumOrderReportToCompleteFillSpanSkewBigSell  : float
+Slice.CumOrderReportToCompleteFillSpanSkewExtraBuy : float
+Slice.CumOrderReportToCompleteFillSpanSkewExtraSell : float
+Slice.CumOrderReportToCompleteFillSpanSkewMidBuy   : float
+Slice.CumOrderReportToCompleteFillSpanSkewMidSell  : float
+Slice.CumOrderReportToCompleteFillSpanSkewSmallBuy : float
+Slice.CumOrderReportToCompleteFillSpanSkewSmallSell : float
+Slice.CumOrderReportToCompleteFillSpanStdBigBuy    : float
+Slice.CumOrderReportToCompleteFillSpanStdBigSell   : float
+Slice.CumOrderReportToCompleteFillSpanStdExtraBuy  : float
+Slice.CumOrderReportToCompleteFillSpanStdExtraSell : float
+Slice.CumOrderReportToCompleteFillSpanStdMidBuy    : float
+Slice.CumOrderReportToCompleteFillSpanStdMidSell   : float
+Slice.CumOrderReportToCompleteFillSpanStdSmallBuy  : float
+Slice.CumOrderReportToCompleteFillSpanStdSmallSell : float
+Slice.CumOrderReportToFirstFillSpan25QuantilesBigBuy : vector
+Slice.CumOrderReportToFirstFillSpan25QuantilesBigSell : vector
+Slice.CumOrderReportToFirstFillSpan25QuantilesExtraBuy : vector
+Slice.CumOrderReportToFirstFillSpan25QuantilesExtraSell : vector
+Slice.CumOrderReportToFirstFillSpan25QuantilesMidBuy : vector
+Slice.CumOrderReportToFirstFillSpan25QuantilesMidSell : vector
+Slice.CumOrderReportToFirstFillSpan25QuantilesSmallBuy : vector
+Slice.CumOrderReportToFirstFillSpan25QuantilesSmallSell : vector
+Slice.CumOrderReportToFirstFillSpanKurtBigBuy      : float
+Slice.CumOrderReportToFirstFillSpanKurtBigSell     : float
+Slice.CumOrderReportToFirstFillSpanKurtExtraBuy    : float
+Slice.CumOrderReportToFirstFillSpanKurtExtraSell   : float
+Slice.CumOrderReportToFirstFillSpanKurtMidBuy      : float
+Slice.CumOrderReportToFirstFillSpanKurtMidSell     : float
+Slice.CumOrderReportToFirstFillSpanKurtSmallBuy    : float
+Slice.CumOrderReportToFirstFillSpanKurtSmallSell   : float
+Slice.CumOrderReportToFirstFillSpanMeanBigBuy      : float
+Slice.CumOrderReportToFirstFillSpanMeanBigSell     : float
+Slice.CumOrderReportToFirstFillSpanMeanExtraBuy    : float
+Slice.CumOrderReportToFirstFillSpanMeanExtraSell   : float
+Slice.CumOrderReportToFirstFillSpanMeanMidBuy      : float
+Slice.CumOrderReportToFirstFillSpanMeanMidSell     : float
+Slice.CumOrderReportToFirstFillSpanMeanSmallBuy    : float
+Slice.CumOrderReportToFirstFillSpanMeanSmallSell   : float
+Slice.CumOrderReportToFirstFillSpanSkewBigBuy      : float
+Slice.CumOrderReportToFirstFillSpanSkewBigSell     : float
+Slice.CumOrderReportToFirstFillSpanSkewExtraBuy    : float
+Slice.CumOrderReportToFirstFillSpanSkewExtraSell   : float
+Slice.CumOrderReportToFirstFillSpanSkewMidBuy      : float
+Slice.CumOrderReportToFirstFillSpanSkewMidSell     : float
+Slice.CumOrderReportToFirstFillSpanSkewSmallBuy    : float
+Slice.CumOrderReportToFirstFillSpanSkewSmallSell   : float
+Slice.CumOrderReportToFirstFillSpanStdBigBuy       : float
+Slice.CumOrderReportToFirstFillSpanStdBigSell      : float
+Slice.CumOrderReportToFirstFillSpanStdExtraBuy     : float
+Slice.CumOrderReportToFirstFillSpanStdExtraSell    : float
+Slice.CumOrderReportToFirstFillSpanStdMidBuy       : float
+Slice.CumOrderReportToFirstFillSpanStdMidSell      : float
+Slice.CumOrderReportToFirstFillSpanStdSmallBuy     : float
+Slice.CumOrderReportToFirstFillSpanStdSmallSell    : float
+Slice.CumOrderVol25QuantilesBuy                    : vector
+Slice.CumOrderVol25QuantilesSell                   : vector
+Slice.CumOrderVolBuy                               : float
+Slice.CumOrderVolImbl                              : float
+Slice.CumOrderVolSell                              : float
+Slice.CumOrderVwapBuy                              : float
+Slice.CumOrderVwapSell                             : float
+Slice.CumPasOrderAamtBuy                           : float
+Slice.CumPasOrderAamtSell                          : float
+Slice.CumPasOrderAmtBuy                            : float
+Slice.CumPasOrderAmtSell                           : float
+Slice.CumPasOrderCntBuy                            : float
+Slice.CumPasOrderCntSell                           : float
+Slice.CumPasOrderVolBuy                            : float
+Slice.CumPasOrderVolImbl                           : float
+Slice.CumPasOrderVolSell                           : float
+Slice.CumPasOrderVwapBuy                           : float
+Slice.CumPasOrderVwapSell                          : float
+Slice.CumRegretFearTdaBuy                          : float
+Slice.CumRegretFearTdaSell                         : float
+Slice.CumRegretFearTdcBuy                          : float
+Slice.CumRegretFearTdcSell                         : float
+Slice.CumRegretFearTdvBuy                          : float
+Slice.CumRegretFearTdvSell                         : float
+Slice.CumTop5PctPriceTradeVwapBuy                  : float
+Slice.CumTop5PctPriceTradeVwapSell                 : float
+Slice.CumTop5PctVolTradeVwapBuy                    : float
+Slice.CumTop5PctVolTradeVwapSell                   : float
+Slice.CumTopVolTradeAvgPriceBuy                    : float
+Slice.CumTopVolTradeAvgPriceSell                   : float
+Slice.CumTotalAlgoAggOrderAamt                     : float
+Slice.CumTotalAlgoAggOrderAmt                      : float
+Slice.CumTotalAlgoAggOrderCnt                      : float
+Slice.CumTotalAlgoAggOrderVol                      : float
+Slice.CumTotalAlgoAggOrderVwap                     : float
+Slice.CumTotalAlgoPasOrderAamt                     : float
+Slice.CumTotalAlgoPasOrderAmt                      : float
+Slice.CumTotalAlgoPasOrderCnt                      : float
+Slice.CumTotalAlgoPasOrderVol                      : float
+Slice.CumTotalAlgoPasOrderVwap                     : float
+Slice.CumTotalBottom5PctPriceTradeVwap             : float
+Slice.CumTotalBottom5PctVolTradeVwap               : float
+Slice.CumTotalTop5PctPriceTradeVwap                : float
+Slice.CumTotalTop5PctVolTradeVwap                  : float
+Slice.CumTotalTopVolTradeAvgPrice                  : float
+Slice.CumTradeAamtBuy                              : float
+Slice.CumTradeAamtSell                             : float
+Slice.CumTradeAmt25QuantilesBuy                    : vector
+Slice.CumTradeAmt25QuantilesSell                   : vector
+Slice.CumTradeAmtBuy                               : float
+Slice.CumTradeAmtSell                              : float
+Slice.CumTradeCntBuy                               : float
+Slice.CumTradeCntSell                              : float
+Slice.CumTradeVol25QuantilesBuy                    : vector
+Slice.CumTradeVol25QuantilesSell                   : vector
+Slice.CumTradeVolBuy                               : float
+Slice.CumTradeVolImbl                              : float
+Slice.CumTradeVolSell                              : float
+Slice.CumTradeVwapBuy                              : float
+Slice.CumTradeVwapSell                             : float
+Slice.D1RelBigBuyFilledOrderRptVwap                : float
+Slice.D1RelBigBuyOrderFilledAmt                    : float
+Slice.D1RelBigBuyOrderFilledCnt                    : float
+Slice.D1RelBigBuyOrderFilledOrders                 : float
+Slice.D1RelBigBuyOrderFilledVol                    : float
+Slice.D1RelBigFilledOrderRptVwapInDownTrade        : float
+Slice.D1RelBigFilledOrderRptVwapInUpTrade          : float
+Slice.D1RelBigOrderFilledDownInAmtTrade            : float
+Slice.D1RelBigOrderFilledDownInCntTrade            : float
+Slice.D1RelBigOrderFilledDownInOrdersTrade         : float
+Slice.D1RelBigOrderFilledDownInVolTrade            : float
+Slice.D1RelBigOrderFilledUpInAmtTrade              : float
+Slice.D1RelBigOrderFilledUpInCntTrade              : float
+Slice.D1RelBigOrderFilledUpInOrdersTrade           : float
+Slice.D1RelBigOrderFilledUpInVolTrade              : float
+Slice.D1RelBigSellFilledOrderRptVwap               : float
+Slice.D1RelBigSellOrderFilledAmt                   : float
+Slice.D1RelBigSellOrderFilledCnt                   : float
+Slice.D1RelBigSellOrderFilledOrders                : float
+Slice.D1RelBigSellOrderFilledVol                   : float
+Slice.D1RelCancelOrderAmtBigBuy                    : float
+Slice.D1RelCancelOrderAmtBigSell                   : float
+Slice.D1RelCancelOrderAmtExtraBuy                  : float
+Slice.D1RelCancelOrderAmtExtraSell                 : float
+Slice.D1RelCancelOrderAmtMidBuy                    : float
+Slice.D1RelCancelOrderAmtMidSell                   : float
+Slice.D1RelCancelOrderAmtSmallBuy                  : float
+Slice.D1RelCancelOrderAmtSmallSell                 : float
+Slice.D1RelCancelOrderCntBigBuy                    : float
+Slice.D1RelCancelOrderCntBigSell                   : float
+Slice.D1RelCancelOrderCntExtraBuy                  : float
+Slice.D1RelCancelOrderCntExtraSell                 : float
+Slice.D1RelCancelOrderCntMidBuy                    : float
+Slice.D1RelCancelOrderCntMidSell                   : float
+Slice.D1RelCancelOrderCntSmallBuy                  : float
+Slice.D1RelCancelOrderCntSmallSell                 : float
+Slice.D1RelCancelOrderVolBigBuy                    : float
+Slice.D1RelCancelOrderVolBigSell                   : float
+Slice.D1RelCancelOrderVolExtraBuy                  : float
+Slice.D1RelCancelOrderVolExtraSell                 : float
+Slice.D1RelCancelOrderVolMidBuy                    : float
+Slice.D1RelCancelOrderVolMidSell                   : float
+Slice.D1RelCancelOrderVolSmallBuy                  : float
+Slice.D1RelCancelOrderVolSmallSell                 : float
+Slice.D1RelExtraBuyFilledOrderRptVwap              : float
+Slice.D1RelExtraBuyOrderFilledAmt                  : float
+Slice.D1RelExtraBuyOrderFilledCnt                  : float
+Slice.D1RelExtraBuyOrderFilledOrders               : float
+Slice.D1RelExtraBuyOrderFilledVol                  : float
+Slice.D1RelExtraFilledOrderRptVwapInDownTrade      : float
+Slice.D1RelExtraFilledOrderRptVwapInUpTrade        : float
+Slice.D1RelExtraOrderFilledDownInAmtTrade          : float
+Slice.D1RelExtraOrderFilledDownInCntTrade          : float
+Slice.D1RelExtraOrderFilledDownInOrdersTrade       : float
+Slice.D1RelExtraOrderFilledDownInVolTrade          : float
+Slice.D1RelExtraOrderFilledUpInAmtTrade            : float
+Slice.D1RelExtraOrderFilledUpInCntTrade            : float
+Slice.D1RelExtraOrderFilledUpInOrdersTrade         : float
+Slice.D1RelExtraOrderFilledUpInVolTrade            : float
+Slice.D1RelExtraSellFilledOrderRptVwap             : float
+Slice.D1RelExtraSellOrderFilledAmt                 : float
+Slice.D1RelExtraSellOrderFilledCnt                 : float
+Slice.D1RelExtraSellOrderFilledOrders              : float
+Slice.D1RelExtraSellOrderFilledVol                 : float
+Slice.D1RelMidBuyFilledOrderRptVwap                : float
+Slice.D1RelMidBuyOrderFilledAmt                    : float
+Slice.D1RelMidBuyOrderFilledCnt                    : float
+Slice.D1RelMidBuyOrderFilledOrders                 : float
+Slice.D1RelMidBuyOrderFilledVol                    : float
+Slice.D1RelMidFilledOrderRptVwapInDownTrade        : float
+Slice.D1RelMidFilledOrderRptVwapInUpTrade          : float
+Slice.D1RelMidOrderFilledDownInAmtTrade            : float
+Slice.D1RelMidOrderFilledDownInCntTrade            : float
+Slice.D1RelMidOrderFilledDownInOrdersTrade         : float
+Slice.D1RelMidOrderFilledDownInVolTrade            : float
+Slice.D1RelMidOrderFilledUpInAmtTrade              : float
+Slice.D1RelMidOrderFilledUpInCntTrade              : float
+Slice.D1RelMidOrderFilledUpInOrdersTrade           : float
+Slice.D1RelMidOrderFilledUpInVolTrade              : float
+Slice.D1RelMidSellFilledOrderRptVwap               : float
+Slice.D1RelMidSellOrderFilledAmt                   : float
+Slice.D1RelMidSellOrderFilledCnt                   : float
+Slice.D1RelMidSellOrderFilledOrders                : float
+Slice.D1RelMidSellOrderFilledVol                   : float
+Slice.D1RelOBAmtBigBuy                             : float
+Slice.D1RelOBAmtBigSell                            : float
+Slice.D1RelOBAmtExtraBuy                           : float
+Slice.D1RelOBAmtExtraSell                          : float
+Slice.D1RelOBAmtMidBuy                             : float
+Slice.D1RelOBAmtMidSell                            : float
+Slice.D1RelOBAmtSmallBuy                           : float
+Slice.D1RelOBAmtSmallSell                          : float
+Slice.D1RelOBCntBigBuy                             : float
+Slice.D1RelOBCntBigSell                            : float
+Slice.D1RelOBCntExtraBuy                           : float
+Slice.D1RelOBCntExtraSell                          : float
+Slice.D1RelOBCntMidBuy                             : float
+Slice.D1RelOBCntMidSell                            : float
+Slice.D1RelOBCntSmallBuy                           : float
+Slice.D1RelOBCntSmallSell                          : float
+Slice.D1RelOBLevelCntBigBuy                        : float
+Slice.D1RelOBLevelCntBigSell                       : float
+Slice.D1RelOBLevelCntExtraBuy                      : float
+Slice.D1RelOBLevelCntExtraSell                     : float
+Slice.D1RelOBLevelCntMidBuy                        : float
+Slice.D1RelOBLevelCntMidSell                       : float
+Slice.D1RelOBLevelCntSmallBuy                      : float
+Slice.D1RelOBLevelCntSmallSell                     : float
+Slice.D1RelOBLevelPriceMeanBigBuy                  : float
+Slice.D1RelOBLevelPriceMeanBigSell                 : float
+Slice.D1RelOBLevelPriceMeanExtraBuy                : float
+Slice.D1RelOBLevelPriceMeanExtraSell               : float
+Slice.D1RelOBLevelPriceMeanMidBuy                  : float
+Slice.D1RelOBLevelPriceMeanMidSell                 : float
+Slice.D1RelOBLevelPriceMeanSmallBuy                : float
+Slice.D1RelOBLevelPriceMeanSmallSell               : float
+Slice.D1RelOBLevelVolHHIBigBuy                     : float
+Slice.D1RelOBLevelVolHHIBigSell                    : float
+Slice.D1RelOBLevelVolHHIExtraBuy                   : float
+Slice.D1RelOBLevelVolHHIExtraSell                  : float
+Slice.D1RelOBLevelVolHHIMidBuy                     : float
+Slice.D1RelOBLevelVolHHIMidSell                    : float
+Slice.D1RelOBLevelVolHHISmallBuy                   : float
+Slice.D1RelOBLevelVolHHISmallSell                  : float
+Slice.D1RelOBLevelVolKurtBigBuy                    : float
+Slice.D1RelOBLevelVolKurtBigSell                   : float
+Slice.D1RelOBLevelVolKurtExtraBuy                  : float
+Slice.D1RelOBLevelVolKurtExtraSell                 : float
+Slice.D1RelOBLevelVolKurtMidBuy                    : float
+Slice.D1RelOBLevelVolKurtMidSell                   : float
+Slice.D1RelOBLevelVolKurtSmallBuy                  : float
+Slice.D1RelOBLevelVolKurtSmallSell                 : float
+Slice.D1RelOBLevelVolSkewBigBuy                    : float
+Slice.D1RelOBLevelVolSkewBigSell                   : float
+Slice.D1RelOBLevelVolSkewExtraBuy                  : float
+Slice.D1RelOBLevelVolSkewExtraSell                 : float
+Slice.D1RelOBLevelVolSkewMidBuy                    : float
+Slice.D1RelOBLevelVolSkewMidSell                   : float
+Slice.D1RelOBLevelVolSkewSmallBuy                  : float
+Slice.D1RelOBLevelVolSkewSmallSell                 : float
+Slice.D1RelOBLevelVolStdBigBuy                     : float
+Slice.D1RelOBLevelVolStdBigSell                    : float
+Slice.D1RelOBLevelVolStdExtraBuy                   : float
+Slice.D1RelOBLevelVolStdExtraSell                  : float
+Slice.D1RelOBLevelVolStdMidBuy                     : float
+Slice.D1RelOBLevelVolStdMidSell                    : float
+Slice.D1RelOBLevelVolStdSmallBuy                   : float
+Slice.D1RelOBLevelVolStdSmallSell                  : float
+Slice.D1RelOBVolBigBuy                             : float
+Slice.D1RelOBVolBigSell                            : float
+Slice.D1RelOBVolExtraBuy                           : float
+Slice.D1RelOBVolExtraSell                          : float
+Slice.D1RelOBVolMidBuy                             : float
+Slice.D1RelOBVolMidSell                            : float
+Slice.D1RelOBVolSmallBuy                           : float
+Slice.D1RelOBVolSmallSell                          : float
+Slice.D1RelOBVwapBigBuy                            : float
+Slice.D1RelOBVwapBigSell                           : float
+Slice.D1RelOBVwapExtraBuy                          : float
+Slice.D1RelOBVwapExtraSell                         : float
+Slice.D1RelOBVwapMidBuy                            : float
+Slice.D1RelOBVwapMidSell                           : float
+Slice.D1RelOBVwapSmallBuy                          : float
+Slice.D1RelOBVwapSmallSell                         : float
+Slice.D1RelOrderOrderAmtBigBuy                     : float
+Slice.D1RelOrderOrderAmtBigSell                    : float
+Slice.D1RelOrderOrderAmtExtraBuy                   : float
+Slice.D1RelOrderOrderAmtExtraSell                  : float
+Slice.D1RelOrderOrderAmtMidBuy                     : float
+Slice.D1RelOrderOrderAmtMidSell                    : float
+Slice.D1RelOrderOrderAmtSmallBuy                   : float
+Slice.D1RelOrderOrderAmtSmallSell                  : float
+Slice.D1RelOrderOrderCntBigBuy                     : float
+Slice.D1RelOrderOrderCntBigSell                    : float
+Slice.D1RelOrderOrderCntExtraBuy                   : float
+Slice.D1RelOrderOrderCntExtraSell                  : float
+Slice.D1RelOrderOrderCntMidBuy                     : float
+Slice.D1RelOrderOrderCntMidSell                    : float
+Slice.D1RelOrderOrderCntSmallBuy                   : float
+Slice.D1RelOrderOrderCntSmallSell                  : float
+Slice.D1RelOrderOrderVolBigBuy                     : float
+Slice.D1RelOrderOrderVolBigSell                    : float
+Slice.D1RelOrderOrderVolExtraBuy                   : float
+Slice.D1RelOrderOrderVolExtraSell                  : float
+Slice.D1RelOrderOrderVolMidBuy                     : float
+Slice.D1RelOrderOrderVolMidSell                    : float
+Slice.D1RelOrderOrderVolSmallBuy                   : float
+Slice.D1RelOrderOrderVolSmallSell                  : float
+Slice.D1RelSmallBuyFilledOrderRptVwap              : float
+Slice.D1RelSmallBuyOrderFilledAmt                  : float
+Slice.D1RelSmallBuyOrderFilledCnt                  : float
+Slice.D1RelSmallBuyOrderFilledOrders               : float
+Slice.D1RelSmallBuyOrderFilledVol                  : float
+Slice.D1RelSmallFilledOrderRptVwapInDownTrade      : float
+Slice.D1RelSmallFilledOrderRptVwapInUpTrade        : float
+Slice.D1RelSmallOrderFilledDownInAmtTrade          : float
+Slice.D1RelSmallOrderFilledDownInCntTrade          : float
+Slice.D1RelSmallOrderFilledDownInOrdersTrade       : float
+Slice.D1RelSmallOrderFilledDownInVolTrade          : float
+Slice.D1RelSmallOrderFilledUpInAmtTrade            : float
+Slice.D1RelSmallOrderFilledUpInCntTrade            : float
+Slice.D1RelSmallOrderFilledUpInOrdersTrade         : float
+Slice.D1RelSmallOrderFilledUpInVolTrade            : float
+Slice.D1RelSmallSellFilledOrderRptVwap             : float
+Slice.D1RelSmallSellOrderFilledAmt                 : float
+Slice.D1RelSmallSellOrderFilledCnt                 : float
+Slice.D1RelSmallSellOrderFilledOrders              : float
+Slice.D1RelSmallSellOrderFilledVol                 : float
+Slice.D1RelTBAmtBigBuy                             : float
+Slice.D1RelTBAmtBigSell                            : float
+Slice.D1RelTBAmtExtraBuy                           : float
+Slice.D1RelTBAmtExtraSell                          : float
+Slice.D1RelTBAmtMidBuy                             : float
+Slice.D1RelTBAmtMidSell                            : float
+Slice.D1RelTBAmtSmallBuy                           : float
+Slice.D1RelTBAmtSmallSell                          : float
+Slice.D1RelTBCntBigBuy                             : float
+Slice.D1RelTBCntBigSell                            : float
+Slice.D1RelTBCntExtraBuy                           : float
+Slice.D1RelTBCntExtraSell                          : float
+Slice.D1RelTBCntMidBuy                             : float
+Slice.D1RelTBCntMidSell                            : float
+Slice.D1RelTBCntSmallBuy                           : float
+Slice.D1RelTBCntSmallSell                          : float
+Slice.D1RelTBLevelVolHHIBigBuy                     : float
+Slice.D1RelTBLevelVolHHIBigSell                    : float
+Slice.D1RelTBLevelVolHHIExtraBuy                   : float
+Slice.D1RelTBLevelVolHHIExtraSell                  : float
+Slice.D1RelTBLevelVolHHIMidBuy                     : float
+Slice.D1RelTBLevelVolHHIMidSell                    : float
+Slice.D1RelTBLevelVolHHISmallBuy                   : float
+Slice.D1RelTBLevelVolHHISmallSell                  : float
+Slice.D1RelTBLevelVolKurtBigBuy                    : float
+Slice.D1RelTBLevelVolKurtBigSell                   : float
+Slice.D1RelTBLevelVolKurtExtraBuy                  : float
+Slice.D1RelTBLevelVolKurtExtraSell                 : float
+Slice.D1RelTBLevelVolKurtMidBuy                    : float
+Slice.D1RelTBLevelVolKurtMidSell                   : float
+Slice.D1RelTBLevelVolKurtSmallBuy                  : float
+Slice.D1RelTBLevelVolKurtSmallSell                 : float
+Slice.D1RelTBLevelVolSkewBigBuy                    : float
+Slice.D1RelTBLevelVolSkewBigSell                   : float
+Slice.D1RelTBLevelVolSkewExtraBuy                  : float
+Slice.D1RelTBLevelVolSkewExtraSell                 : float
+Slice.D1RelTBLevelVolSkewMidBuy                    : float
+Slice.D1RelTBLevelVolSkewMidSell                   : float
+Slice.D1RelTBLevelVolSkewSmallBuy                  : float
+Slice.D1RelTBLevelVolSkewSmallSell                 : float
+Slice.D1RelTBLevelVolStdBigBuy                     : float
+Slice.D1RelTBLevelVolStdBigSell                    : float
+Slice.D1RelTBLevelVolStdExtraBuy                   : float
+Slice.D1RelTBLevelVolStdExtraSell                  : float
+Slice.D1RelTBLevelVolStdMidBuy                     : float
+Slice.D1RelTBLevelVolStdMidSell                    : float
+Slice.D1RelTBLevelVolStdSmallBuy                   : float
+Slice.D1RelTBLevelVolStdSmallSell                  : float
+Slice.D1RelTBOrderCntBigBuy                        : float
+Slice.D1RelTBOrderCntBigSell                       : float
+Slice.D1RelTBOrderCntExtraBuy                      : float
+Slice.D1RelTBOrderCntExtraSell                     : float
+Slice.D1RelTBOrderCntMidBuy                        : float
+Slice.D1RelTBOrderCntMidSell                       : float
+Slice.D1RelTBOrderCntSmallBuy                      : float
+Slice.D1RelTBOrderCntSmallSell                     : float
+Slice.D1RelTBVolBigBuy                             : float
+Slice.D1RelTBVolBigSell                            : float
+Slice.D1RelTBVolExtraBuy                           : float
+Slice.D1RelTBVolExtraSell                          : float
+Slice.D1RelTBVolMidBuy                             : float
+Slice.D1RelTBVolMidSell                            : float
+Slice.D1RelTBVolSmallBuy                           : float
+Slice.D1RelTBVolSmallSell                          : float
+Slice.D1RelTBVwapBigBuy                            : float
+Slice.D1RelTBVwapBigSell                           : float
+Slice.D1RelTBVwapExtraBuy                          : float
+Slice.D1RelTBVwapExtraSell                         : float
+Slice.D1RelTBVwapMidBuy                            : float
+Slice.D1RelTBVwapMidSell                           : float
+Slice.D1RelTBVwapSmallBuy                          : float
+Slice.D1RelTBVwapSmallSell                         : float
+Slice.EventMask1                                   : float
+Slice.EventMask10                                  : float
+Slice.EventMask11                                  : float
+Slice.EventMask12                                  : float
+Slice.EventMask13                                  : float
+Slice.EventMask14                                  : float
+Slice.EventMask15                                  : float
+Slice.EventMask16                                  : float
+Slice.EventMask17                                  : float
+Slice.EventMask18                                  : float
+Slice.EventMask19                                  : float
+Slice.EventMask2                                   : float
+Slice.EventMask20                                  : float
+Slice.EventMask21                                  : float
+Slice.EventMask22                                  : float
+Slice.EventMask23                                  : float
+Slice.EventMask24                                  : float
+Slice.EventMask25                                  : float
+Slice.EventMask26                                  : float
+Slice.EventMask3                                   : float
+Slice.EventMask4                                   : float
+Slice.EventMask5                                   : float
+Slice.EventMask6                                   : float
+Slice.EventMask7                                   : float
+Slice.EventMask8                                   : float
+Slice.EventMask9                                   : float
+Slice.ExpEnd                                       : int
+Slice.ExpStart                                     : int
+Slice.FilledOrderAmtBuy                            : float
+Slice.FilledOrderAmtSell                           : float
+Slice.FilledOrderCntBuy                            : float
+Slice.FilledOrderCntInTradeDown                    : float
+Slice.FilledOrderCntInTradeUp                      : float
+Slice.FilledOrderCntSell                           : float
+Slice.FilledOrderRptVwapInTradeDown                : float
+Slice.FilledOrderRptVwapInTradeUp                  : float
+Slice.FilledOrderVolBuy                            : float
+Slice.FilledOrderVolSell                           : float
+Slice.FullCancelledOrderAmtBigBuy                  : float
+Slice.FullCancelledOrderAmtBigSell                 : float
+Slice.FullCancelledOrderAmtExtraBuy                : float
+Slice.FullCancelledOrderAmtExtraSell               : float
+Slice.FullCancelledOrderAmtMidBuy                  : float
+Slice.FullCancelledOrderAmtMidSell                 : float
+Slice.FullCancelledOrderAmtSmallBuy                : float
+Slice.FullCancelledOrderAmtSmallSell               : float
+Slice.FullCancelledOrderCntBigBuy                  : float
+Slice.FullCancelledOrderCntBigSell                 : float
+Slice.FullCancelledOrderCntExtraBuy                : float
+Slice.FullCancelledOrderCntExtraSell               : float
+Slice.FullCancelledOrderCntMidBuy                  : float
+Slice.FullCancelledOrderCntMidSell                 : float
+Slice.FullCancelledOrderCntSmallBuy                : float
+Slice.FullCancelledOrderCntSmallSell               : float
+Slice.FullCancelledOrderVolBigBuy                  : float
+Slice.FullCancelledOrderVolBigSell                 : float
+Slice.FullCancelledOrderVolExtraBuy                : float
+Slice.FullCancelledOrderVolExtraSell               : float
+Slice.FullCancelledOrderVolMidBuy                  : float
+Slice.FullCancelledOrderVolMidSell                 : float
+Slice.FullCancelledOrderVolSmallBuy                : float
+Slice.FullCancelledOrderVolSmallSell               : float
+Slice.GiveupCancelAmtBuy                           : float
+Slice.GiveupCancelAmtSell                          : float
+Slice.GiveupCancelCntBuy                           : float
+Slice.GiveupCancelCntSell                          : float
+Slice.GiveupCancelVolBuy                           : float
+Slice.GiveupCancelVolSell                          : float
+Slice.High                                         : float
+Slice.Index                                        : int
+Slice.InstOrderAamtBuy                             : float
+Slice.InstOrderAamtSell                            : float
+Slice.InstOrderAmtBuy                              : float
+Slice.InstOrderAmtSell                             : float
+Slice.InstOrderCntBuy                              : float
+Slice.InstOrderCntSell                             : float
+Slice.InstOrderVolBuy                              : float
+Slice.InstOrderVolSell                             : float
+Slice.InstOrderVwapBuy                             : float
+Slice.InstOrderVwapSell                            : float
+Slice.IsDT                                         : bool
+Slice.IsZT                                         : bool
+Slice.LastPrice                                    : float
+Slice.LongestPriceDownPasOrderCnt                  : float
+Slice.LongestPriceDownSize                         : float
+Slice.LongestPriceDownSpan                         : float
+Slice.LongestPriceDownTradeAmt                     : float
+Slice.LongestPriceDownTradeCnt                     : float
+Slice.LongestPriceDownTradeVol                     : float
+Slice.LongestPriceUpPasOrderCnt                    : float
+Slice.LongestPriceUpSize                           : float
+Slice.LongestPriceUpSpan                           : float
+Slice.LongestPriceUpTradeAmt                       : float
+Slice.LongestPriceUpTradeCnt                       : float
+Slice.LongestPriceUpTradeVol                       : float
+Slice.LossTradeAmtCloseBuy                         : float
+Slice.LossTradeAmtCloseSell                        : float
+Slice.LossTradeAmtVwapBuy                          : float
+Slice.LossTradeAmtVwapSell                         : float
+Slice.LossTradeCntCloseBuy                         : float
+Slice.LossTradeCntCloseSell                        : float
+Slice.LossTradeCntVwapBuy                          : float
+Slice.LossTradeCntVwapSell                         : float
+Slice.LossTradeVolCloseBuy                         : float
+Slice.LossTradeVolCloseSell                        : float
+Slice.LossTradeVolVwapBuy                          : float
+Slice.LossTradeVolVwapSell                         : float
+Slice.Low                                          : float
+Slice.MaxFilledVolOrderPriceBuy                    : float
+Slice.MaxFilledVolOrderPriceInTradeDown            : float
+Slice.MaxFilledVolOrderPriceInTradeUp              : float
+Slice.MaxFilledVolOrderPriceSell                   : float
+Slice.MaxOrderFilledAmtInTradeDown                 : float
+Slice.MaxOrderFilledAmtInTradeUp                   : float
+Slice.MaxOrderFilledVolInTradeDown                 : float
+Slice.MaxOrderFilledVolInTradeUp                   : float
+Slice.MidPrice                                     : float
+Slice.MidpriceDownCnt                              : float
+Slice.MidpriceDownNormedSpan                       : float
+Slice.MidpriceDownSize                             : float
+Slice.MidpriceStayAggOrderAmtBuy                   : float
+Slice.MidpriceStayAggOrderAmtSell                  : float
+Slice.MidpriceStayAggOrderCntBuy                   : float
+Slice.MidpriceStayAggOrderCntSell                  : float
+Slice.MidpriceStayAggOrderVolBuy                   : float
+Slice.MidpriceStayAggOrderVolSell                  : float
+Slice.MidpriceStayCancelAmtBuy                     : float
+Slice.MidpriceStayCancelAmtSell                    : float
+Slice.MidpriceStayCancelCntBuy                     : float
+Slice.MidpriceStayCancelCntSell                    : float
+Slice.MidpriceStayCancelVolBuy                     : float
+Slice.MidpriceStayCancelVolSell                    : float
+Slice.MidpriceStayPasOrderAmtBuy                   : float
+Slice.MidpriceStayPasOrderAmtSell                  : float
+Slice.MidpriceStayPasOrderCntBuy                   : float
+Slice.MidpriceStayPasOrderCntSell                  : float
+Slice.MidpriceStayPasOrderVolBuy                   : float
+Slice.MidpriceStayPasOrderVolSell                  : float
+Slice.MidpriceUpCnt                                : float
+Slice.MidpriceUpNormedSpan                         : float
+Slice.MidpriceUpSize                               : float
+Slice.NegTradeRetSquareSum                         : float
+Slice.NetTDV                                       : float
+Slice.NormalRet                                    : float
+Slice.OB10AmtBuy                                   : float
+Slice.OB10AmtSell                                  : float
+Slice.OB10NetAmtBuy                                : float
+Slice.OB10NetAmtSell                               : float
+Slice.OB10NetVolBuy                                : float
+Slice.OB10NetVolImbl                               : float
+Slice.OB10NetVolSell                               : float
+Slice.OB10SupportAmtBuy                            : float
+Slice.OB10SupportAmtSell                           : float
+Slice.OB10SupportPriceBuy                          : float
+Slice.OB10SupportPriceSell                         : float
+Slice.OB10SupportVolBuy                            : float
+Slice.OB10SupportVolImbl                           : float
+Slice.OB10SupportVolSell                           : float
+Slice.OB10VolBuy                                   : float
+Slice.OB10VolImbl                                  : float
+Slice.OB10VolSell                                  : float
+Slice.OB10VwapBuy                                  : float
+Slice.OB10VwapSell                                 : float
+Slice.OBAmtBuy                                     : float
+Slice.OBAmtSell                                    : float
+Slice.OBCntBuy                                     : float
+Slice.OBCntSell                                    : float
+Slice.OBLevelCntBuy                                : float
+Slice.OBLevelCntSell                               : float
+Slice.OBLevelPriceMeanBuy                          : float
+Slice.OBLevelPriceMeanSell                         : float
+Slice.OBLevelVolHHIBuy                             : float
+Slice.OBLevelVolHHISell                            : float
+Slice.OBLevelVolKurtBuy                            : float
+Slice.OBLevelVolKurtSell                           : float
+Slice.OBLevelVolSkewBuy                            : float
+Slice.OBLevelVolSkewSell                           : float
+Slice.OBLevelVolStdBuy                             : float
+Slice.OBLevelVolStdSell                            : float
+Slice.OBNetAmtBuy                                  : float
+Slice.OBNetAmtSell                                 : float
+Slice.OBNetVolBuy                                  : float
+Slice.OBNetVolImbl                                 : float
+Slice.OBNetVolSell                                 : float
+Slice.OBSupportAmtBuy                              : float
+Slice.OBSupportAmtSell                             : float
+Slice.OBSupportPriceBuy                            : float
+Slice.OBSupportPriceSell                           : float
+Slice.OBSupportVolBuy                              : float
+Slice.OBSupportVolImbl                             : float
+Slice.OBSupportVolSell                             : float
+Slice.OBVolBuy                                     : float
+Slice.OBVolImbl                                    : float
+Slice.OBVolSell                                    : float
+Slice.OBVwapBuy                                    : float
+Slice.OBVwapSell                                   : float
+Slice.Ob10VwImblIntercept                          : float
+Slice.Ob10VwImblSlope                              : float
+Slice.ObMouthImblIntercept                         : float
+Slice.ObMouthImblSlope                             : float
+Slice.ObMouthTwSquareVolMeanBuy                    : float
+Slice.ObMouthTwSquareVolMeanSell                   : float
+Slice.ObMouthTwVolMeanBuy                          : float
+Slice.ObMouthTwVolMeanSell                         : float
+Slice.OddTradeAmtBuy                               : float
+Slice.OddTradeAmtSell                              : float
+Slice.OddTradeCntBuy                               : float
+Slice.OddTradeCntSell                              : float
+Slice.OddTradeVolBuy                               : float
+Slice.OddTradeVolSell                              : float
+Slice.OptimalCancelAvgLifespanBuy                  : float
+Slice.OptimalCancelAvgLifespanSell                 : float
+Slice.OptimalCancelVwaLifespanBuy                  : float
+Slice.OptimalCancelVwaLifespanSell                 : float
+Slice.OrderAamtBuy                                 : float
+Slice.OrderAamtSell                                : float
+Slice.OrderAggTdaBigBuy                            : float
+Slice.OrderAggTdaBigSell                           : float
+Slice.OrderAggTdaExtraBuy                          : float
+Slice.OrderAggTdaExtraSell                         : float
+Slice.OrderAggTdaMidBuy                            : float
+Slice.OrderAggTdaMidSell                           : float
+Slice.OrderAggTdaSmallBuy                          : float
+Slice.OrderAggTdaSmallSell                         : float
+Slice.OrderAggTdcBigBuy                            : float
+Slice.OrderAggTdcBigSell                           : float
+Slice.OrderAggTdcExtraBuy                          : float
+Slice.OrderAggTdcExtraSell                         : float
+Slice.OrderAggTdcMidBuy                            : float
+Slice.OrderAggTdcMidSell                           : float
+Slice.OrderAggTdcSmallBuy                          : float
+Slice.OrderAggTdcSmallSell                         : float
+Slice.OrderAggTdvBigBuy                            : float
+Slice.OrderAggTdvBigSell                           : float
+Slice.OrderAggTdvExtraBuy                          : float
+Slice.OrderAggTdvExtraSell                         : float
+Slice.OrderAggTdvMidBuy                            : float
+Slice.OrderAggTdvMidSell                           : float
+Slice.OrderAggTdvSmallBuy                          : float
+Slice.OrderAggTdvSmallSell                         : float
+Slice.OrderAmtBigBuy                               : float
+Slice.OrderAmtBigSell                              : float
+Slice.OrderAmtBuy                                  : float
+Slice.OrderAmtExtraBuy                             : float
+Slice.OrderAmtExtraSell                            : float
+Slice.OrderAmtMidBuy                               : float
+Slice.OrderAmtMidSell                              : float
+Slice.OrderAmtSell                                 : float
+Slice.OrderAmtSmallBuy                             : float
+Slice.OrderAmtSmallSell                            : float
+Slice.OrderCauseMidpDownGapMean                    : float
+Slice.OrderCauseMidpUpGapMean                      : float
+Slice.OrderCntBigBuy                               : float
+Slice.OrderCntBigSell                              : float
+Slice.OrderCntBuy                                  : float
+Slice.OrderCntExtraBuy                             : float
+Slice.OrderCntExtraSell                            : float
+Slice.OrderCntMidBuy                               : float
+Slice.OrderCntMidSell                              : float
+Slice.OrderCntSell                                 : float
+Slice.OrderCntSmallBuy                             : float
+Slice.OrderCntSmallSell                            : float
+Slice.OrderFilledPartMaxAmtBuy                     : float
+Slice.OrderFilledPartMaxAmtSell                    : float
+Slice.OrderFilledPartMaxVolBuy                     : float
+Slice.OrderFilledPartMaxVolSell                    : float
+Slice.OrderVolBigBuy                               : float
+Slice.OrderVolBigSell                              : float
+Slice.OrderVolBuy                                  : float
+Slice.OrderVolCloseBuy                             : float
+Slice.OrderVolCloseSell                            : float
+Slice.OrderVolExtraBuy                             : float
+Slice.OrderVolExtraSell                            : float
+Slice.OrderVolFarBuy                               : float
+Slice.OrderVolFarSell                              : float
+Slice.OrderVolImbl                                 : float
+Slice.OrderVolMidBuy                               : float
+Slice.OrderVolMidSell                              : float
+Slice.OrderVolSell                                 : float
+Slice.OrderVolSmallBuy                             : float
+Slice.OrderVolSmallSell                            : float
+Slice.OrderVwapBuy                                 : float
+Slice.OrderVwapSell                                : float
+Slice.PartialCancelledOrderAmtBigBuy               : float
+Slice.PartialCancelledOrderAmtBigSell              : float
+Slice.PartialCancelledOrderAmtExtraBuy             : float
+Slice.PartialCancelledOrderAmtExtraSell            : float
+Slice.PartialCancelledOrderAmtMidBuy               : float
+Slice.PartialCancelledOrderAmtMidSell              : float
+Slice.PartialCancelledOrderAmtSmallBuy             : float
+Slice.PartialCancelledOrderAmtSmallSell            : float
+Slice.PartialCancelledOrderCntBigBuy               : float
+Slice.PartialCancelledOrderCntBigSell              : float
+Slice.PartialCancelledOrderCntExtraBuy             : float
+Slice.PartialCancelledOrderCntExtraSell            : float
+Slice.PartialCancelledOrderCntMidBuy               : float
+Slice.PartialCancelledOrderCntMidSell              : float
+Slice.PartialCancelledOrderCntSmallBuy             : float
+Slice.PartialCancelledOrderCntSmallSell            : float
+Slice.PartialCancelledOrderVolBigBuy               : float
+Slice.PartialCancelledOrderVolBigSell              : float
+Slice.PartialCancelledOrderVolExtraBuy             : float
+Slice.PartialCancelledOrderVolExtraSell            : float
+Slice.PartialCancelledOrderVolMidBuy               : float
+Slice.PartialCancelledOrderVolMidSell              : float
+Slice.PartialCancelledOrderVolSmallBuy             : float
+Slice.PartialCancelledOrderVolSmallSell            : float
+Slice.PartialSpan1by3AggOrderAmtBuy                : vector
+Slice.PartialSpan1by3AggOrderAmtSell               : vector
+Slice.PartialSpan1by3AggOrderCntBuy                : vector
+Slice.PartialSpan1by3AggOrderCntSell               : vector
+Slice.PartialSpan1by3AggOrderVolBuy                : vector
+Slice.PartialSpan1by3AggOrderVolSell               : vector
+Slice.PartialSpan1by3CancelAmtBuy                  : vector
+Slice.PartialSpan1by3CancelAmtSell                 : vector
+Slice.PartialSpan1by3CancelCntBuy                  : vector
+Slice.PartialSpan1by3CancelCntSell                 : vector
+Slice.PartialSpan1by3CancelVolBuy                  : vector
+Slice.PartialSpan1by3CancelVolSell                 : vector
+Slice.PartialSpan1by3PasOrderAmtBuy                : vector
+Slice.PartialSpan1by3PasOrderAmtSell               : vector
+Slice.PartialSpan1by3PasOrderCntBuy                : vector
+Slice.PartialSpan1by3PasOrderCntSell               : vector
+Slice.PartialSpan1by3PasOrderVolBuy                : vector
+Slice.PartialSpan1by3PasOrderVolSell               : vector
+Slice.PartialSpan1by3TradeAmtBuy                   : vector
+Slice.PartialSpan1by3TradeAmtSell                  : vector
+Slice.PartialSpan1by3TradeCntBuy                   : vector
+Slice.PartialSpan1by3TradeCntSell                  : vector
+Slice.PartialSpan1by3TradeVolBuy                   : vector
+Slice.PartialSpan1by3TradeVolSell                  : vector
+Slice.PasOrderAamtBuy                              : float
+Slice.PasOrderAamtSell                             : float
+Slice.PasOrderAmtBuy                               : float
+Slice.PasOrderAmtSell                              : float
+Slice.PasOrderCauseMidpDownAmt                     : float
+Slice.PasOrderCauseMidpDownCnt                     : float
+Slice.PasOrderCauseMidpDownGapMean                 : float
+Slice.PasOrderCauseMidpDownVol                     : float
+Slice.PasOrderCauseMidpUpAmt                       : float
+Slice.PasOrderCauseMidpUpCnt                       : float
+Slice.PasOrderCauseMidpUpGapMean                   : float
+Slice.PasOrderCauseMidpUpVol                       : float
+Slice.PasOrderCntBuy                               : float
+Slice.PasOrderCntSell                              : float
+Slice.PasOrderHalfSpreadVolBuy                     : float
+Slice.PasOrderHalfSpreadVolSell                    : float
+Slice.PasOrderPerLevelAmtBuy                       : vector
+Slice.PasOrderPerLevelAmtSell                      : vector
+Slice.PasOrderPerLevelCntBuy                       : vector
+Slice.PasOrderPerLevelCntSell                      : vector
+Slice.PasOrderPerLevelVolBuy                       : vector
+Slice.PasOrderPerLevelVolSell                      : vector
+Slice.PasOrderSpreadVolBuy                         : float
+Slice.PasOrderSpreadVolSell                        : float
+Slice.PasOrderVolBuy                               : float
+Slice.PasOrderVolImbl                              : float
+Slice.PasOrderVolSell                              : float
+Slice.PasOrderVwapBuy                              : float
+Slice.PasOrderVwapSell                             : float
+Slice.PosTradeRetSquareSum                         : float
+Slice.PriceDownNormedSpan                          : float
+Slice.PriceDownTradeAmt                            : float
+Slice.PriceDownTradeCnt                            : float
+Slice.PriceDownTradeVol                            : float
+Slice.PriceStayNormedSpan                          : float
+Slice.PriceStayTradeAmt                            : float
+Slice.PriceStayTradeCnt                            : float
+Slice.PriceStayTradeVol                            : float
+Slice.PriceUpNormedSpan                            : float
+Slice.PriceUpTradeAmt                              : float
+Slice.PriceUpTradeCnt                              : float
+Slice.PriceUpTradeVol                              : float
+Slice.ProfitTradeAmtCloseBuy                       : float
+Slice.ProfitTradeAmtCloseSell                      : float
+Slice.ProfitTradeAmtVwapBuy                        : float
+Slice.ProfitTradeAmtVwapSell                       : float
+Slice.ProfitTradeCntCloseBuy                       : float
+Slice.ProfitTradeCntCloseSell                      : float
+Slice.ProfitTradeCntVwapBuy                        : float
+Slice.ProfitTradeCntVwapSell                       : float
+Slice.ProfitTradeVolCloseBuy                       : float
+Slice.ProfitTradeVolCloseSell                      : float
+Slice.ProfitTradeVolVwapBuy                        : float
+Slice.ProfitTradeVolVwapSell                       : float
+Slice.RegretFearTdaBuy                             : float
+Slice.RegretFearTdaSell                            : float
+Slice.RegretFearTdcBuy                             : float
+Slice.RegretFearTdcSell                            : float
+Slice.RegretFearTdvBuy                             : float
+Slice.RegretFearTdvSell                            : float
+Slice.RemainTickCntRatioBuy                        : float
+Slice.RemainTickCntRatioSell                       : float
+Slice.Ret                                          : float
+Slice.RetLiquidity                                 : float
+Slice.RetailTradeAmtBuy                            : float
+Slice.RetailTradeAmtSell                           : float
+Slice.RetailTradeCntBuy                            : float
+Slice.RetailTradeCntSell                           : float
+Slice.RetailTradeVolBuy                            : float
+Slice.RetailTradeVolSell                           : float
+Slice.RoundTradeAmtBuy                             : float
+Slice.RoundTradeAmtSell                            : float
+Slice.RoundTradeCntBuy                             : float
+Slice.RoundTradeCntSell                            : float
+Slice.RoundTradeVolBuy                             : float
+Slice.RoundTradeVolSell                            : float
+Slice.SinceOpenSharpe                              : float
+Slice.SinceOpenVolatility                          : float
+Slice.StartPrice                                   : float
+Slice.TBAmtBuy                                     : float
+Slice.TBAmtSell                                    : float
+Slice.TBCntBuy                                     : float
+Slice.TBCntSell                                    : float
+Slice.TBLevelVolHHIBuy                             : float
+Slice.TBLevelVolHHISell                            : float
+Slice.TBLevelVolKurtBuy                            : float
+Slice.TBLevelVolKurtSell                           : float
+Slice.TBLevelVolSkewBuy                            : float
+Slice.TBLevelVolSkewSell                           : float
+Slice.TBLevelVolStdBuy                             : float
+Slice.TBLevelVolStdSell                            : float
+Slice.TBOrderCntBuy                                : float
+Slice.TBOrderCntSell                               : float
+Slice.TBVolBuy                                     : float
+Slice.TBVolSell                                    : float
+Slice.TBVwapBuy                                    : float
+Slice.TBVwapSell                                   : float
+Slice.TdvProbDstrMeanKurtBuy                       : float
+Slice.TdvProbDstrMeanKurtSell                      : float
+Slice.TdvProbDstrMeanMeanBuy                       : float
+Slice.TdvProbDstrMeanMeanSell                      : float
+Slice.TdvProbDstrMeanSkewBuy                       : float
+Slice.TdvProbDstrMeanSkewSell                      : float
+Slice.TdvProbDstrMeanStdBuy                        : float
+Slice.TdvProbDstrMeanStdSell                       : float
+Slice.TickLastpriceIntercept                       : float
+Slice.TickLastpriceSlope                           : float
+Slice.TickOB10NetVolImblMean                       : float
+Slice.TickOB10PriceDistMeanImbl                    : float
+Slice.TickOB10PriceDistSkewImbl                    : float
+Slice.TickOB10PriceDistStdImbl                     : float
+Slice.TickOB10SupportVolImblMean                   : float
+Slice.TickOB10VolImblMean                          : vector
+Slice.TickOB10VolImblStd                           : vector
+Slice.TickOB9BestPriceDiffImblMean                 : vector
+Slice.TickOB9BestPriceDiffImblStd                  : vector
+Slice.TickTradeVolIntercept                        : float
+Slice.TickTradeVolSlope                            : float
+Slice.Top20PctTdpPvDstrKurtBuy                     : float
+Slice.Top20PctTdpPvDstrKurtSell                    : float
+Slice.Top20PctTdpPvDstrMeanBuy                     : float
+Slice.Top20PctTdpPvDstrMeanSell                    : float
+Slice.Top20PctTdpPvDstrSkewBuy                     : float
+Slice.Top20PctTdpPvDstrSkewSell                    : float
+Slice.Top20PctTdpPvDstrStdBuy                      : float
+Slice.Top20PctTdpPvDstrStdSell                     : float
+Slice.Top20PctTdpTdaBuy                            : float
+Slice.Top20PctTdpTdaSell                           : float
+Slice.Top20PctTdpTdcBuy                            : float
+Slice.Top20PctTdpTdcSell                           : float
+Slice.Top20PctTdpTdvBuy                            : float
+Slice.Top20PctTdpTdvProbDstrKurtBuy                : float
+Slice.Top20PctTdpTdvProbDstrKurtSell               : float
+Slice.Top20PctTdpTdvProbDstrMeanBuy                : float
+Slice.Top20PctTdpTdvProbDstrMeanSell               : float
+Slice.Top20PctTdpTdvProbDstrSkewBuy                : float
+Slice.Top20PctTdpTdvProbDstrSkewSell               : float
+Slice.Top20PctTdpTdvProbDstrStdBuy                 : float
+Slice.Top20PctTdpTdvProbDstrStdSell                : float
+Slice.Top20PctTdpTdvSell                           : float
+Slice.TopPriceLifespanBuy                          : float
+Slice.TopPriceLifespanSell                         : float
+Slice.TotalAggOrderAamt                            : float
+Slice.TotalAggOrderAmt                             : float
+Slice.TotalAggOrderCnt                             : float
+Slice.TotalAggOrderVol                             : float
+Slice.TotalAggOrderVwap                            : float
+Slice.TotalAlgoAggOrderAamt                        : float
+Slice.TotalAlgoAggOrderAmt                         : float
+Slice.TotalAlgoAggOrderCnt                         : float
+Slice.TotalAlgoAggOrderVol                         : float
+Slice.TotalAlgoAggOrderVwap                        : float
+Slice.TotalAlgoPasOrderAamt                        : float
+Slice.TotalAlgoPasOrderAmt                         : float
+Slice.TotalAlgoPasOrderCnt                         : float
+Slice.TotalAlgoPasOrderVol                         : float
+Slice.TotalAlgoPasOrderVwap                        : float
+Slice.TotalBottom20PctTdpPvDstrKurt                : float
+Slice.TotalBottom20PctTdpPvDstrMean                : float
+Slice.TotalBottom20PctTdpPvDstrSkew                : float
+Slice.TotalBottom20PctTdpPvDstrStd                 : float
+Slice.TotalBottom20PctTdpTda                       : float
+Slice.TotalBottom20PctTdpTdc                       : float
+Slice.TotalBottom20PctTdpTdv                       : float
+Slice.TotalBottom20PctTdpTdvProbDstrKurt           : float
+Slice.TotalBottom20PctTdpTdvProbDstrMean           : float
+Slice.TotalBottom20PctTdpTdvProbDstrSkew           : float
+Slice.TotalBottom20PctTdpTdvProbDstrStd            : float
+Slice.TotalBottomPriceLifespan                     : float
+Slice.TotalCancelAamt                              : float
+Slice.TotalCancelAmt                               : float
+Slice.TotalCancelCnt                               : float
+Slice.TotalCancelVol                               : float
+Slice.TotalCancelVwap                              : float
+Slice.TotalCumAggOrderAamt                         : float
+Slice.TotalCumAggOrderAmt                          : float
+Slice.TotalCumAggOrderCnt                          : float
+Slice.TotalCumAggOrderVol                          : float
+Slice.TotalCumAggOrderVwap                         : float
+Slice.TotalCumCancelAamt                           : float
+Slice.TotalCumCancelAmt                            : float
+Slice.TotalCumCancelCnt                            : float
+Slice.TotalCumCancelVol                            : float
+Slice.TotalCumCancelVwap                           : float
+Slice.TotalCumOrderAamt                            : float
+Slice.TotalCumOrderAmt                             : float
+Slice.TotalCumOrderCnt                             : float
+Slice.TotalCumOrderVol                             : float
+Slice.TotalCumOrderVwap                            : float
+Slice.TotalCumPasOrderAamt                         : float
+Slice.TotalCumPasOrderAmt                          : float
+Slice.TotalCumPasOrderCnt                          : float
+Slice.TotalCumPasOrderVol                          : float
+Slice.TotalCumPasOrderVwap                         : float
+Slice.TotalCumTradeAamt                            : float
+Slice.TotalCumTradeAmt                             : float
+Slice.TotalCumTradeCnt                             : float
+Slice.TotalCumTradeVol                             : float
+Slice.TotalCumTradeVwap                            : float
+Slice.TotalOB10NetAmt                              : float
+Slice.TotalOB10NetVol                              : float
+Slice.TotalOBNetAmt                                : float
+Slice.TotalOBNetVol                                : float
+Slice.TotalOrderAamt                               : float
+Slice.TotalOrderAmt                                : float
+Slice.TotalOrderCnt                                : float
+Slice.TotalOrderVol                                : float
+Slice.TotalOrderVwap                               : float
+Slice.TotalPasOrderAamt                            : float
+Slice.TotalPasOrderAmt                             : float
+Slice.TotalPasOrderCnt                             : float
+Slice.TotalPasOrderVol                             : float
+Slice.TotalPasOrderVwap                            : float
+Slice.TotalTdvProbDstrMeanKurt                     : float
+Slice.TotalTdvProbDstrMeanMean                     : float
+Slice.TotalTdvProbDstrMeanSkew                     : float
+Slice.TotalTdvProbDstrMeanStd                      : float
+Slice.TotalTop20PctTdpPvDstrKurt                   : float
+Slice.TotalTop20PctTdpPvDstrMean                   : float
+Slice.TotalTop20PctTdpPvDstrSkew                   : float
+Slice.TotalTop20PctTdpPvDstrStd                    : float
+Slice.TotalTop20PctTdpTda                          : float
+Slice.TotalTop20PctTdpTdc                          : float
+Slice.TotalTop20PctTdpTdv                          : float
+Slice.TotalTop20PctTdpTdvProbDstrKurt              : float
+Slice.TotalTop20PctTdpTdvProbDstrMean              : float
+Slice.TotalTop20PctTdpTdvProbDstrSkew              : float
+Slice.TotalTop20PctTdpTdvProbDstrStd               : float
+Slice.TotalTopPriceLifespan                        : float
+Slice.TotalTradeAamt                               : float
+Slice.TotalTradeAmt                                : float
+Slice.TotalTradeCnt                                : float
+Slice.TotalTradePvDstrKurt                         : float
+Slice.TotalTradePvDstrMean                         : float
+Slice.TotalTradePvDstrSkew                         : float
+Slice.TotalTradePvDstrStd                          : float
+Slice.TotalTradeVol                                : float
+Slice.TotalTradeVwap                               : float
+Slice.TradeAamtBuy                                 : float
+Slice.TradeAamtSell                                : float
+Slice.TradeAmtBuy                                  : float
+Slice.TradeAmtInTradeDown                          : float
+Slice.TradeAmtInTradeUp                            : float
+Slice.TradeAmtOutStdRatioBuy                       : vector
+Slice.TradeAmtOutStdRatioSell                      : vector
+Slice.TradeAmtSell                                 : float
+Slice.TradeCntBuy                                  : float
+Slice.TradeCntInTradeDown                          : float
+Slice.TradeCntInTradeUp                            : float
+Slice.TradeCntSell                                 : float
+Slice.TradePvDstrKurtBuy                           : float
+Slice.TradePvDstrKurtSell                          : float
+Slice.TradePvDstrMeanBuy                           : float
+Slice.TradePvDstrMeanSell                          : float
+Slice.TradePvDstrSkewBuy                           : float
+Slice.TradePvDstrSkewSell                          : float
+Slice.TradePvDstrStdBuy                            : float
+Slice.TradePvDstrStdSell                           : float
+Slice.TradeVolBuy                                  : float
+Slice.TradeVolImbl                                 : float
+Slice.TradeVolInTradeDown                          : float
+Slice.TradeVolInTradeUp                            : float
+Slice.TradeVolSell                                 : float
+Slice.TradeVwapBuy                                 : float
+Slice.TradeVwapSell                                : float
+
+
+============================================================
+【第三部分】环境使用的字段清单 (共 695 个)
+============================================================
+[OK] Preload.Concepts
+[OK] Preload.ConceptSize
+[OK] Preload.Universe
+[OK] Preload.UniverseSize
+[OK] Preload.SW1
+[OK] Preload.SW1Size
+[OK] Preload.SW2
+[OK] Preload.SW2Size
+[OK] Preload.SW3
+[OK] Preload.SW3Size
+[OK] Preload.Category
+[OK] Preload.Exchange
+[OK] Preload.Board
+[OK] Preload.IsSH
+[OK] Preload.IsSZ
+[OK] Preload.IsSHMain
+[OK] Preload.IsSHStar
+[OK] Preload.IsSZMain
+[OK] Preload.IsSZGem
+[OK] Preload.Treatment
+[OK] Preload.IsNormal
+[OK] Preload.FreeMarketCap
+[OK] Preload.BarraSize
+[OK] Preload.BarraIndustry
+[OK] Preload.BarraIndustrySize
+[OK] Preload.BETA
+[OK] Preload.MOMENTUM
+[OK] Preload.SIZE
+[OK] Preload.EARNYILD
+[OK] Preload.RESVOL
+[OK] Preload.GROWTH
+[OK] Preload.BTOP
+[OK] Preload.LEVERAGE
+[OK] Preload.LIQUIDTY
+[OK] Preload.MIDCAP
+[OK] Preload.DIVYILD
+[OK] Preload.EARNQLTY
+[OK] Preload.EARNVAR
+[OK] Preload.INVSQLTY
+[OK] Preload.LTREVRSL
+[OK] Preload.PROFIT
+[OK] Preload.ANALSENTI
+[OK] Preload.INDMOM
+[OK] Preload.SEASON
+[OK] Preload.STREVRSL
+[OK] Preload.AGRICULTURE
+[OK] Preload.AUTOMOBILES
+[OK] Preload.BANKS
+[OK] Preload.BUILDMATER
+[OK] Preload.CHEMICALS
+[OK] Preload.COMMERCE
+[OK] Preload.COMPUTERS
+[OK] Preload.CONGLOMERATES
+[OK] Preload.CONSTRDECOR
+[OK] Preload.DEFENSE
+[OK] Preload.ELECTRICALEQUIP
+[OK] Preload.ELECTRONICS
+[OK] Preload.FOODBEVERAGES
+[OK] Preload.HEALTHCARE
+[OK] Preload.HOMEAPPLIANCES
+[OK] Preload.LEISURE
+[OK] Preload.LIGHTINDUSTRY
+[OK] Preload.MACHINEEQUIP
+[OK] Preload.MEDIA
+[OK] Preload.MINING
+[OK] Preload.NONBANKFINAN
+[OK] Preload.NONFERROUSMETALS
+[OK] Preload.REALESTATE
+[OK] Preload.STEEL
+[OK] Preload.TELECOMS
+[OK] Preload.TEXTILEGARMENT
+[OK] Preload.TRANSPORTATION
+[OK] Preload.UTILITIES
+[OK] Preload.BASICCHEMICALS
+[OK] Preload.BEAUTYCARE
+[OK] Preload.COAL
+[OK] Preload.ENVIRONPROTECT
+[OK] Preload.PETROLEUM
+[OK] Preload.POWEREQUIP
+[OK] Preload.RETAILTRADE
+[OK] Preload.SOCIALSERVICES
+[OK] Preload.TEXTILEAPPAREL
+[OK] Preload.COUNTRY
+[OK] Daily.Open
+[OK] Daily.PreClose
+[OK] Daily.UpperLimit
+[OK] Daily.LowerLimit
+[OK] Daily.OpenLimitTradeAmtBuy
+[OK] Daily.OpenLimitTradeAmtSell
+[OK] Daily.OpenLimitTradeTriggerOrdersBuy
+[OK] Daily.OpenLimitTradeTriggerOrdersSell
+[OK] Daily.OpenLimitTradeVolBuy
+[OK] Daily.OpenLimitTradeVolSell
+[OK] Daily.CloseAucTradeAmtBuy
+[OK] Daily.CloseAucTradeAmtSell
+[OK] Daily.CloseAucTradeTriggerOrdersBuy
+[OK] Daily.CloseAucTradeTriggerOrdersSell
+[OK] Daily.CloseAucTradeVolBuy
+[OK] Daily.CloseAucTradeVolSell
+[OK] Daily.TotalOutVol
+[OK] Daily.AdjFactor
+[OK] Daily.OrderAmtThres1Buy
+[OK] Daily.OrderAmtThres1Sell
+[OK] Daily.OrderAmtThres2Buy
+[OK] Daily.OrderAmtThres2Sell
+[OK] Daily.OrderAmtThres3Buy
+[OK] Daily.OrderAmtThres3Sell
+[OK] Slice.Index
+[OK] Slice.ExpStart
+[OK] Slice.ExpEnd
+[OK] Slice.IsZT
+[OK] Slice.IsDT
+[OK] Slice.High
+[OK] Slice.Low
+[OK] Slice.CumHigh
+[OK] Slice.CumLow
+[OK] Slice.StartPrice
+[OK] Slice.LastPrice
+[OK] Slice.Ret
+[OK] Slice.NormalRet
+[OK] Slice.MidPrice
+[OK] Slice.AskPrice
+[OK] Slice.BidPrice
+[OK] Slice.AskVol
+[OK] Slice.BidVol
+[OK] Slice.SinceOpenVolatility
+[OK] Slice.SinceOpenSharpe
+[MISSING] Slice.Cum
+[MISSING] Slice.
+[MISSING] Slice.TotalCum
+[MISSING] Slice.Total
+[MISSING] Slice.CumVolImbl
+[MISSING] Slice.VolImbl
+[MISSING] Slice.AggAlgoCntOrderCum
+[MISSING] Slice.AggAlgoAmtOrderCum
+[MISSING] Slice.AggAlgoVolOrderCum
+[MISSING] Slice.AggAlgoAamtOrderCum
+[MISSING] Slice.AggAlgoVwapOrderCum
+[MISSING] Slice.PasAlgoCntOrderCum
+[MISSING] Slice.PasAlgoAmtOrderCum
+[MISSING] Slice.PasAlgoVolOrderCum
+[MISSING] Slice.PasAlgoAamtOrderCum
+[MISSING] Slice.PasAlgoVwapOrderCum
+[MISSING] Slice.AggAlgoCntOrder
+[MISSING] Slice.AggAlgoAmtOrder
+[MISSING] Slice.AggAlgoVolOrder
+[MISSING] Slice.AggAlgoAamtOrder
+[MISSING] Slice.AggAlgoVwapOrder
+[MISSING] Slice.PasAlgoCntOrder
+[MISSING] Slice.PasAlgoAmtOrder
+[MISSING] Slice.PasAlgoVolOrder
+[MISSING] Slice.PasAlgoAamtOrder
+[MISSING] Slice.PasAlgoVwapOrder
+[OK] Slice.CumTotalAlgoAggOrderCnt
+[OK] Slice.CumTotalAlgoAggOrderAmt
+[OK] Slice.CumTotalAlgoAggOrderVol
+[OK] Slice.CumTotalAlgoAggOrderAamt
+[OK] Slice.CumTotalAlgoAggOrderVwap
+[OK] Slice.CumTotalAlgoPasOrderCnt
+[OK] Slice.CumTotalAlgoPasOrderAmt
+[OK] Slice.CumTotalAlgoPasOrderVol
+[OK] Slice.CumTotalAlgoPasOrderAamt
+[OK] Slice.CumTotalAlgoPasOrderVwap
+[OK] Slice.TotalAlgoAggOrderCnt
+[OK] Slice.TotalAlgoAggOrderAmt
+[OK] Slice.TotalAlgoAggOrderVol
+[OK] Slice.TotalAlgoAggOrderAamt
+[OK] Slice.TotalAlgoAggOrderVwap
+[OK] Slice.TotalAlgoPasOrderCnt
+[OK] Slice.TotalAlgoPasOrderAmt
+[OK] Slice.TotalAlgoPasOrderVol
+[OK] Slice.TotalAlgoPasOrderAamt
+[OK] Slice.TotalAlgoPasOrderVwap
+[OK] Slice.CumAlgoAggOrderVolImbl
+[OK] Slice.CumAlgoPasOrderVolImbl
+[OK] Slice.AlgoAggOrderVolImbl
+[OK] Slice.AlgoPasOrderVolImbl
+[MISSING] Slice.CntInstOrderCum
+[MISSING] Slice.AmtInstOrderCum
+[MISSING] Slice.VolInstOrderCum
+[MISSING] Slice.AamtInstOrderCum
+[MISSING] Slice.VwapInstOrderCum
+[MISSING] Slice.CntInstOrder
+[MISSING] Slice.AmtInstOrder
+[MISSING] Slice.VolInstOrder
+[MISSING] Slice.AamtInstOrder
+[MISSING] Slice.VwapInstOrder
+[OK] Slice.OBVolBuy
+[OK] Slice.OBVolSell
+[OK] Slice.OB10VolBuy
+[OK] Slice.OB10VolSell
+[OK] Slice.OBSupportVolBuy
+[OK] Slice.OBSupportVolSell
+[OK] Slice.OB10SupportVolBuy
+[OK] Slice.OB10SupportVolSell
+[OK] Slice.OBVwapBuy
+[OK] Slice.OBVwapSell
+[OK] Slice.OB10VwapBuy
+[OK] Slice.OB10VwapSell
+[OK] Slice.OBSupportPriceBuy
+[OK] Slice.OBSupportPriceSell
+[OK] Slice.OB10SupportPriceBuy
+[OK] Slice.OB10SupportPriceSell
+[OK] Slice.OBVolImbl
+[OK] Slice.OB10VolImbl
+[OK] Slice.OBSupportVolImbl
+[OK] Slice.OB10SupportVolImbl
+[OK] Slice.OBNetVolImbl
+[OK] Slice.OB10NetVolImbl
+[OK] Slice.OBNetVolBuy
+[OK] Slice.OBNetVolSell
+[OK] Slice.OB10NetVolBuy
+[OK] Slice.OB10NetVolSell
+[OK] Slice.TotalOBNetVol
+[OK] Slice.TotalOB10NetVol
+[OK] Slice.OBAmtBuy
+[OK] Slice.OBAmtSell
+[OK] Slice.OB10AmtBuy
+[OK] Slice.OB10AmtSell
+[OK] Slice.OBSupportAmtBuy
+[OK] Slice.OBSupportAmtSell
+[OK] Slice.OB10SupportAmtBuy
+[OK] Slice.OB10SupportAmtSell
+[OK] Slice.OBNetAmtBuy
+[OK] Slice.OBNetAmtSell
+[OK] Slice.OB10NetAmtBuy
+[OK] Slice.OB10NetAmtSell
+[OK] Slice.TotalOBNetAmt
+[OK] Slice.TotalOB10NetAmt
+[OK] Slice.NetTDV
+[OK] Slice.CumNetTDV
+[OK] Slice.RetLiquidity
+[OK] Slice.CumBottom5PctPriceTradeVwapBuy
+[OK] Slice.CumBottom5PctPriceTradeVwapSell
+[OK] Slice.CumTop5PctPriceTradeVwapBuy
+[OK] Slice.CumTop5PctPriceTradeVwapSell
+[OK] Slice.CumBottom5PctVolTradeVwapBuy
+[OK] Slice.CumBottom5PctVolTradeVwapSell
+[OK] Slice.CumTop5PctVolTradeVwapBuy
+[OK] Slice.CumTop5PctVolTradeVwapSell
+[OK] Slice.CumTopVolTradeAvgPriceBuy
+[OK] Slice.CumTopVolTradeAvgPriceSell
+[OK] Slice.CumTotalBottom5PctPriceTradeVwap
+[OK] Slice.CumTotalTop5PctPriceTradeVwap
+[OK] Slice.CumTotalBottom5PctVolTradeVwap
+[OK] Slice.CumTotalTop5PctVolTradeVwap
+[OK] Slice.CumTotalTopVolTradeAvgPrice
+[MISSING] Slice.OrderAggTda
+[MISSING] Slice.OrderAggTdc
+[MISSING] Slice.OrderAggTdv
+[MISSING] Slice.OrderCnt
+[MISSING] Slice.OrderAmt
+[MISSING] Slice.OrderVol
+[MISSING] Slice.BiasAggTda
+[MISSING] Slice.BiasAggTdc
+[MISSING] Slice.BiasAggTdv
+[MISSING] Slice.BiasTda
+[MISSING] Slice.BiasTdc
+[MISSING] Slice.BiasTdv
+[MISSING] Slice.CancelCnt
+[MISSING] Slice.CancelAmt
+[MISSING] Slice.CancelVol
+[MISSING] Slice.OrderVolClose
+[MISSING] Slice.OrderVolFar
+[MISSING] Slice.AggOrderAggTdc
+[MISSING] Slice.AggOrderAggTdv
+[OK] Slice.TickOB10VolImblMean
+[OK] Slice.TickOB10VolImblStd
+[OK] Slice.TickOB10SupportVolImblMean
+[OK] Slice.TickOB10NetVolImblMean
+[OK] Slice.RemainTickCntRatioBuy
+[OK] Slice.RemainTickCntRatioSell
+[OK] Slice.BidAskSpanDiffCatRatio
+[OK] Slice.PasOrderHalfSpreadVolBuy
+[OK] Slice.PasOrderHalfSpreadVolSell
+[OK] Slice.PasOrderSpreadVolBuy
+[OK] Slice.PasOrderSpreadVolSell
+[MISSING] Slice.CntPerLevelAggOrder
+[MISSING] Slice.AmtPerLevelAggOrder
+[MISSING] Slice.VolPerLevelAggOrder
+[MISSING] Slice.CntPerLevelPasOrder
+[MISSING] Slice.AmtPerLevelPasOrder
+[MISSING] Slice.VolPerLevelPasOrder
+[MISSING] Slice.CntPerLevelCancel
+[MISSING] Slice.AmtPerLevelCancel
+[MISSING] Slice.VolPerLevelCancel
+[OK] Slice.TickOB9BestPriceDiffImblMean
+[OK] Slice.TickOB9BestPriceDiffImblStd
+[OK] Slice.TickOB10PriceDistMeanImbl
+[OK] Slice.TickOB10PriceDistStdImbl
+[OK] Slice.TickOB10PriceDistSkewImbl
+[MISSING] Slice.CumOrderReportToFirstFillSpanMean
+[MISSING] Slice.CumOrderReportToFirstFillSpanStd
+[MISSING] Slice.CumOrderReportToFirstFillSpanSkew
+[MISSING] Slice.CumOrderReportToFirstFillSpanKurt
+[MISSING] Slice.CumOrderReportToCompleteFillSpanMean
+[MISSING] Slice.CumOrderReportToCompleteFillSpanStd
+[MISSING] Slice.CumOrderReportToCompleteFillSpanSkew
+[MISSING] Slice.CumOrderReportToCompleteFillSpanKurt
+[MISSING] Slice.CumOrderFirstFillToCompleteFillSpanMean
+[MISSING] Slice.CumOrderFirstFillToCompleteFillSpanStd
+[MISSING] Slice.CumOrderFirstFillToCompleteFillSpanSkew
+[MISSING] Slice.CumOrderFirstFillToCompleteFillSpanKurt
+[MISSING] Slice.CumOrderReportToFirstFillSpan25QuantilesSmall
+[MISSING] Slice.CumOrderReportToFirstFillSpan25QuantilesMid
+[MISSING] Slice.CumOrderReportToFirstFillSpan25QuantilesBig
+[MISSING] Slice.CumOrderReportToFirstFillSpan25QuantilesExtra
+[MISSING] Slice.CumOrderReportToCompleteFillSpan25QuantilesSmall
+[MISSING] Slice.CumOrderReportToCompleteFillSpan25QuantilesMid
+[MISSING] Slice.CumOrderReportToCompleteFillSpan25QuantilesBig
+[MISSING] Slice.CumOrderReportToCompleteFillSpan25QuantilesExtra
+[MISSING] Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesSmall
+[MISSING] Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesMid
+[MISSING] Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesBig
+[MISSING] Slice.CumOrderFirstFillToCompleteFillSpan25QuantilesExtra
+[MISSING] Slice.CumOrder25QuantilesVol
+[MISSING] Slice.CumOrder25QuantilesAmt
+[MISSING] Slice.CumCancel25QuantilesVol
+[MISSING] Slice.CumCancel25QuantilesAmt
+[MISSING] Slice.CumTrade25QuantilesVol
+[MISSING] Slice.CumTrade25QuantilesAmt
+[MISSING] Slice.CumAdjacentMeanSpanAggOrder
+[MISSING] Slice.CumAdjacentStdSpanAggOrder
+[MISSING] Slice.CumAdjacentSkewSpanAggOrder
+[MISSING] Slice.CumAdjacentKurtSpanAggOrder
+[MISSING] Slice.CumAdjacentMeanSpanPasOrder
+[MISSING] Slice.CumAdjacentStdSpanPasOrder
+[MISSING] Slice.CumAdjacentSkewSpanPasOrder
+[MISSING] Slice.CumAdjacentKurtSpanPasOrder
+[MISSING] Slice.CumAdjacentMeanSpanCancel
+[MISSING] Slice.CumAdjacentStdSpanCancel
+[MISSING] Slice.CumAdjacentSkewSpanCancel
+[MISSING] Slice.CumAdjacentKurtSpanCancel
+[MISSING] Slice.CumAdjacentMeanSpanTrade
+[MISSING] Slice.CumAdjacentStdSpanTrade
+[MISSING] Slice.CumAdjacentSkewSpanTrade
+[MISSING] Slice.CumAdjacentKurtSpanTrade
+[MISSING] Slice.CntCancelledOrderPartial
+[MISSING] Slice.AmtCancelledOrderPartial
+[MISSING] Slice.VolCancelledOrderPartial
+[MISSING] Slice.CntCancelledOrderFull
+[MISSING] Slice.AmtCancelledOrderFull
+[MISSING] Slice.VolCancelledOrderFull
+[MISSING] Slice.CntBaitOrderCum
+[MISSING] Slice.AmtBaitOrderCum
+[MISSING] Slice.VolBaitOrderCum
+[MISSING] Slice.CntBaitOrder
+[MISSING] Slice.AmtBaitOrder
+[MISSING] Slice.VolBaitOrder
+[MISSING] Slice.CumCancelledCntOrderL2
+[MISSING] Slice.CumCancelledAmtOrderL2
+[MISSING] Slice.CumCancelledVolOrderL2
+[MISSING] Slice.CumCancelledCntOrderL3
+[MISSING] Slice.CumCancelledAmtOrderL3
+[MISSING] Slice.CumCancelledVolOrderL3
+[MISSING] Slice.TdcRegretFearCum
+[MISSING] Slice.TdaRegretFearCum
+[MISSING] Slice.TdvRegretFearCum
+[MISSING] Slice.TdcRegretFear
+[MISSING] Slice.TdaRegretFear
+[MISSING] Slice.TdvRegretFear
+[MISSING] Slice.CumLongFullFillOrderCnt
+[MISSING] Slice.CumLongFullFillOrderAmt
+[MISSING] Slice.CumLongFullFillOrderVol
+[MISSING] Slice.CumOnceFullFillCntOrderAgg
+[MISSING] Slice.CumOnceFullFillAmtOrderAgg
+[MISSING] Slice.CumOnceFullFillVolOrderAgg
+[MISSING] Slice.CumOnceFullFillCntOrderPas
+[MISSING] Slice.CumOnceFullFillAmtOrderPas
+[MISSING] Slice.CumOnceFullFillVolOrderPas
+[MISSING] Slice.TradePvDstrMean
+[MISSING] Slice.TradePvDstrStd
+[MISSING] Slice.TradePvDstrSkew
+[MISSING] Slice.TradePvDstrKurt
+[OK] Slice.TotalTradePvDstrMean
+[OK] Slice.TotalTradePvDstrStd
+[OK] Slice.TotalTradePvDstrSkew
+[OK] Slice.TotalTradePvDstrKurt
+[MISSING] Slice.TdvProbDstrMeanMean
+[MISSING] Slice.TdvProbDstrMeanStd
+[MISSING] Slice.TdvProbDstrMeanSkew
+[MISSING] Slice.TdvProbDstrMeanKurt
+[OK] Slice.TotalTdvProbDstrMeanMean
+[OK] Slice.TotalTdvProbDstrMeanStd
+[OK] Slice.TotalTdvProbDstrMeanSkew
+[OK] Slice.TotalTdvProbDstrMeanKurt
+[MISSING] Slice.ProfitTradeCnt
+[MISSING] Slice.ProfitTradeVol
+[MISSING] Slice.ProfitTradeAmt
+[MISSING] Slice.LossTradeCnt
+[MISSING] Slice.LossTradeVol
+[MISSING] Slice.LossTradeAmt
+[MISSING] Slice.Tdc20PctTdpTop
+[MISSING] Slice.Tda20PctTdpTop
+[MISSING] Slice.Tdv20PctTdpTop
+[MISSING] Slice.Tdc20PctTdpBottom
+[MISSING] Slice.Tda20PctTdpBottom
+[MISSING] Slice.Tdv20PctTdpBottom
+[OK] Slice.TotalTop20PctTdpTdc
+[OK] Slice.TotalTop20PctTdpTda
+[OK] Slice.TotalTop20PctTdpTdv
+[OK] Slice.TotalBottom20PctTdpTdc
+[OK] Slice.TotalBottom20PctTdpTda
+[OK] Slice.TotalBottom20PctTdpTdv
+[MISSING] Slice.Mean20PctTdpPvDstrTop
+[MISSING] Slice.Std20PctTdpPvDstrTop
+[MISSING] Slice.Skew20PctTdpPvDstrTop
+[MISSING] Slice.Kurt20PctTdpPvDstrTop
+[MISSING] Slice.Mean20PctTdpPvDstrBottom
+[MISSING] Slice.Std20PctTdpPvDstrBottom
+[MISSING] Slice.Skew20PctTdpPvDstrBottom
+[MISSING] Slice.Kurt20PctTdpPvDstrBottom
+[OK] Slice.TotalTop20PctTdpPvDstrMean
+[OK] Slice.TotalTop20PctTdpPvDstrStd
+[OK] Slice.TotalTop20PctTdpPvDstrSkew
+[OK] Slice.TotalTop20PctTdpPvDstrKurt
+[OK] Slice.TotalBottom20PctTdpPvDstrMean
+[OK] Slice.TotalBottom20PctTdpPvDstrStd
+[OK] Slice.TotalBottom20PctTdpPvDstrSkew
+[OK] Slice.TotalBottom20PctTdpPvDstrKurt
+[MISSING] Slice.Mean20PctTdpTdvProbDstrTop
+[MISSING] Slice.Std20PctTdpTdvProbDstrTop
+[MISSING] Slice.Skew20PctTdpTdvProbDstrTop
+[MISSING] Slice.Kurt20PctTdpTdvProbDstrTop
+[MISSING] Slice.Mean20PctTdpTdvProbDstrBottom
+[MISSING] Slice.Std20PctTdpTdvProbDstrBottom
+[MISSING] Slice.Skew20PctTdpTdvProbDstrBottom
+[MISSING] Slice.Kurt20PctTdpTdvProbDstrBottom
+[OK] Slice.TotalTop20PctTdpTdvProbDstrMean
+[OK] Slice.TotalTop20PctTdpTdvProbDstrStd
+[OK] Slice.TotalTop20PctTdpTdvProbDstrSkew
+[OK] Slice.TotalTop20PctTdpTdvProbDstrKurt
+[OK] Slice.TotalBottom20PctTdpTdvProbDstrMean
+[OK] Slice.TotalBottom20PctTdpTdvProbDstrStd
+[OK] Slice.TotalBottom20PctTdpTdvProbDstrSkew
+[OK] Slice.TotalBottom20PctTdpTdvProbDstrKurt
+[OK] Slice.TopPriceLifespanBuy
+[OK] Slice.TopPriceLifespanSell
+[OK] Slice.BottomPriceLifespanBuy
+[OK] Slice.BottomPriceLifespanSell
+[OK] Slice.TotalTopPriceLifespan
+[OK] Slice.TotalBottomPriceLifespan
+[MISSING] Slice.PartialSpan1by3AggOrder
+[MISSING] Slice.PartialSpan1by3PasOrder
+[MISSING] Slice.PartialSpan1by3Cancel
+[MISSING] Slice.PartialSpan1by3Trade
+[MISSING] Slice.GiveupCancelCnt
+[MISSING] Slice.GiveupCancelAmt
+[MISSING] Slice.GiveupCancelVol
+[MISSING] Slice.ChaseCancelCnt
+[MISSING] Slice.ChaseCancelAmt
+[MISSING] Slice.ChaseCancelVol
+[MISSING] Slice.MidpriceUp
+[MISSING] Slice.MidpriceDown
+[MISSING] Slice.UpCauseMidpAggOrder
+[MISSING] Slice.DownCauseMidpAggOrder
+[MISSING] Slice.UpCauseMidpPasOrder
+[MISSING] Slice.DownCauseMidpPasOrder
+[MISSING] Slice.UpCauseMidpCancel
+[MISSING] Slice.DownCauseMidpCancel
+[MISSING] Slice.MidpriceStayAggOrder
+[MISSING] Slice.MidpriceStayPasOrder
+[MISSING] Slice.MidpriceStayCancel
+[OK] Slice.AggOrderCauseMidpUpGapMean
+[OK] Slice.AggOrderCauseMidpDownGapMean
+[OK] Slice.PasOrderCauseMidpUpGapMean
+[OK] Slice.PasOrderCauseMidpDownGapMean
+[OK] Slice.OrderCauseMidpUpGapMean
+[OK] Slice.OrderCauseMidpDownGapMean
+[OK] Slice.CancelCauseMidpUpGapMean
+[OK] Slice.CancelCauseMidpDownGapMean
+[OK] Slice.TradeAmtOutStdRatioBuy
+[OK] Slice.TradeAmtOutStdRatioSell
+[MISSING] Slice.CancelOnSupportLevelCnt
+[MISSING] Slice.CancelOnSupportLevelAmt
+[MISSING] Slice.CancelOnSupportLevelVol
+[OK] Slice.ObMouthImblSlope
+[OK] Slice.ObMouthImblIntercept
+[OK] Slice.Ob10VwImblSlope
+[OK] Slice.Ob10VwImblIntercept
+[OK] Slice.TickLastpriceSlope
+[OK] Slice.TickLastpriceIntercept
+[OK] Slice.TickTradeVolSlope
+[OK] Slice.TickTradeVolIntercept
+[OK] Slice.ObMouthTwVolMeanBuy
+[OK] Slice.ObMouthTwVolMeanSell
+[OK] Slice.ObMouthTwSquareVolMeanBuy
+[OK] Slice.ObMouthTwSquareVolMeanSell
+[MISSING] Slice.CntTradeRound
+[MISSING] Slice.AmtTradeRound
+[MISSING] Slice.VolTradeRound
+[MISSING] Slice.CntTradeOdd
+[MISSING] Slice.AmtTradeOdd
+[MISSING] Slice.VolTradeOdd
+[MISSING] Slice.CntTradeRetail
+[MISSING] Slice.AmtTradeRetail
+[MISSING] Slice.VolTradeRetail
+[OK] Slice.PriceUpNormedSpan
+[OK] Slice.PriceDownNormedSpan
+[OK] Slice.PriceStayNormedSpan
+[OK] Slice.PriceUpTradeCnt
+[OK] Slice.PriceUpTradeAmt
+[OK] Slice.PriceUpTradeVol
+[OK] Slice.PriceDownTradeCnt
+[OK] Slice.PriceDownTradeAmt
+[OK] Slice.PriceDownTradeVol
+[OK] Slice.PriceStayTradeCnt
+[OK] Slice.PriceStayTradeAmt
+[OK] Slice.PriceStayTradeVol
+[OK] Slice.LongestPriceUpTradeCnt
+[OK] Slice.LongestPriceUpTradeAmt
+[OK] Slice.LongestPriceUpTradeVol
+[OK] Slice.LongestPriceDownTradeCnt
+[OK] Slice.LongestPriceDownTradeAmt
+[OK] Slice.LongestPriceDownTradeVol
+[MISSING] Slice.LongestPriceUp
+[MISSING] Slice.LongestPriceDown
+[OK] Slice.PosTradeRetSquareSum
+[OK] Slice.NegTradeRetSquareSum
+[OK] Slice.OptimalCancelAvgLifespanBuy
+[OK] Slice.OptimalCancelAvgLifespanSell
+[OK] Slice.OptimalCancelVwaLifespanBuy
+[OK] Slice.OptimalCancelVwaLifespanSell
+[OK] Slice.CancelAvgLifespanBuy
+[OK] Slice.CancelAvgLifespanSell
+[OK] Slice.CancelVwaLifespanBuy
+[OK] Slice.CancelVwaLifespanSell
+[MISSING] Slice.D1RelCntOrderOrder
+[MISSING] Slice.D1RelAmtOrderOrder
+[MISSING] Slice.D1RelVolOrderOrder
+[MISSING] Slice.D1RelCntOrderCancel
+[MISSING] Slice.D1RelAmtOrderCancel
+[MISSING] Slice.D1RelVolOrderCancel
+[MISSING] Slice.OrderFilledPartMaxAmt
+[MISSING] Slice.OrderFilledPartMaxVol
+[OK] Slice.MaxFilledVolOrderPriceBuy
+[OK] Slice.MaxFilledVolOrderPriceSell
+[MISSING] Slice.FilledOrderCnt
+[MISSING] Slice.FilledOrderAmt
+[MISSING] Slice.FilledOrderVol
+[MISSING] Slice.D1RelSmallOrderFilledBuy
+[MISSING] Slice.D1RelSmallOrderFilledSell
+[MISSING] Slice.D1RelMidOrderFilledBuy
+[MISSING] Slice.D1RelMidOrderFilledSell
+[MISSING] Slice.D1RelBigOrderFilledBuy
+[MISSING] Slice.D1RelBigOrderFilledSell
+[MISSING] Slice.D1RelExtraOrderFilledBuy
+[MISSING] Slice.D1RelExtraOrderFilledSell
+[MISSING] Slice.D1RelSmallFilledOrderRptVwap
+[MISSING] Slice.D1RelMidFilledOrderRptVwap
+[MISSING] Slice.D1RelBigFilledOrderRptVwap
+[MISSING] Slice.D1RelExtraFilledOrderRptVwap
+[OK] Slice.MaxOrderFilledAmtInTradeUp
+[OK] Slice.MaxOrderFilledAmtInTradeDown
+[OK] Slice.MaxOrderFilledVolInTradeUp
+[OK] Slice.MaxOrderFilledVolInTradeDown
+[OK] Slice.MaxFilledVolOrderPriceInTradeUp
+[OK] Slice.MaxFilledVolOrderPriceInTradeDown
+[OK] Slice.FilledOrderRptVwapInTradeUp
+[OK] Slice.FilledOrderRptVwapInTradeDown
+[OK] Slice.FilledOrderCntInTradeUp
+[OK] Slice.FilledOrderCntInTradeDown
+[OK] Slice.D1RelSmallOrderFilledUpInCntTrade
+[OK] Slice.D1RelSmallOrderFilledUpInAmtTrade
+[OK] Slice.D1RelSmallOrderFilledUpInVolTrade
+[OK] Slice.D1RelSmallOrderFilledUpInOrdersTrade
+[OK] Slice.D1RelSmallOrderFilledDownInCntTrade
+[OK] Slice.D1RelSmallOrderFilledDownInAmtTrade
+[OK] Slice.D1RelSmallOrderFilledDownInVolTrade
+[OK] Slice.D1RelSmallOrderFilledDownInOrdersTrade
+[OK] Slice.D1RelMidOrderFilledUpInCntTrade
+[OK] Slice.D1RelMidOrderFilledUpInAmtTrade
+[OK] Slice.D1RelMidOrderFilledUpInVolTrade
+[OK] Slice.D1RelMidOrderFilledUpInOrdersTrade
+[OK] Slice.D1RelMidOrderFilledDownInCntTrade
+[OK] Slice.D1RelMidOrderFilledDownInAmtTrade
+[OK] Slice.D1RelMidOrderFilledDownInVolTrade
+[OK] Slice.D1RelMidOrderFilledDownInOrdersTrade
+[OK] Slice.D1RelBigOrderFilledUpInCntTrade
+[OK] Slice.D1RelBigOrderFilledUpInAmtTrade
+[OK] Slice.D1RelBigOrderFilledUpInVolTrade
+[OK] Slice.D1RelBigOrderFilledUpInOrdersTrade
+[OK] Slice.D1RelBigOrderFilledDownInCntTrade
+[OK] Slice.D1RelBigOrderFilledDownInAmtTrade
+[OK] Slice.D1RelBigOrderFilledDownInVolTrade
+[OK] Slice.D1RelBigOrderFilledDownInOrdersTrade
+[OK] Slice.D1RelExtraOrderFilledUpInCntTrade
+[OK] Slice.D1RelExtraOrderFilledUpInAmtTrade
+[OK] Slice.D1RelExtraOrderFilledUpInVolTrade
+[OK] Slice.D1RelExtraOrderFilledUpInOrdersTrade
+[OK] Slice.D1RelExtraOrderFilledDownInCntTrade
+[OK] Slice.D1RelExtraOrderFilledDownInAmtTrade
+[OK] Slice.D1RelExtraOrderFilledDownInVolTrade
+[OK] Slice.D1RelExtraOrderFilledDownInOrdersTrade
+[OK] Slice.D1RelSmallFilledOrderRptVwapInUpTrade
+[OK] Slice.D1RelSmallFilledOrderRptVwapInDownTrade
+[OK] Slice.D1RelMidFilledOrderRptVwapInUpTrade
+[OK] Slice.D1RelMidFilledOrderRptVwapInDownTrade
+[OK] Slice.D1RelBigFilledOrderRptVwapInUpTrade
+[OK] Slice.D1RelBigFilledOrderRptVwapInDownTrade
+[OK] Slice.D1RelExtraFilledOrderRptVwapInUpTrade
+[OK] Slice.D1RelExtraFilledOrderRptVwapInDownTrade
+[OK] Slice.TradeCntInTradeUp
+[OK] Slice.TradeCntInTradeDown
+[OK] Slice.TradeAmtInTradeUp
+[OK] Slice.TradeAmtInTradeDown
+[OK] Slice.TradeVolInTradeUp
+[OK] Slice.TradeVolInTradeDown
+[MISSING] Slice.D1RelOBLevelPriceMean
+[MISSING] Slice.D1RelOBLevelCnt
+[MISSING] Slice.D1RelOBCnt
+[MISSING] Slice.D1RelOBAmt
+[MISSING] Slice.D1RelOBVol
+[MISSING] Slice.D1RelOBVwap
+[MISSING] Slice.D1RelOBLevelVolStd
+[MISSING] Slice.D1RelOBLevelVolSkew
+[MISSING] Slice.D1RelOBLevelVolKurt
+[MISSING] Slice.D1RelOBLevelVolHHI
+[MISSING] Slice.OBLevelPriceMean
+[MISSING] Slice.OBLevelCnt
+[OK] Slice.OBCntBuy
+[OK] Slice.OBCntSell
+[MISSING] Slice.OBLevelVolStd
+[MISSING] Slice.OBLevelVolSkew
+[MISSING] Slice.OBLevelVolKurt
+[MISSING] Slice.OBLevelVolHHI
+[MISSING] Slice.D1RelTBCnt
+[MISSING] Slice.D1RelTBAmt
+[MISSING] Slice.D1RelTBVol
+[MISSING] Slice.D1RelTBVwap
+[MISSING] Slice.D1RelTBOrderCnt
+[MISSING] Slice.D1RelTBLevelVolStd
+[MISSING] Slice.D1RelTBLevelVolSkew
+[MISSING] Slice.D1RelTBLevelVolKurt
+[MISSING] Slice.D1RelTBLevelVolHHI
+[MISSING] Slice.TBCnt
+[MISSING] Slice.TBAmt
+[MISSING] Slice.TBVol
+[MISSING] Slice.TBVwap
+[MISSING] Slice.TBOrderCnt
+[MISSING] Slice.TBLevelVolStd
+[MISSING] Slice.TBLevelVolSkew
+[MISSING] Slice.TBLevelVolKurt
+[MISSING] Slice.TBLevelVolHHI
+[OK] Slice.EventMask1
+[OK] Slice.EventMask2
+[OK] Slice.EventMask3
+[OK] Slice.EventMask4
+[OK] Slice.EventMask5
+[OK] Slice.EventMask6
+[OK] Slice.EventMask7
+[OK] Slice.EventMask8
+[OK] Slice.EventMask9
+[OK] Slice.EventMask10
+[OK] Slice.EventMask11
+[OK] Slice.EventMask12
+[OK] Slice.EventMask13
+[OK] Slice.EventMask14
+[OK] Slice.EventMask15
+[OK] Slice.EventMask16
+[OK] Slice.EventMask17
+[OK] Slice.EventMask18
+[OK] Slice.EventMask19
+[OK] Slice.EventMask20
+[OK] Slice.EventMask21
+[OK] Slice.EventMask22
+[OK] Slice.EventMask23
+[OK] Slice.EventMask24
+[OK] Slice.EventMask25
+[OK] Slice.EventMask26
+[OK] CS.TradeVolResBuy
+[OK] CS.TradeVolResSell
+[OK] CS.TotalTradeVolRes
+[OK] CS.AggOrderVolResBuy
+[OK] CS.AggOrderVolResSell
+[OK] CS.TotalAggOrderVolRes
+[OK] CS.PasOrderVolResBuy
+[OK] CS.PasOrderVolResSell
+[OK] CS.TotalPasOrderVolRes
+[OK] CS.CancelVolResBuy
+[OK] CS.CancelVolResSell
+[OK] CS.TotalCancelVolRes
+[OK] CS.NormalRetRes
+[OK] CS.CumTradeVolResBuy
+[OK] CS.CumTradeVolResSell
+[OK] CS.CumTotalTradeVolRes
+[OK] CS.CumAggOrderVolResBuy
+[OK] CS.CumAggOrderVolResSell
+[OK] CS.CumTotalAggOrderVolRes
+[OK] CS.CumPasOrderVolResBuy
+[OK] CS.CumPasOrderVolResSell
+[OK] CS.CumTotalPasOrderVolRes
+[OK] CS.CumCancelVolResBuy
+[OK] CS.CumCancelVolResSell
+[OK] CS.CumTotalCancelVolRes

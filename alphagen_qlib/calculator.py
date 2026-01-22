@@ -114,6 +114,9 @@ class ExternalCalculator(AlphaCalculator):
         self.lock = threading.Lock()   # 线程锁
         self.batch_thread = None       # 批量计算线程
 
+        # 预热阶段检测相关
+        self._agent_ref = None  # Agent引用，用于检测memory大小
+
         # 启动批量计算线程
         self._start_batch_thread()
 
@@ -139,6 +142,14 @@ class ExternalCalculator(AlphaCalculator):
         return sum(factors)  # type: ignore
 
     def calc_single_IC_ret(self, expr: Expression) -> float:
+        # 检查是否处于预热阶段（完全不计算奖励）
+        if hasattr(self, '_agent_ref') and self._agent_ref():
+            agent = self._agent_ref()
+            if hasattr(agent, 'memory') and agent.memory.size() < 10000:
+                # 预热阶段：memory未满，不计算真实奖励，返回0
+                # 这样可以避免不必要的外部计算，等memory满了再批量计算
+                return 0.0
+
         # 对所有合法表达式使用异步批量计算
         expr_str = str(expr)
 

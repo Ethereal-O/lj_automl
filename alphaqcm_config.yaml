@@ -58,7 +58,7 @@ environment:
 data:
   # 数据日期范围
   start_date: "20200101"
-  end_date: "20241231"
+  end_date: "20200105"
 
   # 收益率数据路径 (相对于工作目录)
   returns_data_root: "./returns"
@@ -128,7 +128,7 @@ operators:
     # 最大嵌套深度
     max_nesting_depth: 10
 
-    # 允许的算子列表 (自动从rule文件加载)
+    # 允许的算子列表 (自动从算子规则文件加载)
     # allowed_operators: [...]
 
   # 字段引用配置

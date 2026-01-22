@@ -52,7 +52,7 @@ try:
             # 普通字段，直接添加
             FIELD_NAMES.append(field_name)
 
-    print(f"Loaded {len(FIELD_NAMES)} fields, {len(FIELD_TEMPLATES)} templates from dic_lol.py")
+    print(f"Loaded {len(FIELD_NAMES)} fields, {len(FIELD_TEMPLATES)} templates from 字段字典_lol.py")
 except ImportError:
     FIELD_DICT = {}
     CUSTOM_FIELDS_AVAILABLE = False

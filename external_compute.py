@@ -404,9 +404,94 @@ class LorentzResultParser:
             return None
 
 
+def convert_compact_operators_to_lorentz(expr_str: str) -> str:
+    """
+    将写死参数的算子转换回Lorentz能理解的原始格式
+
+    Args:
+        expr_str: 包含写死参数算子的表达式字符串
+
+    Returns:
+        转换后的表达式字符串，算子恢复为原始格式
+    """
+    import re
+
+    def replace_compact_operator(match):
+        """替换单个写死参数算子"""
+        compact_op = match.group(0)
+
+        # 首先处理Ts时序算子
+        pattern_ts = r'^Ts(\w+)(\d+)([FT])$'
+        match_ts = re.match(pattern_ts, compact_op)
+
+        if match_ts:
+            op_name = match_ts.group(1)  # 基础操作名
+            window = int(match_ts.group(2))  # 窗口大小
+            bias_flag = match_ts.group(3)  # F或T
+
+            # 转换bias
+            bias = False if bias_flag == 'F' else True
+
+            # 构建原始格式：OpName(x, window, bias)
+            return f"Ts{op_name}(x, {window}, {str(bias).lower()})"
+
+        # 处理CsWinsorize算子
+        pattern_winsorize = r'^CsWinsorize(\d+)$'
+        match_winsorize = re.match(pattern_winsorize, compact_op)
+
+        if match_winsorize:
+            std_ratio = int(match_winsorize.group(1)) / 10  # 05->0.5, 10->1.0, etc.
+            return f"CsWinsorize(x, {std_ratio}, group)"
+
+        # 处理CsRangeMask算子
+        pattern_range = r'^CsRangeMask([LUD])([KR])(\d+)$'
+        match_range = re.match(pattern_range, compact_op)
+
+        if match_range:
+            border = match_range.group(1)  # L/U/D
+            op_type = match_range.group(2)  # K/R
+            pct = int(match_range.group(3))  # 01/05/10/25
+
+            if border == 'L':  # Lower边
+                if op_type == 'K':  # 要极值
+                    lower_pct, upper_pct = 0, pct
+                else:  # 去极值
+                    lower_pct, upper_pct = pct, 100
+            elif border == 'U':  # Upper边
+                if op_type == 'K':  # 要极值
+                    lower_pct, upper_pct = 100 - pct, 100
+                else:  # 去极值
+                    lower_pct, upper_pct = 0, 100 - pct
+            else:  # 双边 D
+                if op_type == 'K':  # 要极值
+                    lower_pct, upper_pct = pct, 100 - pct
+                else:  # 去极值
+                    # 对于双边去极值，我们使用单个范围表示（需要特殊处理）
+                    lower_pct, upper_pct = 0, pct
+
+            return f"CsRangeMask(x, {lower_pct}, {upper_pct}, substitute, mask, group)"
+
+        return compact_op
+
+    # 使用正则表达式替换所有写死参数算子
+    # 匹配各种写死参数算子
+    patterns = [
+        r'\bTs\w+\d+[FT]\b',        # Ts开头的时序算子
+        r'\bCsWinsorize\d+\b',      # CsWinsorize算子
+        r'\bCsRangeMask\w+\d+\b',   # CsRangeMask算子
+    ]
+
+    result = expr_str
+    for pattern in patterns:
+        result = re.sub(pattern, replace_compact_operator, result)
+
+    return result
+
+
 def parse_alpha_expression(expr_str: str) -> Dict[str, str]:
     """
     解析alpha表达式并生成Lorentz配置
+    将写死参数的算子转换回Lorentz能理解的原始格式
 
     Args:
         expr_str: Alpha表达式字符串
@@ -414,13 +499,16 @@ def parse_alpha_expression(expr_str: str) -> Dict[str, str]:
     Returns:
         包含因子名称和表达式的字典
     """
+    # 将写死参数的算子转换回原始格式
+    converted_expr_str = convert_compact_operators_to_lorentz(expr_str)
+
     # 生成因子名称 (使用表达式哈希作为唯一标识)
     import hashlib
-    factor_name = f"Factor_{hashlib.md5(expr_str.encode()).hexdigest()[:8]}"
+    factor_name = f"Factor_{hashlib.md5(converted_expr_str.encode()).hexdigest()[:8]}"
 
     return {
         "factor_name": factor_name,
-        "expression": expr_str
+        "expression": converted_expr_str
     }
 
 
@@ -927,6 +1015,10 @@ def compute_factor_values_with_lorentz(parsed_expr: Dict[str, str]) -> Tuple[np.
     parser = LorentzResultParser(config)
 
     factor_name = parsed_expr["factor_name"]
+    expr_str = parsed_expr["expression"]
+
+    print(f"🔧 Lorentz Configuration for: {expr_str}", file=sys.stderr)
+    print(f"   Factor name: {factor_name}", file=sys.stderr)
 
     # 创建debug目录用于保存配置文件
     debug_dir = os.path.join(os.getcwd(), 'lorentz_debug')
@@ -947,6 +1039,41 @@ def compute_factor_values_with_lorentz(parsed_expr: Dict[str, str]) -> Tuple[np.
         shutil.copy2(factor_json_path, debug_factor_json)
         shutil.copy2(output_names_path, debug_output_names)
         print(f"DEBUG: Saved config files to debug directory", file=sys.stderr)
+
+        # ===== 打印配置文件内容 =====
+        print(f"\n📋 Lorentz Configuration Files for: {expr_str}", file=sys.stderr)
+
+        # 打印 factor_config.json
+        print(f"\n🔧 factor_config.json:", file=sys.stderr)
+        print("-" * 60, file=sys.stderr)
+        try:
+            with open(factor_json_path, 'r', encoding='utf-8') as f:
+                json_content = f.read()
+                print(json_content, file=sys.stderr)
+        except Exception as e:
+            print(f"❌ Failed to read factor_config.json: {e}", file=sys.stderr)
+        print("-" * 60, file=sys.stderr)
+
+        # 打印 factor_names.txt
+        print(f"\n📝 factor_names.txt:", file=sys.stderr)
+        print("-" * 60, file=sys.stderr)
+        try:
+            with open(output_names_path, 'r', encoding='utf-8') as f:
+                txt_content = f.read()
+                print(txt_content, file=sys.stderr)
+        except Exception as e:
+            print(f"❌ Failed to read factor_names.txt: {e}", file=sys.stderr)
+        print("-" * 60, file=sys.stderr)
+
+        # 打印 Lorentz 程序信息
+        print(f"\n🏭 Lorentz Program Information:", file=sys.stderr)
+        print(f"   Executable: {config.lorentz_executable}", file=sys.stderr)
+        print(f"   Thread num: {config.thread_num}", file=sys.stderr)
+        print(f"   Data root: {config.data_root_dir}", file=sys.stderr)
+        print(f"   Output root: {config.output_factor_root_dir}", file=sys.stderr)
+        print(f"   Start date: {config.start_date}", file=sys.stderr)
+        print(f"   End date: {config.end_date}", file=sys.stderr)
+        print(f"   Output module: {output_module_name}", file=sys.stderr)
 
         # 解析日期范围
         start_date = datetime.strptime(config.start_date, '%Y%m%d')
@@ -1142,6 +1269,25 @@ def compute_batch_factor_values_with_lorentz(parsed_exprs: List[Dict]) -> Dict[s
 
         all_results = {}
 
+        # 计算LOAD_PREV_DAYS（与generate_batch_lorentz_config_files中的逻辑一致）
+        max_prev_days = 1  # 最小值
+        for parsed_expr in parsed_exprs:
+            expr_str = parsed_expr["expression"]
+            parsed_result = parse_expression_with_intermediates(convert_field_references(expr_str))
+            all_subexpressions = []
+            for intermediate in parsed_result['slice_intermediates']:
+                all_subexpressions.append(intermediate['expression'])
+            for intermediate in parsed_result['cross_section_intermediates']:
+                all_subexpressions.append(intermediate['expression'])
+            all_subexpressions.append(parsed_result['final_expression'])
+
+            for sub_expr in all_subexpressions:
+                lookback_config = analyze_lookback_requirements(sub_expr)
+                if 'rolling_prev_days' in lookback_config:
+                    max_prev_days = max(max_prev_days, lookback_config['rolling_prev_days'])
+
+        load_prev_days = max_prev_days
+
         # 为每个日期执行批量计算
         current_date = start_date
         while current_date <= end_date:
@@ -1165,10 +1311,116 @@ def compute_batch_factor_values_with_lorentz(parsed_exprs: List[Dict]) -> Dict[s
                     else:
                         logger.warning(f"Failed to parse batch results for {date_str}")
                 else:
-                    logger.error(f"Failed to compute batch factors for {date_str}: {error_msg}")
+                    # Lorentz 执行失败，打印详细诊断信息并终止程序
+                    print(f"\n" + "="*100, file=sys.stderr)
+                    print(f"🚨 LORENTZ EXECUTION FAILED FOR {date_str} - TERMINATING PROGRAM", file=sys.stderr)
+                    print("="*100, file=sys.stderr)
+
+                    # 打印失败的基本信息
+                    print(f"\n❌ Lorentz execution failed with error: {error_msg}", file=sys.stderr)
+                    print(f"📅 Date: {date_str}", file=sys.stderr)
+                    print(f"🔢 Load prev days: {load_prev_days}", file=sys.stderr)
+
+                    # 显示配置文件内容
+                    print(f"\n📋 Configuration files content:", file=sys.stderr)
+
+                    # 显示factor_config.json
+                    print(f"\n🔧 factor_config.json:", file=sys.stderr)
+                    print("-" * 60, file=sys.stderr)
+                    try:
+                        with open(factor_json_path, 'r', encoding='utf-8') as f:
+                            json_content = f.read()
+                            print(json_content, file=sys.stderr)
+                    except Exception as e:
+                        print(f"❌ Failed to read factor_config.json: {e}", file=sys.stderr)
+                    print("-" * 60, file=sys.stderr)
+
+                    # 显示factor_names.txt
+                    print(f"\n📝 factor_names.txt:", file=sys.stderr)
+                    print("-" * 60, file=sys.stderr)
+                    try:
+                        with open(output_names_path, 'r', encoding='utf-8') as f:
+                            txt_content = f.read()
+                            print(txt_content, file=sys.stderr)
+                    except Exception as e:
+                        print(f"❌ Failed to read factor_names.txt: {e}", file=sys.stderr)
+                    print("-" * 60, file=sys.stderr)
+
+                    # 显示lorentz_config.cfg（从debug目录读取）
+                    debug_dir = os.path.join(os.getcwd(), 'lorentz_debug')
+                    cfg_file_path = os.path.join(debug_dir, f'lorentz_config_{date_str}.cfg')
+                    print(f"\n⚙️ lorentz_config.cfg ({date_str}):", file=sys.stderr)
+                    print("-" * 60, file=sys.stderr)
+                    try:
+                        with open(cfg_file_path, 'r', encoding='utf-8') as f:
+                            cfg_content = f.read()
+                            print(cfg_content, file=sys.stderr)
+                    except Exception as e:
+                        print(f"❌ Failed to read lorentz_config.cfg: {e}", file=sys.stderr)
+                    print("-" * 60, file=sys.stderr)
+
+                    # 显示Lorentz程序信息
+                    config = LorentzConfig()
+                    print(f"\n🏭 Lorentz Program Information:", file=sys.stderr)
+                    print(f"   Executable: {config.lorentz_executable}", file=sys.stderr)
+                    print(f"   Thread num: {config.thread_num}", file=sys.stderr)
+                    print(f"   Data root: {config.data_root_dir}", file=sys.stderr)
+                    print(f"   Output root: {config.output_factor_root_dir}", file=sys.stderr)
+
+                    # 检查输入文件是否存在
+                    print(f"\n📁 Input Files Check:", file=sys.stderr)
+                    files_to_check = [
+                        ('Interval JSON', config.interval_json),
+                        ('Data Root', config.data_root_dir),
+                        ('Factor JSON', factor_json_path),
+                        ('Output Names', output_names_path),
+                    ]
+
+                    for name, path in files_to_check:
+                        exists = os.path.exists(path)
+                        status = "✅ EXISTS" if exists else "❌ MISSING"
+                        print(f"   {name}: {path} - {status}", file=sys.stderr)
+
+                        if not exists and name in ['Interval JSON', 'Data Root']:
+                            print(f"      ⚠️  This is a critical file for Lorentz execution!", file=sys.stderr)
+
+                    # 显示预期的输出目录
+                    expected_output_dir = os.path.join(
+                        config.output_factor_root_dir,
+                        "AutoML",
+                        date_str[:4],  # 年份
+                        date_str      # 完整日期
+                    )
+                    print(f"\n📤 Expected Output Directory: {expected_output_dir}", file=sys.stderr)
+                    if os.path.exists(expected_output_dir):
+                        print(f"   Status: ✅ EXISTS", file=sys.stderr)
+                        # 列出目录内容
+                        try:
+                            contents = os.listdir(expected_output_dir)
+                            csv_files = [f for f in contents if f.endswith('.csv')]
+                            print(f"   CSV files found: {len(csv_files)}", file=sys.stderr)
+                            if csv_files:
+                                print(f"   Sample files: {csv_files[:3]}", file=sys.stderr)
+                        except Exception as e:
+                            print(f"   Error listing directory: {e}", file=sys.stderr)
+                    else:
+                        print(f"   Status: ❌ DOES NOT EXIST", file=sys.stderr)
+
+                    print(f"\n💥 TERMINATING PROGRAM DUE TO LORENTZ FAILURE", file=sys.stderr)
+                    print("="*100, file=sys.stderr)
+
+                    # 终止程序
+                    sys.exit(1)
 
             except Exception as e:
+                # 非Lorentz执行异常，打印并继续（或终止，根据严重程度）
                 logger.error(f"Exception during batch Lorentz computation for {date_str}: {e}")
+                import traceback
+                traceback.print_exc()
+
+                # 对于严重异常，也终止程序
+                print(f"\n💥 CRITICAL EXCEPTION DURING FACTOR COMPUTATION - TERMINATING", file=sys.stderr)
+                sys.exit(1)
 
             current_date += timedelta(days=1)
 
@@ -1328,3 +1580,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

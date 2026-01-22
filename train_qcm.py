@@ -30,52 +30,91 @@ def external_compute_factor(expr_str):
         dates: 日期索引
         symbols: 股票代码索引
     """
-    # 检查缓存中是否已有该表达式的因子值
-    if factor_cache.has_factor(expr_str):
-        cached_data = factor_cache.load_factor(expr_str)
-        values = cached_data['values']
-        dates = cached_data['dates']
-        symbols = cached_data['symbols']
+    try:
+        # 检查缓存中是否已有该表达式的因子值
+        if factor_cache.has_factor(expr_str):
+            cached_data = factor_cache.load_factor(expr_str)
+            values = cached_data['values']
+            dates = cached_data['dates']
+            symbols = cached_data['symbols']
+            return values, dates, symbols
+
+        # 调用外部计算脚本 (现在返回分钟级别数据)
+        print(f"🔄 Computing factor for: {expr_str}", file=sys.stderr)
+        result = subprocess.run(['python3', 'external_compute.py', expr_str], capture_output=True, text=True)
+
+        if result.returncode != 0:
+            print(f"❌ Lorentz calculation failed for: {expr_str}", file=sys.stderr)
+            print(f"Return code: {result.returncode}", file=sys.stderr)
+            print(f"Stdout: {result.stdout[:500]}...", file=sys.stderr)
+            print(f"Stderr: {result.stderr[:500]}...", file=sys.stderr)
+            # 返回零数组作为fallback，但不缓存
+            return np.zeros((100, 50)), pd.date_range('2020-01-01', periods=100), pd.Index([f'stock_{i}' for i in range(50)])
+
+        # 检查输出是否为空
+        if not result.stdout.strip():
+            print(f"❌ Lorentz returned empty output for: {expr_str}", file=sys.stderr)
+            return np.zeros((100, 50)), pd.date_range('2020-01-01', periods=100), pd.Index([f'stock_{i}' for i in range(50)])
+
+        # 解析external_compute.py的输出 (现在包含minuteCode)
+        try:
+            df = pd.read_csv(StringIO(result.stdout))
+        except Exception as parse_error:
+            print(f"❌ Failed to parse CSV output for: {expr_str}", file=sys.stderr)
+            print(f"Parse error: {parse_error}", file=sys.stderr)
+            print(f"Raw output (first 500 chars): {result.stdout[:500]}", file=sys.stderr)
+            return np.zeros((100, 50)), pd.date_range('2020-01-01', periods=100), pd.Index([f'stock_{i}' for i in range(50)])
+
+        if df.empty:
+            print(f"❌ Lorentz returned empty DataFrame for: {expr_str}", file=sys.stderr)
+            return np.zeros((100, 50)), pd.date_range('2020-01-01', periods=100), pd.Index([f'stock_{i}' for i in range(50)])
+
+        # 检查是否包含minuteCode列（新格式）
+        if 'minuteCode' in df.columns:
+            # 新格式：按日期聚合，使用最新的分钟数据
+            df['date'] = pd.to_datetime(df['date'])
+
+            # 对每只股票的每个日期，选择最新的分钟数据
+            # 按日期+股票分组，选择minuteCode最大的记录
+            df_latest = df.sort_values(['date', 'symbol', 'minuteCode']).groupby(['date', 'symbol']).last().reset_index()
+
+            # 透视表：行=日期，列=股票代码，值=因子值
+            pivot = df_latest.pivot(index='date', columns='symbol', values='factor_value').fillna(0.0)
+
+        else:
+            # 旧格式：直接透视
+            df['date'] = pd.to_datetime(df['date'])
+            pivot = df.pivot(index='date', columns='symbol', values='value').fillna(0.0)
+
+        values = pivot.values
+        dates = pivot.index
+        symbols = pivot.columns
+
+        # 验证数据质量
+        if values.size == 0 or np.all(np.isnan(values)):
+            print(f"❌ Invalid factor data for: {expr_str} - all NaN or empty", file=sys.stderr)
+            return np.zeros((100, 50)), pd.date_range('2020-01-01', periods=100), pd.Index([f'stock_{i}' for i in range(50)])
+
+        print(f"📊 Parsed factor data: shape {values.shape}, saving to cache...", file=sys.stderr)
+
+        # 缓存计算结果
+        try:
+            factor_cache.save_factor(expr_str, values, dates, symbols)
+            print(f"✅ Successfully cached factor: {expr_str}", file=sys.stderr)
+        except Exception as cache_error:
+            print(f"❌ Failed to cache factor: {expr_str} - {cache_error}", file=sys.stderr)
+            # 仍然返回数据，但不缓存
+            return values, dates, symbols
+
         return values, dates, symbols
 
-    # 调用外部计算脚本 (现在返回分钟级别数据)
-    result = subprocess.run(['python3', 'external_compute.py', expr_str], capture_output=True, text=True)
-
-    if result.returncode != 0:
-        print(f"❌ Lorentz calculation failed for: {expr_str}", file=sys.stderr)
+    except Exception as e:
+        print(f"💥 Critical error in external_compute_factor for: {expr_str}", file=sys.stderr)
+        print(f"Error: {e}", file=sys.stderr)
+        import traceback
+        traceback.print_exc()
         # 返回零数组作为fallback
         return np.zeros((100, 50)), pd.date_range('2020-01-01', periods=100), pd.Index([f'stock_{i}' for i in range(50)])
-
-    # 解析external_compute.py的输出 (现在包含minuteCode)
-    df = pd.read_csv(StringIO(result.stdout))
-
-    # 检查是否包含minuteCode列（新格式）
-    if 'minuteCode' in df.columns:
-        # 新格式：按日期聚合，使用最新的分钟数据
-        df['date'] = pd.to_datetime(df['date'])
-
-        # 对每只股票的每个日期，选择最新的分钟数据
-        # 按日期+股票分组，选择minuteCode最大的记录
-        df_latest = df.sort_values(['date', 'symbol', 'minuteCode']).groupby(['date', 'symbol']).last().reset_index()
-
-        # 透视表：行=日期，列=股票代码，值=因子值
-        pivot = df_latest.pivot(index='date', columns='symbol', values='factor_value').fillna(0.0)
-
-    else:
-        # 旧格式：直接透视
-        df['date'] = pd.to_datetime(df['date'])
-        pivot = df.pivot(index='date', columns='symbol', values='value').fillna(0.0)
-
-    values = pivot.values
-    dates = pivot.index
-    symbols = pivot.columns
-
-    print(f"📊 Parsed factor data: shape {values.shape}, saving to cache...", file=sys.stderr)
-
-    # 缓存计算结果
-    factor_cache.save_factor(expr_str, values, dates, symbols)
-
-    return values, dates, symbols
 
 
 def run(args):
@@ -260,7 +299,7 @@ def run(args):
     train_env.env.agent = agent
     # Set agent references in calculators for warmup phase detection
     def weak_agent_ref():
-        return agent if 'agent' in locals() else None
+        return agent  # 直接返回外部作用域的agent变量
 
     for calc_name, calc in calculator_refs.items():
         if hasattr(calc, '_agent_ref'):

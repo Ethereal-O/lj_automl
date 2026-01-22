@@ -74,16 +74,28 @@ class QRQCMAgent(BaseAgent):
         self.target_mean_net.load_state_dict(self.online_mean_net.state_dict())
         
     def exploit(self, state):
-        # Act with bonus.
-        state = torch.ByteTensor(state).unsqueeze(0).to(self.device).float()
+        # 🚩 修改：ByteTensor -> LongTensor (防止 ID 溢出)
+        state = torch.LongTensor(state).unsqueeze(0).to(self.device)
         with torch.no_grad():
-            q_values = self.online_mean_net.calculate_q(states=state)
-            std, skewness, kurtosis = self.online_net.calculate_higher_moments(states = state)
+            # 这里的 states 需要 float 是为了输入网络，LongTensor 转 float 没问题
+            q_values = self.online_mean_net.calculate_q(states=state.float())
+            std, skewness, kurtosis = self.online_net.calculate_higher_moments(states = state.float())
             action_values = q_values + self.std_lam * std + self.skew_lam * skewness + self.kurt_lam * kurtosis
-            
-            forbid_action = torch.BoolTensor(~self.env.action_masks()).to(self.device)
-            action_values[:, forbid_action] = -1e6
-            action = action_values.argmax().item()
+
+            # 🚩 修改：更严格的 Mask - 只在允许动作中选择
+            mask = self.env.action_masks()
+
+            if mask.any():
+                # 只在允许动作中选择Q值最高的动作
+                allowed_indices = torch.where(torch.tensor(mask))[0]
+                allowed_q_values = action_values[0, allowed_indices]
+                best_allowed_idx = allowed_q_values.argmax()
+                action = allowed_indices[best_allowed_idx].item()
+            else:
+                # 异常情况：没有允许动作，抛出异常而不是选择被禁止的动作
+                raise RuntimeError("No allowed actions available for exploitation - this should not happen in normal operation")
+
+            print(f"DEBUG: Action {action} Mask status: {mask[action]}")
         return action
 
     def learn(self):

@@ -1,0 +1,16 @@
+{
+  "default": {
+    "slice": {
+      "trigger": "slice",
+      "output": true
+    }
+  },
+  "slice": [
+    {
+      "name": "Factor_0c537671",
+      "expression": "@CS.CumPasOrderVolResSell",
+      "trigger": "slice",
+      "output": true
+    }
+  ]
+}

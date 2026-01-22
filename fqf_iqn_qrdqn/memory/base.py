@@ -116,6 +116,9 @@ class LazyMemory(dict):
     def __len__(self):
         return len(self['state'])
 
+    def size(self):
+        return len(self)
+
     def get(self):
         return dict(self)
 

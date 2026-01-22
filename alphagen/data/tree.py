@@ -131,21 +131,15 @@ class ExpressionBuilder:
             if not expr.is_featured:
                 return False
 
-        # 尝试验证每个表达式的类型
+        # 简化的类型检查，避免使用废弃文件
         try:
             for expr in self.stack:
-                expr_str = str(expr)
-                from adapters.expression_validator import get_leaf_type, validate_expression_types
-
-                # 解析表达式并检查类型
-                valid, output_type, _ = validate_expression_types(expr_str)
-
-                if not valid:
-                    return False
+                # 使用简化的类型推断
+                expr_type = self._simple_infer_type(expr)
 
                 # 检查是否是数值类型（float及其子类）
-                numeric_types = ['float', 'int', 'const_float', 'const_int']
-                if output_type not in numeric_types:
+                numeric_types = ['float', 'int']
+                if expr_type not in numeric_types:
                     return False
 
             return True
@@ -238,78 +232,44 @@ class ExpressionBuilder:
         import os
         is_syntax_learning = os.environ.get('ALPHAQCM_SYNTAX_LEARNING', '').lower() == 'true'
 
-        # 处理Lorentz算子实例（不是类）
-        if hasattr(op, 'n_args') and callable(getattr(op, 'n_args', None)):
+        # 处理Lorentz算子实例
+        if hasattr(op, 'n_args'):
             n_args = op.n_args()
         else:
             # 标准alphagen算子类
             n_args = op.n_args()
 
         if len(self.stack) < n_args:
+            print(f"DEBUG validate_op: {op.name if hasattr(op, 'name') else op} rejected - insufficient stack depth {len(self.stack)} < {n_args}")
             return False
 
         # 对于Lorentz算子，进行类型检查
         if hasattr(op, 'name'):  # Lorentz算子
             # 检查栈顶是否有足够的featured元素
             for i in range(n_args):
-                if len(self.stack) > i and not self.stack[-(i+1)].is_featured:
+                expr = self.stack[-(i+1)] if len(self.stack) > i else None
+                if expr is None or not expr.is_featured:
+                    print(f"DEBUG validate_op: {op.name} rejected - param {i} not featured: {expr}")
                     return False
 
-            # 语法学习阶段进行严格类型检查
-            if is_syntax_learning:
-                # 获取算子的期望输入类型
-                if hasattr(op, 'arg_types') and op.arg_types:
-                    expected_types = op.arg_types
+            # 对于 Lorentz 算子，检查参数类型是否匹配
+            if hasattr(op, 'arg_types') and op.arg_types:
+                expected_types = op.arg_types
 
-                    # 检查栈顶n个元素的类型是否匹配
-                    for i in range(n_args):
-                        stack_expr = self.stack[-(i+1)]
-                        expr_str = str(stack_expr)
+                for i in range(n_args):
+                    stack_expr = self.stack[-(i+1)]
+                    expected_type = expected_types[i] if i < len(expected_types) else expected_types[-1]
 
-                        # 验证表达式类型
-                        try:
-                            from adapters.expression_validator import validate_expression_types
-                            valid, actual_type, _ = validate_expression_types(expr_str)
-                            if not valid:
-                                return False
+                    # 简化的类型推断（与 action_masks 保持一致）
+                    actual_type = self._simple_infer_type(stack_expr)
 
-                            # 检查类型兼容性（语法学习阶段严格检查）
-                            expected_type = expected_types[i] if i < len(expected_types) else expected_types[-1]
-                            if not self._is_type_compatible(actual_type, expected_type):
-                                return False  # 任何类型不匹配都禁止
-                        except Exception:
-                            # 类型检查失败时禁止通过，强制RL学习正确组合
-                            return False
+                    # 简化的类型兼容性检查
+                    if not self._simple_type_compatible(actual_type, expected_type):
+                        print(f"DEBUG validate_op: {op.name} rejected - type mismatch param {i}: {actual_type} vs {expected_type}")
+                        return False
 
-                return True
-            else:
-                # IC学习阶段：进行完整的类型检查
-                try:
-                    from adapters.expression_validator import validate_expression_types
-
-                    # 获取算子的期望输入类型
-                    if hasattr(op, 'arg_types') and op.arg_types:
-                        expected_types = op.arg_types
-
-                        # 检查栈顶n个元素的类型是否匹配
-                        for i in range(n_args):
-                            stack_expr = self.stack[-(i+1)]
-                            expr_str = str(stack_expr)
-
-                            # 验证表达式类型
-                            valid, actual_type, _ = validate_expression_types(expr_str)
-                            if not valid:
-                                return False
-
-                            # 检查类型兼容性
-                            expected_type = expected_types[i] if i < len(expected_types) else expected_types[-1]
-                            if not self._is_type_compatible(actual_type, expected_type):
-                                return False
-
-                    return True
-                except Exception:
-                    # 如果类型检查失败，允许通过（保持兼容性）
-                    return True
+            print(f"DEBUG validate_op: {op.name} accepted")
+            return True
 
         # 标准alphagen算子类的验证逻辑
         if issubclass(op, UnaryOperator):
@@ -336,36 +296,67 @@ class ExpressionBuilder:
             pass
         return True
 
-    def _is_type_compatible(self, actual_type: str, expected_type: str) -> bool:
+    def _simple_infer_type(self, expr) -> str:
         """
-        检查实际类型是否与期望类型兼容
+        简化的类型推断，与 action_masks 中的 _infer_type 保持一致
         """
+        # 1. 如果是 LorentzFeature (特殊处理)
+        if hasattr(expr, 'name') and str(expr).startswith('@'):
+            # LorentzFeature 的 name 就是特征名，如 "Preload.SW3Size"
+            feat_name = expr.name
+            try:
+                from adapters.dic_lol import result_dict
+                if feat_name in result_dict:
+                    return result_dict[feat_name][0]  # (type, choices)
+            except:
+                pass
+            return "float"  # 默认
+
+        # 2. 如果是 Feature (叶子节点)
+        if hasattr(expr, 'feature'):
+            # 处理 FeatureToken 或 FeatureExpression
+            feat_name = str(expr.feature).replace("Feature.", "").replace("@", "").strip("'\"")
+            # 使用 result_dict 进行类型映射
+            try:
+                from adapters.dic_lol import result_dict
+                if feat_name in result_dict:
+                    return result_dict[feat_name][0]  # (type, choices)
+            except:
+                pass
+            return "float"  # 默认
+
+        # 3. 如果是 Constant (常量)
+        if hasattr(expr, '_value'):
+            if isinstance(expr._value, int):
+                return "int"
+            return "float"
+
+        # 4. 如果是 Operator (算子节点)
+        op_name = getattr(expr, 'name', expr.__class__.__name__)
         try:
-            from adapters.rule import TYPE_HIERARCHY, get_all_parents, is_subtype
+            from adapters.operator_library import OPERATOR_SIGNATURES
+            if op_name in OPERATOR_SIGNATURES:
+                _, return_type = OPERATOR_SIGNATURES[op_name]
+                return return_type
+        except:
+            pass
 
-            # 完全匹配
-            if actual_type == expected_type:
-                return True
+        # 5. 未知类型，保守返回float
+        return 'float'
 
-            # 检查子类型关系
-            if is_subtype(actual_type, expected_type):
-                return True
-
-            # 特殊处理vector类型（接受各种vector子类型）
-            if expected_type == "vector":
-                if actual_type in ["num_vector", "bool_vector", "index_vector",
-                                  "mask_vector", "prob_vector", "const_vector"]:
-                    return True
-
-            # 特殊处理float类型（接受int）
-            if expected_type == "float" and actual_type == "int":
-                return True
-
-            return False
-
-        except Exception:
-            # 类型检查失败时允许通过
+    def _simple_type_compatible(self, actual_type: str, expected_type: str) -> bool:
+        """
+        简化的类型兼容性检查，与 action_masks 中的逻辑保持一致
+        """
+        if expected_type in ['any', 'expr']:
             return True
+        if actual_type == expected_type:
+            return True
+        if expected_type == "vector" and "vector" in actual_type:
+            return True
+        if expected_type == "float" and actual_type == "int":
+            return True
+        return False
 
     def validate_dt(self) -> bool:
         return len(self.stack) > 0 and self.stack[-1].is_featured

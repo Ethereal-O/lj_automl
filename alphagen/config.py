@@ -1,199 +1,82 @@
 import os
 import sys
+import torch
 
-# 添加项目根目录到路径，以便导入我们的模块
+# 1. 环境路径配置
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
+# 2. 基础配置
 MAX_EXPR_LENGTH = 20
 MAX_EPISODE_LENGTH = 256
 
-# 导入我们的rule和字段字典
-try:
-    from adapters.rule import OPERATOR_SIGNATURES, CONSTANT_RANGES
-    from adapters.dic_lol import result_dict
-    USE_CUSTOM_OPERATORS = True
-    print("Using custom operators from rule.py and dic_lol.py")
-except ImportError:
-    print("Warning: Could not import custom operators, using default operators")
-    USE_CUSTOM_OPERATORS = False
+# 3. 导入外部定义的签名库和字段字典
+from adapters.operator_library import OPERATOR_SIGNATURES
+from adapters.dic_lol import result_dict
+from adapters.field_config import field_config
+FIELD_NAMES = field_config.get_field_names()
 
-if USE_CUSTOM_OPERATORS:
-    print(f"Total operators in rule: {len(OPERATOR_SIGNATURES)}")
+from alphagen.data.expression import Operator
+from alphagen_qlib.stock_data import StockData
 
-    # 创建自定义算子类，继承alphagen的算子基类
-    from alphagen.data.expression import Expression, Operator, UnaryOperator, BinaryOperator, RollingOperator, PairRollingOperator, Constant
-    import torch
-    from alphagen_qlib.stock_data import StockData
+# ====================================================
+# 4. 通用算子类：仅提供 RPN 构建所需的元数据
+# ====================================================
 
-    # 为不同参数数量创建专门的算子类
-    class LorentzUnaryOperator(UnaryOperator):
-        """Lorentz一元算子"""
-        def __init__(self, name, arg_types, return_type):
-            self.name = name
-            self.arg_types = arg_types
-            self.return_type = return_type
-            # 初始化父类，但不传入operand（稍后在树构建时设置）
-            super().__init__(0.0)  # 临时值，会被覆盖
+class CustomOperator(Operator):
+    def __init__(self, name, arg_types, return_type):
+        self.name = name
+        self.arg_types = arg_types
+        self.return_type = return_type
+        self._n_args = len(arg_types)
 
-        def _apply(self, operand: torch.Tensor) -> torch.Tensor:
-            # 占位符实现 - 实际计算由lorentz程序执行
-            return torch.zeros_like(operand)
+    @property
+    def n_args(self) -> int:
+        return self._n_args
 
-        def __str__(self):
-            return f"{self.name}"
+    @classmethod
+    def category_type(cls):
+        return cls
 
-    class LorentzBinaryOperator(BinaryOperator):
-        """Lorentz二元算子"""
-        def __init__(self, name, arg_types, return_type):
-            self.name = name
-            self.arg_types = arg_types
-            self.return_type = return_type
-            # 初始化父类，但不传入参数（稍后在树构建时设置）
-            super().__init__(0.0, 0.0)  # 临时值，会被覆盖
+    def evaluate(self, data: StockData, period: slice = slice(0, 1)) -> torch.Tensor:
+        # 训练时不需要真实计算，返回全零张量以通过流程
+        device = data.data.device if hasattr(data, 'data') else torch.device('cpu')
+        return torch.zeros((period.stop - period.start, data.n_stocks), device=device)
 
-        def _apply(self, lhs: torch.Tensor, rhs: torch.Tensor) -> torch.Tensor:
-            # 占位符实现 - 实际计算由lorentz程序执行
-            return torch.zeros_like(lhs)
+    def __str__(self):
+        return self.name
 
-        def __str__(self):
-            return f"{self.name}"
+# ====================================================
+# 5. 实例化算子并精确计算 Action 空间偏移量
+# ====================================================
 
-    class LorentzRollingOperator(RollingOperator):
-        """Lorentz滚动算子"""
-        def __init__(self, name, arg_types, return_type):
-            self.name = name
-            self.arg_types = arg_types
-            self.return_type = return_type
-            # 初始化父类，但不传入参数（稍后在树构建时设置）
-            super().__init__(0.0, 1)  # 临时值，会被覆盖
+# 实例化所有算子
+OPERATORS = [CustomOperator(name, args, ret) for name, (args, ret) in OPERATOR_SIGNATURES.items()]
 
-        def _apply(self, operand: torch.Tensor) -> torch.Tensor:
-            # 占位符实现 - 实际计算由lorentz程序执行
-            return torch.zeros((operand.shape[0], operand.shape[1]), dtype=operand.dtype, device=operand.device)
+# 定义 Action 空间的物理结构
+SIZE_NULL = 1                 # ID 0: 通常保留或作为空操作
+SIZE_OP = len(OPERATORS)      # 算子数量
+SIZE_FEATURE = len(FIELD_NAMES) # 特征数量 (1744)
+SIZE_SEP = 1                  # 停止符数量
 
-        def __str__(self):
-            return f"{self.name}"
+# 计算各个区间的起始偏移量
+OFFSET_OP = SIZE_NULL              # 算子起始：1
+OFFSET_FEATURE = OFFSET_OP + SIZE_OP  # 特征起始：1 + 算子数
+OFFSET_SEP = OFFSET_FEATURE + SIZE_FEATURE # SEP起始：紧跟在最后一个特征后面
 
-    class LorentzPairRollingOperator(PairRollingOperator):
-        """Lorentz成对滚动算子"""
-        def __init__(self, name, arg_types, return_type):
-            self.name = name
-            self.arg_types = arg_types
-            self.return_type = return_type
-            # 初始化父类，但不传入参数（稍后在树构建时设置）
-            super().__init__(Constant(0.0), Constant(0.0), 1)  # 临时值，会被覆盖
+# Agent 最终看到的 Discrete 动作空间大小
+SIZE_ALL = OFFSET_SEP + SIZE_SEP
+SIZE_ACTION = SIZE_ALL - SIZE_NULL 
 
-        def _apply(self, lhs: torch.Tensor, rhs: torch.Tensor) -> torch.Tensor:
-            # 占位符实现 - 实际计算由lorentz程序执行
-            return torch.zeros((lhs.shape[0], lhs.shape[1]), dtype=lhs.dtype, device=lhs.device)
-
-        def __str__(self):
-            return f"{self.name}"
-
-    class LorentzTernaryOperator(Operator):
-        """Lorentz三元算子"""
-        def __init__(self, name, arg_types, return_type):
-            self.name = name
-            self.arg_types = arg_types
-            self.return_type = return_type
-            self._n_args = len(arg_types)
-
-        @classmethod
-        def n_args(cls):
-            return 3  # 默认3个参数
-
-        @classmethod
-        def category_type(cls):
-            return PairRollingOperator  # 临时使用PairRollingOperator作为兼容性hack
-
-        def evaluate(self, data: StockData, period: slice = slice(0, 1)) -> torch.Tensor:
-            # 占位符实现 - 实际计算由lorentz程序执行
-            device = data.data.device if hasattr(data, 'data') else torch.device('cpu')
-            dtype = torch.float32
-            return torch.zeros((period.stop - period.start, data.n_stocks), dtype=dtype, device=device)
-
-        def __str__(self):
-            return f"{self.name}"
-
-        @property
-        def is_featured(self):
-            return True
-
-    # 创建所有算子的实例
-    CUSTOM_OPERATORS = []
-    for op_name, (arg_types, return_type) in OPERATOR_SIGNATURES.items():
-        n_args = len(arg_types)
-
-        if n_args == 1:
-            op_class = LorentzUnaryOperator
-        elif n_args == 2:
-            # 简单检查是否是rolling算子（有时间相关参数）
-            if any('const_int' in str(t) and ('time' in op_name.lower() or 'delta' in op_name.lower()) for t in arg_types):
-                op_class = LorentzRollingOperator
-            else:
-                op_class = LorentzBinaryOperator
-        elif n_args == 3:
-            op_class = LorentzPairRollingOperator
-        else:
-            op_class = LorentzTernaryOperator  # 对于更多参数的算子
-
-        op_instance = op_class(op_name, arg_types, return_type)
-        CUSTOM_OPERATORS.append(op_instance)
-
-    OPERATORS = CUSTOM_OPERATORS
-    print(f"Using all {len(OPERATORS)} operators from rule.py (lorentz implementation)")
-
-    # 从取值范围中提取常量
-    CUSTOM_CONSTANTS = []
-    for range_name, range_values in CONSTANT_RANGES.items():
-        if isinstance(range_values, (list, tuple)) and len(range_values) >= 2:
-            # 从范围中生成一些常量值
-            start, end = range_values[0], range_values[1]
-            if isinstance(start, (int, float)) and isinstance(end, (int, float)):
-                # 生成一些中间值
-                CUSTOM_CONSTANTS.extend([
-                    float(start),
-                    float((start + end) / 2),
-                    float(end)
-                ])
-
-    # 去重并限制数量
-    CUSTOM_CONSTANTS = list(set(CUSTOM_CONSTANTS))
-    if CUSTOM_CONSTANTS:
-        CONSTANTS = CUSTOM_CONSTANTS[:20]  # 限制常量数量
-        print(f"Using {len(CONSTANTS)} constants from rule ranges")
-    else:
-        CONSTANTS = [-30., -10., -5., -2., -1., -0.5, -0.01, 0.01, 0.5, 1., 2., 5., 10., 30.]
-        print("Using default constants")
-
-else:
-    # 默认配置（保持兼容性）
-    from alphagen.data.expression import *
-
-    OPERATORS = [
-        # Unary
-        Abs, Log,
-        # Binary
-        Add, Sub, Mul, Div, Greater, Less,
-        # Rolling
-        Ref, Mean, Sum, Std, Var, Max, Min,
-        Med, Mad, Delta, WMA, EMA,
-        # Pair rolling
-        Cov, Corr
-    ]
-
-    CONSTANTS = [-30., -10., -5., -2., -1., -0.5, -0.01, 0.01, 0.5, 1., 2., 5., 10., 30.]
-
-DELTA_TIMES = [10, 20, 30, 40, 50]
+# ====================================================
+# 6. 环境奖励相关
+# ====================================================
 REWARD_PER_STEP = 0.
 
-# 为了向后兼容，提供这些常量（实际定义在alphagen.rl.env.wrapper中）
-try:
-    from alphagen.rl.env.wrapper import SIZE_OP, OFFSET_OP, OFFSET_FEATURE, OFFSET_SEP
-except ImportError:
-    SIZE_OP = len(OPERATORS) if 'OPERATORS' in globals() else 0
-    OFFSET_OP = 1
-    OFFSET_FEATURE = OFFSET_OP + SIZE_OP
-    OFFSET_SEP = OFFSET_FEATURE + 291  # 假设291个字段
+# 打印核心配置摘要，方便启动时核对 ID 是否对齐
+print(f"🚀 [Config] Logic Initialized:")
+print(f"   - Operators : {SIZE_OP} (IDs: {OFFSET_OP} to {OFFSET_FEATURE-1})")
+print(f"   - Features  : {SIZE_FEATURE} (IDs: {OFFSET_FEATURE} to {OFFSET_SEP-1})")
+print(f"   - SEP ID    : {OFFSET_SEP-1} (Total Action Space: {SIZE_ACTION})")
+print(f"   - Constants/DeltaTimes: Removed (Using Hardcoded Ops)")

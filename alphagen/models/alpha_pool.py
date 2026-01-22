@@ -125,6 +125,24 @@ class AlphaPool(AlphaPoolBase):
         expr_str = str(expr)
         self.eval_cnt += 1
 
+        # ===== 检查是否处于预热阶段 =====
+        # 如果有agent引用且memory未满，直接返回0奖励，不进行IC计算
+        if hasattr(self.calculator, '_agent_ref') and self.calculator._agent_ref():
+            agent = self.calculator._agent_ref()
+            # 检查多种memory表示方式
+            memory_size = 0
+            if hasattr(agent, 'memory'):
+                if hasattr(agent.memory, 'size'):
+                    memory_size = agent.memory.size()
+                elif hasattr(agent.memory, '__len__'):
+                    memory_size = len(agent.memory)
+                elif hasattr(agent.memory, '_buffer'):
+                    memory_size = len(agent.memory._buffer) if hasattr(agent.memory, '_buffer') else 0
+
+            if memory_size < 10000:
+                # 预热阶段：memory未满，不计算真实IC，直接返回0
+                return 0.0
+
         # ===== 第一步：异步计算单因子IC =====
         try:
             single_ic = self.calculator.calc_single_IC_ret(expr)
@@ -539,6 +557,7 @@ class AlphaPool(AlphaPoolBase):
         self.single_ics[i], self.single_ics[j] = self.single_ics[j], self.single_ics[i]
         self.mutual_ics[:, [i, j]] = self.mutual_ics[:, [j, i]]
         self.mutual_ics[[i, j], :] = self.mutual_ics[[j, i], :]
+        self.weights[i], self.weights[j] = self.weights[j], self.weights[i]
         self.weights[i], self.weights[j] = self.weights[j], self.weights[i]
         self.weights[i], self.weights[j] = self.weights[j], self.weights[i]
         self.weights[i], self.weights[j] = self.weights[j], self.weights[i]

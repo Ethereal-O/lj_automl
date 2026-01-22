@@ -103,9 +103,7 @@ result_dict = {
     "Daily.CloseAucTradeVolSell": ("float", []),
     "Daily.TotalOutVol": ("float", []),
     "Daily.AdjFactor": ("float", []),
-    "Daily.OrderAmtThres1_": ("float", [["Buy", "Sell"]]),
-    "Daily.OrderAmtThres2_": ("float", [["Buy", "Sell"]]),
-    "Daily.OrderAmtThres3_": ("float", [["Buy", "Sell"]]),
+
 
     # ============ Slice 基础字段 ============
     "Slice.Index": ("int", []),
@@ -129,7 +127,36 @@ result_dict = {
     "Slice.SinceOpenVolatility": ("float", []),
     "Slice.SinceOpenSharpe": ("float", []),
 
-    # ============ Slice 订单/成交统计字段 ============
+
+    # ============ CS 字段 ============
+    "CS.TradeVolResBuy": ("float", []),
+    "CS.TradeVolResSell": ("float", []),
+    "CS.TotalTradeVolRes": ("float", []),
+    "CS.AggOrderVolResBuy": ("float", []),
+    "CS.AggOrderVolResSell": ("float", []),
+    "CS.TotalAggOrderVolRes": ("float", []),
+    "CS.PasOrderVolResBuy": ("float", []),
+    "CS.PasOrderVolResSell": ("float", []),
+    "CS.TotalPasOrderVolRes": ("float", []),
+    "CS.CancelVolResBuy": ("float", []),
+    "CS.CancelVolResSell": ("float", []),
+    "CS.TotalCancelVolRes": ("float", []),
+    "CS.NormalRetRes": ("float", []),
+    "CS.CumTradeVolResBuy": ("float", []),
+    "CS.CumTradeVolResSell": ("float", []),
+    "CS.CumTotalTradeVolRes": ("float", []),
+    "CS.CumAggOrderVolResBuy": ("float", []),
+    "CS.CumAggOrderVolResSell": ("float", []),
+    "CS.CumTotalAggOrderVolRes": ("float", []),
+    "CS.CumPasOrderVolResBuy": ("float", []),
+    "CS.CumPasOrderVolResSell": ("float", []),
+    "CS.CumTotalPasOrderVolRes": ("float", []),
+    "CS.CumCancelVolResBuy": ("float", []),
+    "CS.CumCancelVolResSell": ("float", []),
+    "CS.CumTotalCancelVolRes": ("float", [])
+}
+result_dict_multi = {
+        # ============ Slice 订单/成交统计字段 ============
     "Slice.____": ("float", [
         ["Cum", ""],
         ["AggOrder", "PasOrder", "Order", "Cancel", "Trade"],
@@ -685,31 +712,7 @@ result_dict = {
 
     # ============ Slice EventMask相关 ============
     "Slice.EventMask_": ("float", [["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26"]]),  # Slice.EventMask(1~26)
-
-    # ============ CS 字段 ============
-    "CS.TradeVolResBuy": ("float", []),
-    "CS.TradeVolResSell": ("float", []),
-    "CS.TotalTradeVolRes": ("float", []),
-    "CS.AggOrderVolResBuy": ("float", []),
-    "CS.AggOrderVolResSell": ("float", []),
-    "CS.TotalAggOrderVolRes": ("float", []),
-    "CS.PasOrderVolResBuy": ("float", []),
-    "CS.PasOrderVolResSell": ("float", []),
-    "CS.TotalPasOrderVolRes": ("float", []),
-    "CS.CancelVolResBuy": ("float", []),
-    "CS.CancelVolResSell": ("float", []),
-    "CS.TotalCancelVolRes": ("float", []),
-    "CS.NormalRetRes": ("float", []),
-    "CS.CumTradeVolResBuy": ("float", []),
-    "CS.CumTradeVolResSell": ("float", []),
-    "CS.CumTotalTradeVolRes": ("float", []),
-    "CS.CumAggOrderVolResBuy": ("float", []),
-    "CS.CumAggOrderVolResSell": ("float", []),
-    "CS.CumTotalAggOrderVolRes": ("float", []),
-    "CS.CumPasOrderVolResBuy": ("float", []),
-    "CS.CumPasOrderVolResSell": ("float", []),
-    "CS.CumTotalPasOrderVolRes": ("float", []),
-    "CS.CumCancelVolResBuy": ("float", []),
-    "CS.CumCancelVolResSell": ("float", []),
-    "CS.CumTotalCancelVolRes": ("float", [])
+    "Daily.OrderAmtThres1_": ("float", [["Buy", "Sell"]]),
+    "Daily.OrderAmtThres2_": ("float", [["Buy", "Sell"]]),
+    "Daily.OrderAmtThres3_": ("float", [["Buy", "Sell"]]),
 }
